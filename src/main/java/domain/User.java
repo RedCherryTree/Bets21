@@ -9,8 +9,6 @@ public class User {
 	@Id
 	private String username;
 	private String password;
-//	private String userType;
-//	private boolean admin;
 	
 	public User(String username,String password) {
 		this.username=username;
