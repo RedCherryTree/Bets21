@@ -148,3 +148,903 @@ New type java.util.Vector<domain.Question>
 [2023-04-01 20:27:40 #16 type.registry] 
 New type java.util.Vector<java.lang.Object>
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 20:50:15 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 17248@DESKTOP-JHD4MII
+
+[2023-04-01 20:50:16 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 20:50:16 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 20:50:16 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 20:50:16 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 20:50:16 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 20:50:16 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 20:50:16 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 20:50:16 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 20:50:16 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 20:50:16 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 20:50:16 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 20:50:16 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 20:50:16 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 20:50:16 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 20:50:16 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 20:54:25 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 21320@DESKTOP-JHD4MII
+
+[2023-04-01 20:54:25 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 20:54:25 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 20:54:25 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 20:54:25 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 20:54:25 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 20:54:25 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 20:54:25 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 20:54:25 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 20:54:25 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 20:54:25 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 20:54:25 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 20:54:25 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 20:54:25 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 20:54:25 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 20:54:25 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:02:26 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 20484@DESKTOP-JHD4MII
+
+[2023-04-01 21:02:26 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:02:26 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:02:26 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:02:26 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:02:26 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:02:26 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:02:26 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:02:26 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:02:26 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:02:26 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:02:26 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:02:26 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:02:26 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:02:26 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:02:26 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:05:29 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 8108@DESKTOP-JHD4MII
+
+[2023-04-01 21:05:29 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:05:29 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:05:29 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:05:29 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:05:29 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:05:29 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:05:29 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:05:29 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:05:29 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:05:29 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:05:29 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:05:29 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:05:29 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:05:29 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:05:29 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:07:05 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 9576@DESKTOP-JHD4MII
+
+[2023-04-01 21:07:05 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:07:05 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:07:05 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:07:05 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:07:05 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:07:05 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:07:05 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:07:05 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:07:05 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:07:05 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:07:05 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:07:05 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:07:05 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:07:05 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:07:05 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:07:41 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 12696@DESKTOP-JHD4MII
+
+[2023-04-01 21:07:42 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:07:42 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:07:42 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:07:42 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:07:42 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:07:42 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:07:42 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:07:42 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:07:42 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:07:42 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:07:42 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:07:42 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:07:42 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:07:42 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:07:42 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:32:36 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 7712@DESKTOP-JHD4MII
+
+[2023-04-01 21:32:36 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:32:36 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:32:36 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:32:36 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:32:36 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:32:36 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:32:36 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:32:36 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:32:36 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:32:36 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:32:36 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:32:36 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:32:36 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:32:36 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:32:36 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:34:27 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 15324@DESKTOP-JHD4MII
+
+[2023-04-01 21:34:27 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:34:27 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:34:27 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:34:27 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:34:27 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:34:27 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:34:28 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:34:28 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:34:28 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:34:28 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:34:28 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:34:28 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:34:28 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:34:28 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:34:28 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:35:27 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 3080@DESKTOP-JHD4MII
+
+[2023-04-01 21:35:27 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:35:27 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:35:27 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:35:27 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:35:27 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:35:27 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:35:27 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:35:27 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:35:27 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:35:27 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:35:27 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:35:27 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:35:27 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:35:27 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:35:27 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:37:11 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 2192@DESKTOP-JHD4MII
+
+[2023-04-01 21:37:11 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:37:11 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:37:11 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:37:11 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:37:11 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:37:11 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:37:11 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:37:11 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:37:11 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:37:11 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:37:11 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:37:11 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:37:11 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:37:11 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:37:11 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:37:22 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 3188@DESKTOP-JHD4MII
+
+[2023-04-01 21:37:23 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:37:23 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:37:23 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:37:23 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:37:23 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:37:23 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:37:23 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:37:23 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:37:23 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:37:23 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:37:23 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:37:23 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:37:23 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:37:23 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:37:23 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:43:38 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 13696@DESKTOP-JHD4MII
+
+[2023-04-01 21:43:39 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:43:39 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:43:39 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:43:39 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:43:39 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:43:39 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:43:39 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:43:39 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:43:39 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:43:39 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:43:39 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:43:39 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:43:39 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:43:39 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:43:39 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 21:46:02 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 18316@DESKTOP-JHD4MII
+
+[2023-04-01 21:46:02 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 21:46:02 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 21:46:02 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 21:46:02 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 21:46:02 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 21:46:02 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 21:46:02 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 21:46:02 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 21:46:02 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 21:46:02 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 21:46:02 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 21:46:02 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 21:46:02 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 21:46:02 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 21:46:02 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 22:21:38 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 5388@DESKTOP-JHD4MII
+
+[2023-04-01 22:21:38 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 22:21:38 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 22:21:38 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 22:21:38 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 22:21:38 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 22:21:38 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 22:21:38 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 22:21:38 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 22:21:38 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 22:21:38 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 22:21:38 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 22:21:38 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 22:21:38 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 22:21:38 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 22:21:38 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 22:22:37 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 1480@DESKTOP-JHD4MII
+
+[2023-04-01 22:22:37 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 22:22:37 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 22:22:37 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 22:22:37 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 22:22:37 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 22:22:37 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 22:22:37 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 22:22:37 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 22:22:37 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 22:22:37 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 22:22:37 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 22:22:37 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 22:22:37 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 22:22:37 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 22:22:37 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 22:26:20 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 21216@DESKTOP-JHD4MII
+
+[2023-04-01 22:26:20 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 22:26:20 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 22:26:20 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 22:26:20 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 22:26:20 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 22:26:20 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 22:26:20 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 22:26:20 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 22:26:20 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 22:26:20 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 22:26:20 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 22:26:20 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 22:26:20 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 22:26:20 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 22:26:20 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 22:27:27 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 10620@DESKTOP-JHD4MII
+
+[2023-04-01 22:27:27 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 22:27:27 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 22:27:27 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 22:27:27 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 22:27:27 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 22:27:27 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 22:27:27 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 22:27:27 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 22:27:27 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 22:27:27 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 22:27:27 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 22:27:27 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 22:27:27 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 22:27:27 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 22:27:27 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-04-01 22:28:56 #1 store] 
+Database 'C:\Users\Martin Etxeberria\OneDrive\Documentos\GitHub\Bets21\src\main\resources\bets.temp' is opened by 18808@DESKTOP-JHD4MII
+
+[2023-04-01 22:28:57 #2 type.registry] 
+New type domain.User
+
+[2023-04-01 22:28:57 #3 type.registry] 
+New type domain.Admin
+
+[2023-04-01 22:28:57 #4 type] 
+Type domain.User is not enhanced.
+
+[2023-04-01 22:28:57 #5 type] 
+Type domain.Admin is not enhanced.
+
+[2023-04-01 22:28:57 #6 type.registry] 
+New type domain.RegisteredUser
+
+[2023-04-01 22:28:57 #7 type] 
+Type domain.RegisteredUser is not enhanced.
+
+[2023-04-01 22:28:57 #8 type.registry] 
+New type domain.Question
+
+[2023-04-01 22:28:57 #9 type] 
+Type domain.Question is not enhanced.
+
+[2023-04-01 22:28:57 #10 type.registry] 
+New type domain.Quote
+
+[2023-04-01 22:28:57 #11 type.registry] 
+New type java.util.Vector<domain.Quote>
+
+[2023-04-01 22:28:57 #12 type.registry] 
+New type domain.Event
+
+[2023-04-01 22:28:57 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-04-01 22:28:57 #14 type] 
+Type domain.Event is not enhanced.
+
+[2023-04-01 22:28:57 #15 type.registry] 
+New type java.util.Vector<domain.Question>
+
+[2023-04-01 22:28:57 #16 type.registry] 
+New type java.util.Vector<java.lang.Object>
+
