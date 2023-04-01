@@ -37,6 +37,7 @@ public class DepositMoneyGUI extends JFrame {
 	private JComboBox comboBoxAmountOfMoney;
 	
     private DefaultComboBoxModel<String> amountOfMoney = new DefaultComboBoxModel();
+    private DefaultComboBoxModel<String> paymentOptions = new DefaultComboBoxModel();
 
 	/**
 	 * Launch the application.
@@ -58,6 +59,7 @@ public class DepositMoneyGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public DepositMoneyGUI(String user) {
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney")); //$NON-NLS-1$ //$NON-NLS-2$
 		String us=user;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -79,13 +81,17 @@ public class DepositMoneyGUI extends JFrame {
 					lblCreditCard.setText(PayPal);
 					lblPassword.setText(con);
 				}
-				else if(comboBoxPaymentOption.getSelectedItem().equals("Credit Card")){
-					
+				else if(comboBoxPaymentOption.getSelectedItem().equals(ResourceBundle.getBundle("Etiquetas").getString("CreditCard"))){
+					lblCreditCard.setText(ResourceBundle.getBundle("Etiquetas").getString("CreditCardLbl"));
+					lblPassword.setText(ResourceBundle.getBundle("Etiquetas").getString("SecretCode"));
 				}
 			}
 		});
 		comboBoxPaymentOption.setBounds(227, 11, 155, 29);
 		contentPane.add(comboBoxPaymentOption);
+		comboBoxPaymentOption.setModel(paymentOptions);
+		paymentOptions.addElement(ResourceBundle.getBundle("Etiquetas").getString("CreditCard"));
+		paymentOptions.addElement("PayPal");
 		
 		textField = new JTextField();
 		textField.setBounds(227, 51, 155, 29);
@@ -107,16 +113,21 @@ public class DepositMoneyGUI extends JFrame {
 		amountOfMoney.addElement("50");
 
 		
-		lblCreditCard = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreditCard"));
+		lblCreditCard = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreditCardLbl"));
 		lblCreditCard.setBounds(35, 58, 182, 14);
 		contentPane.add(lblCreditCard);
 		
 		JButton btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("ConfirmPayment"));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BLFacade facade = MainGUI.getBusinessLogic();
-				facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()));
-				//Add to history implementatu
+				if(rdbtnTermsConditions.isSelected()) {
+					BLFacade facade = MainGUI.getBusinessLogic();
+					facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()));
+					//Add to history implementatu
+				}
+				else {
+					
+				}
 			}
 		});
 		btnNewButton.setBounds(97, 171, 245, 41);

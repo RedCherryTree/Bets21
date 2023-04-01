@@ -106,6 +106,7 @@ public class UserGUI extends JFrame {
 		jButtonMoney.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DepositMoneyGUI depositGUI= new DepositMoneyGUI(user);
+				depositGUI.setVisible(true);
 			}
 		});
 		jButtonMoney.setText("Add money");
