@@ -54,7 +54,7 @@ public class UserGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public UserGUI(String user) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Test, borra
 		setBounds(100, 100, 573, 417);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
