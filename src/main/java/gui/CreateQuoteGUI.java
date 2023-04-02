@@ -241,11 +241,8 @@ public class CreateQuoteGUI extends JFrame {
 			
 			});
 
-
-		textFieldMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")); //$NON-NLS-1$ //$NON-NLS-2$
 		textFieldMultiplier.setBounds(94, 378, 86, 20);
 		textFieldMultiplier.setColumns(10);
-		textFieldQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")); //$NON-NLS-1$ //$NON-NLS-2$
 		textFieldQuote.setBounds(94, 330, 86, 20);
 		textFieldQuote.setColumns(10);
 		
