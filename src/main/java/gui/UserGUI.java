@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
@@ -54,6 +55,7 @@ public class UserGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public UserGUI(String user) {
+		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 		setBounds(100, 100, 573, 417);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
@@ -66,13 +68,13 @@ public class UserGUI extends JFrame {
 		
 		
 		
-		JLabel jLabelUsername = new JLabel("Username: "+user);
+		JLabel jLabelUsername = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username")+": "+user);
 		jLabelUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelUsername.setForeground(Color.BLACK);
 		jLabelUsername.setFont(new Font("Dialog", Font.BOLD, 13));
 		
 		BLFacade facade = MainGUI.getBusinessLogic();
-		JLabel jLabelMoney = new JLabel("Money: "+facade.getUserMoney(user));
+		JLabel jLabelMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Money")+": "+facade.getUserMoney(user));
 		jLabelMoney.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelMoney.setForeground(Color.BLACK);
 		jLabelMoney.setFont(new Font("Dialog", Font.BOLD, 13));
@@ -83,27 +85,24 @@ public class UserGUI extends JFrame {
 		jContentPane.add(splitPaneUp);
 		
 		
-		JButton jButtonQueryQueries = new JButton();
+		JButton jButtonQueryQueries = new JButton(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries"));
 		jButtonQueryQueries.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		jButtonQueryQueries.setText("Ikusi");
 		jContentPane.add(jButtonQueryQueries);
 		
-		JButton jButtonLogin = new JButton();
-		jButtonLogin.setText("Apostatu?");
+		JButton jButtonLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
 		jContentPane.add(jButtonLogin);
 		
-		JButton jButtonHistory = new JButton();
+		JButton jButtonHistory = new JButton(ResourceBundle.getBundle("Etiquetas").getString("History"));
 		jButtonHistory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MyAccountBalanceGUI myBalanceGUI= new MyAccountBalanceGUI(user);
 				myBalanceGUI.setVisible(true);
 			}
 		});
-		jButtonHistory.setText("History");
-		JButton jButtonMoney = new JButton();
+		JButton jButtonMoney = new JButton(ResourceBundle.getBundle("Etiquetas").getString("AddMoney"));
 		jButtonMoney.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DepositMoneyGUI depositGUI= new DepositMoneyGUI(user);
@@ -111,7 +110,6 @@ public class UserGUI extends JFrame {
 				close_actionPerformed(e);
 			}
 		});
-		jButtonMoney.setText("Add money");
 		JSplitPane splitPaneDown = new JSplitPane();
 		splitPaneDown.setLeftComponent(jButtonHistory);
 		splitPaneDown.setRightComponent(jButtonMoney);
