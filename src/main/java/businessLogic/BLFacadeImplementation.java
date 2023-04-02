@@ -13,6 +13,7 @@ import domain.Question;
 import domain.Quote;
 import domain.User;
 import domain.RegisteredUser;
+import domain.Transaction;
 import domain.Event;
 import exceptions.*;
 
@@ -225,9 +226,9 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.createQuote(ev, question, quoteName, multiplier);
     	dbManager.close();
     }
-    @WebMethod public void depositMoney(String user, double money) {
+    @WebMethod public void depositMoney(String user, double money, String paymentOpton, String paymentMethod) {
     	dbManager.open(false);
-    	dbManager.depositMoney(user, money);
+    	dbManager.depositMoney(user, money, paymentOpton, paymentMethod);
     	dbManager.close();
     }
     
@@ -236,6 +237,12 @@ public class BLFacadeImplementation  implements BLFacade {
     	double money=dbManager.getUserMoney(user);
     	dbManager.close();
     	return money;
+    }
+    @WebMethod public Vector<Transaction> getUserTransactions(String user){
+    	dbManager.open(false);
+    	Vector<Transaction> myTransactions=dbManager.getUserTransactions(user);
+    	dbManager.close();
+    	return myTransactions;
     }
 }
 

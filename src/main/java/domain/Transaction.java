@@ -17,13 +17,38 @@ public class Transaction {
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
 	private Integer transactionNumber;
-	private String transactionType;//Bet, deposit, or bet result money
+	private String transactionType;//Bet, Deposit or betResult money
 	private double money;
+	
+	//Si se inserta dinero
+	private String paymentOption;
+	private String paymentMethod;
+	
+	//Si apuestas
+	private Bet myBet;
+	
 	@XmlIDREF
 	private RegisteredUser user; 
 	
 	public Transaction() {
 		super();
+	}
+	/**
+	 * Deposit money transaction builder
+	 * 
+	 * @param transactionType
+	 * @param paymentOpton
+	 * @param paymentMethod
+	 * @param money
+	 * @param user
+	 */
+	public Transaction(String transactionType,String paymentOpton, String paymentMethod, double money, RegisteredUser user) {
+		super();
+		this.transactionType=transactionType;
+		this.money=money;
+		this.user=user;
+		this.paymentOption=paymentOption;
+		this.paymentMethod=paymentMethod;
 	}
 	public Transaction(String transactionType, double money, RegisteredUser user) {
 		super();
@@ -62,6 +87,25 @@ public class Transaction {
 
 	public void setUser(RegisteredUser user) {
 		this.user = user;
+	}
+	
+	public String getPaymentOption() {
+		return paymentOption;
+	}
+	public void setPaymentOption(String paymentOption) {
+		this.paymentOption = paymentOption;
+	}
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	public Bet getMyBet() {
+		return myBet;
+	}
+	public void setMyBet(Bet myBet) {
+		this.myBet = myBet;
 	}
 	public String toString(){
 		String transaction=transactionNumber+";"+transactionType+";";

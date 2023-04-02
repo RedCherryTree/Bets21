@@ -134,7 +134,7 @@ public class DepositMoneyGUI extends JFrame {
 						lblNewLabel_1.setVisible(false);
 					}
 					else {
-						facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()));
+						facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()), textField.getText(), passwordField.getText());
 					}
 				}
 				else {

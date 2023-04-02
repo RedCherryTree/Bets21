@@ -89,7 +89,13 @@ public class RegisteredUser extends User implements Serializable{
 		this.money = money;
 	}
 	
-	public void addMoney(double money) {
+	
+	public Vector<Transaction> getMyTransactions() {
+		return myTransactions;
+	}
+
+
+	public void addMoney(double money, String paymentOpton, String paymentMethod) {
 		this.money+= money;
 		Transaction transaction= new Transaction("Deposit", money, this);
 		this.myTransactions.add(transaction);

@@ -12,6 +12,7 @@ import domain.Question;
 import domain.Quote;
 import domain.User;
 import domain.RegisteredUser;
+import domain.Transaction;
 import domain.Event;
 import exceptions.*;
 
@@ -120,8 +121,8 @@ public interface BLFacade  {
 	 * @return true there is an administrator in the database with the received name, false otherwise
 	 */
 	@WebMethod boolean emailRegistered(String mail);
-	@WebMethod public void depositMoney(String user, double money);
+	@WebMethod public void depositMoney(String user, double money, String paymentOpton, String paymentMethod);
 	 @WebMethod public double getUserMoney(String user);
-
+	 @WebMethod public Vector<Transaction> getUserTransactions(String user);
 	
 }
