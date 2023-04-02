@@ -54,7 +54,6 @@ public class UserGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public UserGUI(String user) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		setBounds(100, 100, 573, 417);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
@@ -99,6 +98,8 @@ public class UserGUI extends JFrame {
 		JButton jButtonHistory = new JButton();
 		jButtonHistory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MyAccountBalanceGUI myBalanceGUI= new MyAccountBalanceGUI(user);
+				myBalanceGUI.setVisible(true);
 			}
 		});
 		jButtonHistory.setText("History");
@@ -107,6 +108,7 @@ public class UserGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DepositMoneyGUI depositGUI= new DepositMoneyGUI(user);
 				depositGUI.setVisible(true);
+				close_actionPerformed(e);
 			}
 		});
 		jButtonMoney.setText("Add money");
@@ -116,5 +118,8 @@ public class UserGUI extends JFrame {
 		splitPaneDown.setResizeWeight(0.52);
 		jContentPane.add(splitPaneDown);
 		
+	}
+	private void close_actionPerformed(ActionEvent e) {
+		this.setVisible(false);
 	}
 }

@@ -22,6 +22,7 @@ import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Color;
 
 public class DepositMoneyGUI extends JFrame {
 
@@ -38,6 +39,8 @@ public class DepositMoneyGUI extends JFrame {
 	
     private DefaultComboBoxModel<String> amountOfMoney = new DefaultComboBoxModel();
     private DefaultComboBoxModel<String> paymentOptions = new DefaultComboBoxModel();
+	private JLabel lblEuro;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -69,8 +72,16 @@ public class DepositMoneyGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption"));
-		lblNewLabel.setBounds(34, 18, 183, 14);
+		lblNewLabel.setBounds(34, 18, 193, 14);
 		contentPane.add(lblNewLabel);
+		
+		lblCreditCard = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreditCardLbl"));
+		lblCreditCard.setBounds(35, 58, 192, 14);
+		contentPane.add(lblCreditCard);
+		
+		lblPassword = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
+		lblPassword.setBounds(34, 98, 193, 14);
+		contentPane.add(lblPassword);
 		
 		String PayPal=ResourceBundle.getBundle("Etiquetas").getString("PayPal");
 		String con=ResourceBundle.getBundle("Etiquetas").getString("Password");
@@ -87,23 +98,23 @@ public class DepositMoneyGUI extends JFrame {
 				}
 			}
 		});
-		comboBoxPaymentOption.setBounds(227, 11, 155, 29);
+		comboBoxPaymentOption.setBounds(237, 11, 155, 29);
 		contentPane.add(comboBoxPaymentOption);
 		comboBoxPaymentOption.setModel(paymentOptions);
 		paymentOptions.addElement(ResourceBundle.getBundle("Etiquetas").getString("CreditCard"));
 		paymentOptions.addElement("PayPal");
 		
 		textField = new JTextField();
-		textField.setBounds(227, 51, 155, 29);
+		textField.setBounds(237, 51, 155, 29);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(227, 91, 155, 29);
+		passwordField.setBounds(237, 91, 155, 29);
 		contentPane.add(passwordField);
 		
 		comboBoxAmountOfMoney = new JComboBox();
-		comboBoxAmountOfMoney.setBounds(170, 131, 42, 29);
+		comboBoxAmountOfMoney.setBounds(141, 131, 42, 29);
 		contentPane.add(comboBoxAmountOfMoney);
 		comboBoxAmountOfMoney.setModel(amountOfMoney);
 		comboBoxAmountOfMoney.setSelectedItem(null);
@@ -113,20 +124,21 @@ public class DepositMoneyGUI extends JFrame {
 		amountOfMoney.addElement("50");
 
 		
-		lblCreditCard = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreditCardLbl"));
-		lblCreditCard.setBounds(35, 58, 182, 14);
-		contentPane.add(lblCreditCard);
-		
 		JButton btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("ConfirmPayment"));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnTermsConditions.isSelected()) {
 					BLFacade facade = MainGUI.getBusinessLogic();
-					facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()));
 					//Add to history implementatu
+					if(textField.getText().equals(" ")|| passwordField.getText().equals(" ")) {
+						lblNewLabel_1.setVisible(false);
+					}
+					else {
+						facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()), textField.getText(), passwordField.getText());
+					}
 				}
 				else {
-					
+					rdbtnTermsConditions.setForeground(new Color(255, 0, 0));
 				}
 			}
 		});
@@ -134,7 +146,7 @@ public class DepositMoneyGUI extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		lblSelectAmount = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("SelectAmount"));
-		lblSelectAmount.setBounds(34, 138, 126, 14);
+		lblSelectAmount.setBounds(34, 138, 104, 14);
 		contentPane.add(lblSelectAmount);
 		
 		btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
@@ -150,12 +162,21 @@ public class DepositMoneyGUI extends JFrame {
 		
 		rdbtnTermsConditions = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("TermsAndConditions"));
 		rdbtnTermsConditions.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		rdbtnTermsConditions.setBounds(229, 134, 199, 23);
+		rdbtnTermsConditions.setBounds(229, 141, 199, 23);
 		contentPane.add(rdbtnTermsConditions);
 		
-		lblPassword = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
-		lblPassword.setBounds(34, 98, 178, 14);
-		contentPane.add(lblPassword);
+		
+		lblEuro = new JLabel("€");
+		lblEuro.setFont(new Font("Source Serif Pro Black", Font.PLAIN, 18));
+		lblEuro.setBounds(193, 131, 24, 29);
+		lblEuro.setForeground(Color.BLACK);
+		contentPane.add(lblEuro);
+		
+		lblNewLabel_1 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblNewLabel_1.setForeground(Color.RED);
+		lblNewLabel_1.setBounds(237, 120, 155, 14);
+		contentPane.add(lblNewLabel_1);
+		lblNewLabel_1.setVisible(false);
 	}
 	private void btnGoBack_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

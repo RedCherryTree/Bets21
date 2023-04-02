@@ -23,6 +23,7 @@ import domain.Event;
 import domain.Question;
 import domain.Quote;
 import domain.RegisteredUser;
+import domain.Transaction;
 import domain.User;
 import exceptions.EventAlreadyExist;
 import exceptions.QuestionAlreadyExist;
@@ -413,15 +414,19 @@ public class DataAccess  {
 
 		db.getTransaction().commit();
 	}
-     public void depositMoney(String user, double money) {
+     public void depositMoney(String user, double money, String paymentOpton, String paymentMethod) {
     	db.getTransaction().begin();
     	RegisteredUser us= db.find(RegisteredUser.class, user);
-    	us.addMoney(money);
+    	us.addMoney(money, paymentOpton, paymentMethod);
     	db.getTransaction().commit();
     }
      public double getUserMoney(String user) {
      	RegisteredUser us= db.find(RegisteredUser.class, user);
      	return us.getMoney();
+     }
+     public Vector<Transaction> getUserTransactions(String user){
+    	RegisteredUser us= db.find(RegisteredUser.class, user);
+     	return us.getMyTransactions();
      }
 
 }
