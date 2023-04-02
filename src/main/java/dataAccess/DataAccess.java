@@ -124,7 +124,7 @@ public class DataAccess  {
 				q6=ev17.addQuestion("Golak sartuko dira lehenengo zatian?",2);
 				
 			}
-			Admin admin= new Admin("admin", " 123");
+			Admin admin= new Admin("admin", "123");
 			RegisteredUser user= new RegisteredUser("user","123");
 			db.persist(admin);
 			db.persist(user);
