@@ -3,9 +3,11 @@ package domain;
 import java.io.*;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 @Entity
-public class User {
+@XmlSeeAlso ({RegisteredUser.class, Admin.class})
+public abstract class User {
 	@Id
 	private String username;
 	private String password;
