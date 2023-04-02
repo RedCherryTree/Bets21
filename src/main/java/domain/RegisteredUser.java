@@ -1,9 +1,15 @@
 package domain;
 
+import java.io.Serializable;
+import java.util.Vector;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 @Entity
-public class RegisteredUser extends User {
+public class RegisteredUser extends User implements Serializable{
 	private double money;
 	private String mail;
 	private String DNI;
@@ -12,11 +18,14 @@ public class RegisteredUser extends User {
 	private String firstName;
 	private String lastName;
 	private String country;
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+	private Vector<Transaction> myTransactions=new Vector<Transaction>();
 	
 	public RegisteredUser(String username,String password) {
 		super(username, password);
-		double money=0;
 	}
+	
+	
 	public String getMail() {
 		return mail;
 	}
@@ -82,5 +91,13 @@ public class RegisteredUser extends User {
 	
 	public void addMoney(double money) {
 		this.money+= money;
+		Transaction transaction= new Transaction("Deposit", money, this);
+		this.myTransactions.add(transaction);
+	}
+	
+	public void bet(double money) {
+		this.money-= money;
+		Transaction transaction= new Transaction("Bet", money, this);
+		this.myTransactions.add(transaction);
 	}
 }
