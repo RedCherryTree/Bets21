@@ -1,7 +1,7 @@
 package domain;
 
 import javax.persistence.Entity;
-
+//A
 @Entity
 public class Admin extends User {
 	
