@@ -174,5 +174,7 @@ public class MyAccountBalanceGUI extends JFrame {
 		lblCurrentMoney.setBounds(301, 11, 123, 14);
 		contentPane.add(lblCurrentMoney);
 		
+		
+		
 	}
 }
