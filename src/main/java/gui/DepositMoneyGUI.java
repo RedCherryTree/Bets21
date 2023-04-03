@@ -27,8 +27,8 @@ import java.awt.Color;
 public class DepositMoneyGUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
+	private JTextField textFieldPaymentMethod;
+	private JPasswordField passwordFieldP;
 	private JLabel lblCreditCard;
 	private JLabel lblSelectAmount;
 	private JButton btnGoBack;
@@ -40,7 +40,7 @@ public class DepositMoneyGUI extends JFrame {
     private DefaultComboBoxModel<String> amountOfMoney = new DefaultComboBoxModel();
     private DefaultComboBoxModel<String> paymentOptions = new DefaultComboBoxModel();
 	private JLabel lblEuro;
-	private JLabel lblNewLabel_1;
+	private JLabel lblEmptyField;
 
 	/**
 	 * Launch the application.
@@ -104,14 +104,14 @@ public class DepositMoneyGUI extends JFrame {
 		paymentOptions.addElement(ResourceBundle.getBundle("Etiquetas").getString("CreditCard"));
 		paymentOptions.addElement("PayPal");
 		
-		textField = new JTextField();
-		textField.setBounds(237, 51, 155, 29);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldPaymentMethod = new JTextField();
+		textFieldPaymentMethod.setBounds(237, 51, 155, 29);
+		contentPane.add(textFieldPaymentMethod);
+		textFieldPaymentMethod.setColumns(10);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(237, 91, 155, 29);
-		contentPane.add(passwordField);
+		passwordFieldP = new JPasswordField();
+		passwordFieldP.setBounds(237, 91, 155, 29);
+		contentPane.add(passwordFieldP);
 		
 		comboBoxAmountOfMoney = new JComboBox();
 		comboBoxAmountOfMoney.setBounds(141, 131, 42, 29);
@@ -130,11 +130,14 @@ public class DepositMoneyGUI extends JFrame {
 				if(rdbtnTermsConditions.isSelected()) {
 					BLFacade facade = MainGUI.getBusinessLogic();
 					//Add to history implementatu
-					if(textField.getText().equals(" ")|| passwordField.getText().equals(" ")) {
-						lblNewLabel_1.setVisible(false);
+					String option= (String) comboBoxPaymentOption.getSelectedItem();
+					String method=textFieldPaymentMethod.getText();
+					String pass=passwordFieldP.getText();
+					if(method.equals("")||pass.equals("")) {
+						lblEmptyField.setVisible(true);
 					}
 					else {
-						facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()), textField.getText(), passwordField.getText());
+						facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()), option, method);
 					}
 				}
 				else {
@@ -172,11 +175,11 @@ public class DepositMoneyGUI extends JFrame {
 		lblEuro.setForeground(Color.BLACK);
 		contentPane.add(lblEuro);
 		
-		lblNewLabel_1 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabel_1.setForeground(Color.RED);
-		lblNewLabel_1.setBounds(237, 120, 155, 14);
-		contentPane.add(lblNewLabel_1);
-		lblNewLabel_1.setVisible(false);
+		lblEmptyField = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblEmptyField.setForeground(Color.RED);
+		lblEmptyField.setBounds(237, 120, 155, 14);
+		contentPane.add(lblEmptyField);
+		lblEmptyField.setVisible(false);
 	}
 	private void btnGoBack_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

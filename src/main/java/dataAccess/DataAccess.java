@@ -414,12 +414,13 @@ public class DataAccess  {
 
 		db.getTransaction().commit();
 	}
-     public void depositMoney(String user, double money, String paymentOpton, String paymentMethod) {
-    	db.getTransaction().begin();
-    	RegisteredUser us= db.find(RegisteredUser.class, user);
-    	us.addMoney(money, paymentOpton, paymentMethod);
-    	db.getTransaction().commit();
-    }
+    public void depositMoney(String user, double money, String paymentOpton, String paymentMethod) {
+   	db.getTransaction().begin();
+   	RegisteredUser us= db.find(RegisteredUser.class, user);
+   	Transaction transaction=us.addMoney(money, paymentOpton, paymentMethod);
+   	db.persist(transaction);
+   	db.getTransaction().commit();
+   }
      public double getUserMoney(String user) {
      	RegisteredUser us= db.find(RegisteredUser.class, user);
      	return us.getMoney();
@@ -428,5 +429,14 @@ public class DataAccess  {
     	RegisteredUser us= db.find(RegisteredUser.class, user);
      	return us.getMyTransactions();
      }
+
+ 	public void bet(String user, double money, Question question, int selectedResult) {
+		db.getTransaction().begin();
+		RegisteredUser us= db.find(RegisteredUser.class, user);
+		Transaction transaction= us.bet(money, selectedResult, question);
+		db.persist(transaction);
+		db.getTransaction().commit();
+		
+	}
 
 }

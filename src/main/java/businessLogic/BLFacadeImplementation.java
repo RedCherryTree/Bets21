@@ -244,5 +244,10 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     	return myTransactions;
     }
+    @WebMethod public void bet(String user, double money,Question question, int selectedResult){
+    	dbManager.open(false);
+    	dbManager.bet(user, money, question, selectedResult);
+    	dbManager.close();
+    }
 }
 

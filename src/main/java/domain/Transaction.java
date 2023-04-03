@@ -1,8 +1,11 @@
 package domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlIDREF;
@@ -25,6 +28,8 @@ public class Transaction {
 	private String paymentMethod;
 	
 	//Si apuestas
+	@XmlIDREF
+	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	private Bet myBet;
 	
 	@XmlIDREF
@@ -47,7 +52,7 @@ public class Transaction {
 		this.transactionType=transactionType;
 		this.money=money;
 		this.user=user;
-		this.paymentOption=paymentOption;
+		this.paymentOption=paymentOpton;
 		this.paymentMethod=paymentMethod;
 	}
 	public Transaction(String transactionType, double money, RegisteredUser user) {

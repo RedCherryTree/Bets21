@@ -31,8 +31,13 @@ import com.toedter.calendar.JCalendar;
 
 import businessLogic.BLFacade;
 import configuration.UtilDate;
+import domain.Bet;
 import domain.Question;
 import domain.Quote;
+import domain.User;
+
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class BetGUI extends JFrame {
 
@@ -76,21 +81,19 @@ public class BetGUI extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 
-	private JButton btnChangeQuoteButton;
-
-	private JLabel lblLocalTeamLabel;
-
-	private JLabel lblTieLabel;
-
-	private JLabel lblAwayTeamLabel;
+	private JButton btnBet;
 
 	private JLabel lblErrorLabel;
+	private final JRadioButton rdbtnLocal = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("BetGUI.rdbtnNewRadioButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final JRadioButton rdbtnTies = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("BetGUI.rdbtnNewRadioButton_1.text")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final JRadioButton rdbtnVisiting = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("BetGUI.rdbtnNewRadioButton_2.text")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
-	public BetGUI()
+	public BetGUI(String user)
 	{
 		try
 		{
-			jbInit();
+			jbInit(user);
 		}
 		catch(Exception e)
 		{
@@ -99,7 +102,7 @@ public class BetGUI extends JFrame {
 	}
 
 	
-	private void jbInit() throws Exception
+	private void jbInit(String user) throws Exception
 	{
 
 		this.getContentPane().setLayout(null);
@@ -266,19 +269,29 @@ public class BetGUI extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int i=tableQueries.getSelectedRow();
+			if(tableQueries.getValueAt(i, 2) != null) {
 			String s=(String)tableQueries.getValueAt(i, 2);
+			rdbtnLocal.setEnabled(true);
+			rdbtnTies.setEnabled(true);
+			rdbtnVisiting.setEnabled(true);
+			
+			if(buttonGroup.isSelected(null)) {
+			btnBet.setEnabled(true);
+			}
+			
 			if(s.equals(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote"))){
 				textField.setEnabled(true);
 				textField_1.setEnabled(true);
 				textField_2.setEnabled(true);
-				btnChangeQuoteButton.setEnabled(true);
+				btnBet.setEnabled(true);
+			}
 			}
 			else {
 
-				textField.setEnabled(true);
-				textField_1.setEnabled(true);
-				textField_2.setEnabled(true);
-				btnChangeQuoteButton.setEnabled(true);
+			//	textField.setEnabled(true);
+			//	textField_1.setEnabled(true);
+			//	textField_2.setEnabled(true);
+				
 				
 			}
 			}
@@ -290,33 +303,50 @@ public class BetGUI extends JFrame {
 		
 		
 		
-		btnChangeQuoteButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuote"));
-		btnChangeQuoteButton.setEnabled(false);
-		btnChangeQuoteButton.addActionListener(new ActionListener() {
+		btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuote"));
+		btnBet.setEnabled(false);
+		btnBet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				BLFacade facade = MainGUI.getBusinessLogic();
+				int i=tableEvents.getSelectedRow();
+				int j=tableQueries.getSelectedRow();
+				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2);
+				Question question=ev.getQuestions().get(j);
+				
+				Quote quote = new Quote(question,(String)tableQueries.getValueAt(i, 2),(Float)tableQueries.getValueAt(i, 2));
+				int who = 0;
+				if(rdbtnLocal.isSelected()) who = 1;
+				if(rdbtnTies.isSelected()) who = 2;
+				if(rdbtnVisiting.isSelected()) who = 3;
+				// TODO: aldatu hay, dirua jaso apostu bat egiterakoan
+				double money=0.0;
+				facade.bet(user, money, question, who);
+				
 			}
 		});
-		btnChangeQuoteButton.setBounds(474, 373, 129, 30);
-		getContentPane().add(btnChangeQuoteButton);
-		
-		lblAwayTeamLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("AwayTeam"));
-		lblAwayTeamLabel.setBounds(338, 353, 124, 14);
-		getContentPane().add(lblAwayTeamLabel);
-		
-		lblTieLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Tie"));
-		lblTieLabel.setBounds(227, 353, 101, 14);
-		getContentPane().add(lblTieLabel);
-		
-		lblLocalTeamLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("LocalTeam"));
-		lblLocalTeamLabel.setBounds(93, 355, 109, 14);
-		getContentPane().add(lblLocalTeamLabel);
+		btnBet.setBounds(474, 373, 129, 30);
+		getContentPane().add(btnBet);
 		
 		lblErrorLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
 		lblErrorLabel.setForeground(Color.RED);
 		lblErrorLabel.setBounds(10, 423, 231, 25);
 		getContentPane().add(lblErrorLabel);
+		buttonGroup.add(rdbtnLocal);
+		rdbtnLocal.setBounds(93, 351, 109, 23);
+		
+		getContentPane().add(rdbtnLocal);
+		buttonGroup.add(rdbtnTies);
+		rdbtnTies.setBounds(214, 351, 109, 23);
+		
+		getContentPane().add(rdbtnTies);
+		buttonGroup.add(rdbtnVisiting);
+		rdbtnVisiting.setBounds(340, 351, 109, 23);
+		
+		getContentPane().add(rdbtnVisiting);
 		lblErrorLabel.setVisible(false);
+		rdbtnLocal.setEnabled(false);
+		rdbtnTies.setEnabled(false);
+		rdbtnVisiting.setEnabled(false);
 
 	}
 

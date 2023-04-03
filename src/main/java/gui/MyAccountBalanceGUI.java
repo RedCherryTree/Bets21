@@ -39,10 +39,8 @@ public class MyAccountBalanceGUI extends JFrame {
 	};
 	private JLabel lblMyTransactions;
 	private JLabel lblPaymentOption;
-	private JFormattedTextField formattedTextFieldPaymentOption;
 	private JPanel DetailsPanel;
 	private JLabel lblPaymentMethod;
-	private JFormattedTextField formattedTextFieldPaymentMethod;
 	private JLabel lblNewLabelPaymentOption;
 	private JLabel lblNewLabelPaymentMethod;
 
@@ -129,14 +127,13 @@ public class MyAccountBalanceGUI extends JFrame {
 				else {
 					if(t.getTransactionType().equals("Deposit")) {
 						lblPaymentOption.setVisible(true);
-						formattedTextFieldPaymentOption.setVisible(true);						
+						
 						lblNewLabelPaymentOption.setText(t.getPaymentOption());
 						lblNewLabelPaymentOption.setVisible(true);
 						
 						lblPaymentMethod.setVisible(true);
 						lblNewLabelPaymentMethod.setText(t.getPaymentMethod());
-						formattedTextFieldPaymentMethod.setVisible(true);
-						lblNewLabelPaymentMethod.setVisible(true);
+
 					}
 					else {//Hay que acabar cuando se implemente QuestionWinner
 						
@@ -146,39 +143,28 @@ public class MyAccountBalanceGUI extends JFrame {
 		});
 		
 		DetailsPanel = new JPanel();
-		DetailsPanel.setBounds(20, 179, 379, 71);
+		DetailsPanel.setBounds(10, 176, 389, 71);
 		contentPane.add(DetailsPanel);
 		DetailsPanel.setLayout(null);
 		DetailsPanel.setVisible(true);
 		
-		lblPaymentOption = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption"));
+		lblPaymentOption = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption")+":");
 		lblPaymentOption.setBounds(10, 11, 209, 14);
 		DetailsPanel.add(lblPaymentOption);
 		lblPaymentOption.setVisible(false);
 		
-		formattedTextFieldPaymentOption = new JFormattedTextField();
-		formattedTextFieldPaymentOption.setBounds(229, 8, 139, 20);
-		DetailsPanel.add(formattedTextFieldPaymentOption);
-		formattedTextFieldPaymentOption.setVisible(false);
-		formattedTextFieldPaymentOption.setEditable(false);
-		
-		lblPaymentMethod = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("UsedPaymentCDOrMail"));
+		lblPaymentMethod = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("UsedPaymentCDOrMail")+":");
 		lblPaymentMethod.setBounds(10, 46, 209, 14);
 		DetailsPanel.add(lblPaymentMethod);
 		lblPaymentMethod.setVisible(false);
 		
-		formattedTextFieldPaymentMethod = new JFormattedTextField();
-		formattedTextFieldPaymentMethod.setBounds(229, 43, 139, 20);
-		DetailsPanel.add(formattedTextFieldPaymentMethod);
-		formattedTextFieldPaymentMethod.setVisible(false);
-		formattedTextFieldPaymentMethod.setEditable(false);
 		
 		lblNewLabelPaymentOption = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabelPaymentOption.setBounds(219, 11, 139, 14);
+		lblNewLabelPaymentOption.setBounds(250, 11, 139, 14);
 		DetailsPanel.add(lblNewLabelPaymentOption);
 		
 		lblNewLabelPaymentMethod = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabelPaymentMethod.setBounds(219, 46, 139, 14);
+		lblNewLabelPaymentMethod.setBounds(250, 46, 139, 14);
 		DetailsPanel.add(lblNewLabelPaymentMethod);
 	}
 }
