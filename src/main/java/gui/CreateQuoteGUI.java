@@ -207,20 +207,19 @@ public class CreateQuoteGUI extends JFrame {
 				Vector<Quote> quotes=q.getQuotes();
 
 				tableModelQuotes.setDataVector(null, columnNamesQuotes);
-
-				if (quotes.isEmpty())
+				if (quotes==null) {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
-				else 
+				}else {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectedQuestion")+" "+q.getQuestion());
-
-				for (domain.Quote qt:quotes){
-					Vector<Object> row = new Vector<Object>();
-					row.add(qt.getQuoteNumber());
-					row.add(qt.getQuoteName());
-					row.add(qt.getQuoteMultiplier());
-					row.add(qt);
-
-					tableModelQuotes.addRow(row);	
+					for (domain.Quote qt:quotes){
+						Vector<Object> row = new Vector<Object>();
+						row.add(qt.getQuoteNumber());
+						row.add(qt.getQuoteName());
+						row.add(qt.getQuoteMultiplier());
+						row.add(qt);
+						tableModelQuotes.addRow(row);	
+				}
+					
 				}
 				tableQuotes.getColumnModel().getColumn(0).setPreferredWidth(75);
 				tableQuotes.getColumnModel().getColumn(1).setPreferredWidth(268);

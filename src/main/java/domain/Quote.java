@@ -1,14 +1,17 @@
 package domain;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @Entity
-public class Quote {
+public class Quote implements Serializable {
 	//Winner of the match
 	@Id
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
@@ -16,7 +19,7 @@ public class Quote {
 	private int quoteNumber;
 	private String quoteName;
 	private Float quoteMultiplier;
-//	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+	@XmlIDREF
 	private Question question;
 	public int getQuoteNumber() {
 		return quoteNumber;
