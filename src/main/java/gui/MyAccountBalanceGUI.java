@@ -43,6 +43,8 @@ public class MyAccountBalanceGUI extends JFrame {
 	private JLabel lblPaymentMethod;
 	private JLabel lblNewLabelPaymentOption;
 	private JLabel lblNewLabelPaymentMethod;
+	private JLabel lblCurrentMoney;
+
 
 	/**
 	 * Launch the application.
@@ -89,6 +91,7 @@ public class MyAccountBalanceGUI extends JFrame {
 		
 		BalanceTable.getColumnModel().getColumn(0).setPreferredWidth(100);
 		BalanceTable.getColumnModel().getColumn(1).setPreferredWidth(279);
+		BalanceTable.getColumnModel().removeColumn(BalanceTable.getColumnModel().getColumn(2));
 		Vector<Transaction> myTransactions= facade.getUserTransactions(user);
 		for(Transaction t: myTransactions) {
 			Vector<Object> row = new Vector<Object>();
@@ -143,28 +146,33 @@ public class MyAccountBalanceGUI extends JFrame {
 		});
 		
 		DetailsPanel = new JPanel();
-		DetailsPanel.setBounds(10, 176, 389, 71);
+		DetailsPanel.setBounds(10, 176, 414, 71);
 		contentPane.add(DetailsPanel);
 		DetailsPanel.setLayout(null);
 		DetailsPanel.setVisible(true);
 		
 		lblPaymentOption = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption")+":");
-		lblPaymentOption.setBounds(10, 11, 209, 14);
+		lblPaymentOption.setBounds(10, 11, 245, 14);
 		DetailsPanel.add(lblPaymentOption);
 		lblPaymentOption.setVisible(false);
 		
 		lblPaymentMethod = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("UsedPaymentCDOrMail")+":");
-		lblPaymentMethod.setBounds(10, 46, 209, 14);
+		lblPaymentMethod.setBounds(10, 46, 245, 14);
 		DetailsPanel.add(lblPaymentMethod);
 		lblPaymentMethod.setVisible(false);
 		
 		
 		lblNewLabelPaymentOption = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabelPaymentOption.setBounds(250, 11, 139, 14);
+		lblNewLabelPaymentOption.setBounds(265, 11, 139, 14);
 		DetailsPanel.add(lblNewLabelPaymentOption);
 		
 		lblNewLabelPaymentMethod = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabelPaymentMethod.setBounds(250, 46, 139, 14);
+		lblNewLabelPaymentMethod.setBounds(265, 46, 139, 14);
 		DetailsPanel.add(lblNewLabelPaymentMethod);
+		
+		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+facade.getUserMoney(user)+"€");
+		lblCurrentMoney.setBounds(301, 11, 123, 14);
+		contentPane.add(lblCurrentMoney);
+		
 	}
 }
