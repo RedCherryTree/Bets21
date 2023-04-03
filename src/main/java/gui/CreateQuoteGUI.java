@@ -218,7 +218,7 @@ public class CreateQuoteGUI extends JFrame {
 					row.add(qt.getQuoteNumber());
 					row.add(qt.getQuoteName());
 					row.add(qt.getQuoteMultiplier());
-					
+					row.add(qt);
 
 					tableModelQuotes.addRow(row);	
 				}
@@ -236,7 +236,6 @@ public class CreateQuoteGUI extends JFrame {
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
 				Vector<Question> queries=ev.getQuestions();
 
-				tableModelQueries.setDataVector(null, columnNamesQueries);
 
 				if (queries.isEmpty())
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("NoQueries")+": "+ev.getDescription());
@@ -248,6 +247,7 @@ public class CreateQuoteGUI extends JFrame {
 
 					row.add(q.getQuestionNumber());
 					row.add(q.getQuestion());
+					row.add(q);
 					
 					tableModelQueries.addRow(row);	
 				}
@@ -262,15 +262,18 @@ public class CreateQuoteGUI extends JFrame {
 
 		tableEvents.setModel(tableModelEvents);
 		tableEvents.getColumnModel().getColumn(0).setPreferredWidth(25);
-		tableEvents.getColumnModel().getColumn(1).setPreferredWidth(268);;
-
+		tableEvents.getColumnModel().getColumn(1).setPreferredWidth(268);
+		
 		scrollPaneQueries.setViewportView(tableQueries);
 		tableModelQueries = new DefaultTableModel(null, columnNamesQueries);
+		tableModelQueries.setDataVector(null, columnNamesQueries);
+		tableModelQueries.setColumnCount(3);
 
 		tableQueries.setModel(tableModelQueries);
 		tableQueries.getColumnModel().getColumn(0).setPreferredWidth(75);
 		tableQueries.getColumnModel().getColumn(1).setPreferredWidth(268);
-
+		tableQueries.getColumnModel().removeColumn(tableQueries.getColumnModel().getColumn(2));
+		
 		tableQueries.addMouseListener(new MouseAdapter() {
 		
 			
@@ -326,14 +329,17 @@ public class CreateQuoteGUI extends JFrame {
 		getContentPane().add(scrollPaneQuotes);
 		
 		tableQuotes = new JTable();
-		tableQuotes.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column", "New column"
-			}
-		));
+		tableQuotes = new JTable();
 		scrollPaneQuotes.setViewportView(tableQuotes);
+		tableModelQuotes = new DefaultTableModel(null, columnNamesQuotes);
+		tableQuotes.setModel(tableModelQuotes);
+		
+		tableModelQuotes.setDataVector(null, columnNamesQuotes);
+		tableModelQuotes.setColumnCount(4);//Another row for the transactions
+		
+		tableQuotes.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableQuotes.getColumnModel().getColumn(1).setPreferredWidth(279);
+		tableQuotes.getColumnModel().removeColumn(tableQuotes.getColumnModel().getColumn(3));
 
 	}
 
