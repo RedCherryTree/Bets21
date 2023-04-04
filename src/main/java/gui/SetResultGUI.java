@@ -1,55 +1,28 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Vector;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
-import com.toedter.calendar.JCalendar;
-
 import businessLogic.BLFacade;
 import configuration.UtilDate;
-import domain.Bet;
+
+import com.toedter.calendar.JCalendar;
 import domain.Question;
 import domain.Quote;
-import domain.User;
 
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.*;
+import java.text.DateFormat;
+import java.util.*;
 
-public class BetGUI extends JFrame {
+import javax.swing.table.DefaultTableModel;
 
+ 
+public class SetResultGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private final JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
 	private final JLabel jLabelQueries = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries")); 
 	private final JLabel jLabelEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Events")); 
-
-	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 
 	// Code for JCalendar
 	private JCalendar jCalendar1 = new JCalendar();
@@ -57,17 +30,17 @@ public class BetGUI extends JFrame {
 	private Calendar calendarAct = null;
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 	private JScrollPane scrollPaneQueries = new JScrollPane();
-	private JScrollPane scrollPaneQuotes = new JScrollPane();
+	
 	
 	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
 
 	private JTable tableEvents= new JTable();
 	private JTable tableQueries = new JTable();
-	private JTable tableQuotes= new JTable();
 
 	private DefaultTableModel tableModelEvents;
 	private DefaultTableModel tableModelQueries;
 	private DefaultTableModel tableModelQuotes;
+
 
 	
 	private String[] columnNamesEvents = new String[] {
@@ -87,32 +60,18 @@ public class BetGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("QuoteMultiplier"),
 
 	};
-	
 
+	private JButton btnSetResult;
+	private final JScrollPane scrollPaneQuotes = new JScrollPane();
+	private JTable tableQuotes;
 
-	private JButton btnBet;
+	private JLabel lblEmptyFields;
 
-	private JLabel lblErrorLabel;
-	private final JPanel panel = new JPanel();
-
-	private JLabel lblMinimumBet;
-
-	private JLabel lblCurrentMoney;
-
-
-	private JLabel lblQuestion;
-	private JTextField textField;
-
-	private JLabel lblQuote;
-
-	private JLabel lblEvent;
-	
-
-	public BetGUI(String user)
+	public SetResultGUI()
 	{
 		try
 		{
-			jbInit(user);
+			jbInit();
 		}
 		catch(Exception e)
 		{
@@ -121,16 +80,18 @@ public class BetGUI extends JFrame {
 	}
 
 	
-	private void jbInit(String user) throws Exception
+	private void jbInit() throws Exception
 	{
 
+		BLFacade facade;
+		
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(700, 500));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
+		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("SetResult"));
 
-		jLabelEventDate.setBounds(new Rectangle(40, 35, 140, 14));
-		jLabelQueries.setBounds(20, 211, 406, 14);
-		jLabelEvents.setBounds(294, 34, 259, 16);
+		jLabelEventDate.setBounds(new Rectangle(40, 15, 140, 25));
+		jLabelQueries.setBounds(90, 211, 406, 14);
+		jLabelEvents.setBounds(295, 19, 259, 16);
 
 		this.getContentPane().add(jLabelEventDate, null);
 		this.getContentPane().add(jLabelQueries);
@@ -139,7 +100,7 @@ public class BetGUI extends JFrame {
 
 		jCalendar1.setBounds(new Rectangle(40, 50, 225, 150));
 
-		BLFacade facade = MainGUI.getBusinessLogic();
+	    facade = MainGUI.getBusinessLogic();
 		datesWithEventsCurrentMonth=facade.getEventsMonth(jCalendar1.getDate());
 		CreateQuestionGUI.paintDaysWithEvents(jCalendar1,datesWithEventsCurrentMonth);
 
@@ -222,16 +183,17 @@ public class BetGUI extends JFrame {
 		this.getContentPane().add(jCalendar1, null);
 		
 		scrollPaneEvents.setBounds(new Rectangle(292, 50, 346, 150));
-		scrollPaneQueries.setBounds(new Rectangle(20, 230, 321, 90));
+		scrollPaneQueries.setBounds(new Rectangle(90, 228, 444, 111));
 
 		tableQueries.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				scrollPaneQuotes.setEnabled(true);
 				int i=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(i,2); 
 				Vector<Quote> quotes=q.getQuotes();
-
+				btnSetResult.setEnabled(true);
 				tableModelQuotes.setDataVector(null, columnNamesQuotes);
 				if (quotes==null) {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
@@ -258,7 +220,8 @@ public class BetGUI extends JFrame {
 				int i=tableEvents.getSelectedRow();
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
 				Vector<Question> queries=ev.getQuestions();
-
+				tableModelQueries.getDataVector().clear();
+				tableQueries.updateUI();
 
 				if (queries.isEmpty())
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("NoQueries")+": "+ev.getDescription());
@@ -279,7 +242,8 @@ public class BetGUI extends JFrame {
 
 			}
 		});
-
+		
+		
 		scrollPaneEvents.setViewportView(tableEvents);
 		tableModelEvents = new DefaultTableModel(null, columnNamesEvents);
 
@@ -297,13 +261,27 @@ public class BetGUI extends JFrame {
 		tableQueries.getColumnModel().getColumn(1).setPreferredWidth(268);
 		tableQueries.getColumnModel().removeColumn(tableQueries.getColumnModel().getColumn(2));
 		
-
-		
 		this.getContentPane().add(scrollPaneEvents, null);
 		this.getContentPane().add(scrollPaneQueries, null);
 		
-
-		scrollPaneQuotes.setBounds(358, 230, 280, 90);
+		
+		btnSetResult = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SetResult"));
+		btnSetResult.setEnabled(false);
+		btnSetResult.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				scrollPaneQuotes.setEnabled(true);
+				int i=tableQuotes.getSelectedRow();
+				domain.Quote qt=(domain.Quote)tableModelQuotes.getValueAt(i,3); 
+				
+				
+				
+			}
+		});
+		
+		
+		btnSetResult.setBounds(506, 370, 113, 54);
+		getContentPane().add(btnSetResult);
+		scrollPaneQuotes.setBounds(90, 350, 327, 79);
 		
 		getContentPane().add(scrollPaneQuotes);
 		
@@ -312,66 +290,12 @@ public class BetGUI extends JFrame {
 		scrollPaneQuotes.setViewportView(tableQuotes);
 		tableModelQuotes = new DefaultTableModel(null, columnNamesQuotes);
 		tableQuotes.setModel(tableModelQuotes);
-		panel.setBounds(40, 331, 598, 107);
 		
-		tableQuotes.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int ie=tableEvents.getSelectedRow();
-				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(ie,2); // obtain ev object
-				lblEvent.setText(ResourceBundle.getBundle("Etiquetas").getString("Event")+": "+ ev.getDescription());
-				int iques=tableQueries.getSelectedRow();
-				domain.Question question=(domain.Question)tableModelQueries.getValueAt(iques,2);
-				lblQuestion.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
-				int quot=tableQuotes.getSelectedRow();
-				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
-				lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+quote.getQuoteName());
-			}
-		});
-		
-		getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		lblMinimumBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice")+": ");
-		lblMinimumBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMinimumBet.setBounds(20, 49, 122, 14);
-		panel.add(lblMinimumBet);
-		
-		lblQuestion = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
-		lblQuestion.setBounds(30, 70, 158, 14);
-		panel.add(lblQuestion);
-//		lblQuestion.setVisible(false);
-		
-		lblQuote = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": ");
-		lblQuote.setBounds(27, 95, 217, 14);
-		panel.add(lblQuote);
-		
-		textField = new JTextField();
-		textField.setText(ResourceBundle.getBundle("Etiquetas").getString("")); //$NON-NLS-1$ //$NON-NLS-2$
-		textField.setBounds(328, 47, 86, 20);
-		panel.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabel.setBounds(210, 50, 108, 14);
-		panel.add(lblNewLabel);
-		
-	    btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet")); //$NON-NLS-1$ //$NON-NLS-2$
-	    btnBet.setBounds(449, 30, 139, 54);
-		panel.add(btnBet);
-		btnBet.setEnabled(false);
-		
-		lblEvent = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Event")+": ");
-		lblEvent.setBounds(20, 11, 168, 12);
-		panel.add(lblEvent);
-		lblEvent.setFont(new Font("Tahoma", Font.BOLD, 14));
-//		lblQuote.setVisible(false);
-		
-		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+facade.getUserMoney(user)+"€");
-		lblCurrentMoney.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblCurrentMoney.setBounds(480, 11, 158, 12);
-		getContentPane().add(lblCurrentMoney);
-		
+		lblEmptyFields = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField"));
+		lblEmptyFields.setForeground(new Color(255, 0, 0));
+		lblEmptyFields.setBounds(174, 435, 177, 14);
+		getContentPane().add(lblEmptyFields);
+		lblEmptyFields.setVisible(false);
 		
 		tableModelQuotes.setDataVector(null, columnNamesQuotes);
 		tableModelQuotes.setColumnCount(4);//Another row for the transactions
@@ -382,12 +306,9 @@ public class BetGUI extends JFrame {
 		tableQuotes.getColumnModel().removeColumn(tableQuotes.getColumnModel().getColumn(3));
 		
 		tableQuotes.addMouseListener(new MouseAdapter() {
-			int i=tableQuotes.getSelectedRow();
-//			Quote q=(Quote)tableModelQuotes.getValueAt(i,3); 
 			
 			
 		});
-
 
 	}
 
@@ -434,10 +355,5 @@ public class BetGUI extends JFrame {
 	 		calendar.set(Calendar.YEAR, year);
 
 	 	
-	}
-
-
-	private void jButton2_actionPerformed(ActionEvent e) {
-		this.setVisible(false);
 	}
 }

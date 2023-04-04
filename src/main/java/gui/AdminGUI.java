@@ -74,7 +74,7 @@ public class AdminGUI extends JFrame {
 				a.setVisible(true);
 			}
 		});
-		QuoteButton.setBounds(10, 72, 414, 50);
+		QuoteButton.setBounds(10, 72, 200, 50);
 		contentPane.add(QuoteButton);
 		
 		JButton EventButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -84,7 +84,7 @@ public class AdminGUI extends JFrame {
 				createEvent .setVisible(true);
 			}
 		});
-		EventButton.setBounds(10, 133, 414, 50);
+		EventButton.setBounds(10, 133, 200, 50);
 		contentPane.add(EventButton);
 		
 		
@@ -98,6 +98,21 @@ public class AdminGUI extends JFrame {
 		});
 		CloseButton.setBounds(142, 218, 147, 32);
 		contentPane.add(CloseButton);
+		
+		JButton SetResultButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SetResult")); //$NON-NLS-1$ //$NON-NLS-2$
+		SetResultButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame a = new SetResultGUI();
+
+				a.setVisible(true);
+			}
+		});
+		SetResultButton.setBounds(220, 72, 204, 50);
+		contentPane.add(SetResultButton);
+		
+		JButton DeleteEventButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DeleteEvent")); //$NON-NLS-1$ //$NON-NLS-2$
+		DeleteEventButton.setBounds(220, 133, 204, 50);
+		contentPane.add(DeleteEventButton);
 		
 
 		
