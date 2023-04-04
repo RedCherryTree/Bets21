@@ -221,10 +221,11 @@ public class BLFacadeImplementation  implements BLFacade {
 	 * @param question, the question the quote we want to change
 	 * @param quote, the new quote of the specified question
 	 */
-    @WebMethod public void createQuote(Event ev, Question question, String quoteName, Float multiplier) {
+    @WebMethod public Quote createQuote(int question, String quoteName, Float multiplier) {
     	dbManager.open(false);
-    	dbManager.createQuote(ev, question, quoteName, multiplier);
+    	Quote quote=dbManager.createQuote(question, quoteName, multiplier);
     	dbManager.close();
+    	return quote;
     }
     @WebMethod public void depositMoney(String user, double money, String paymentOpton, String paymentMethod) {
     	dbManager.open(false);

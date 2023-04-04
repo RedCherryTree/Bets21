@@ -141,8 +141,10 @@ public class Question implements Serializable {
 		return questionNumber+";"+question+";"+Float.toString(betMinimum);
 	}
 
-	public void addQuote(Quote q) {
+	public Quote addQuote(String quoteName, Float multiplier) {
+		Quote q =new Quote(this, quoteName, multiplier);
 		quotes.add(q);
+		return q;
 	}
 	
 }

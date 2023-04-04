@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
@@ -55,15 +56,17 @@ public class BetGUI extends JFrame {
 	private Calendar calendarAct = null;
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 	private JScrollPane scrollPaneQueries = new JScrollPane();
+	private JScrollPane scrollPaneQuotes = new JScrollPane();
 	
 	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
 
 	private JTable tableEvents= new JTable();
 	private JTable tableQueries = new JTable();
+	private JTable tableQuotes= new JTable();
 
 	private DefaultTableModel tableModelEvents;
 	private DefaultTableModel tableModelQueries;
-
+	private DefaultTableModel tableModelQuotes;
 
 	
 	private String[] columnNamesEvents = new String[] {
@@ -74,9 +77,16 @@ public class BetGUI extends JFrame {
 	private String[] columnNamesQueries = new String[] {
 			ResourceBundle.getBundle("Etiquetas").getString("QueryN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Query"),
-			ResourceBundle.getBundle("Etiquetas").getString("Quote")
 
 	};
+	
+	private String[] columnNamesQuotes = new String[] {
+			ResourceBundle.getBundle("Etiquetas").getString("QuoteNumber"),
+			ResourceBundle.getBundle("Etiquetas").getString("QuoteName"),
+			ResourceBundle.getBundle("Etiquetas").getString("QuoteMultiplier"),
+
+	};
+	
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -84,10 +94,7 @@ public class BetGUI extends JFrame {
 	private JButton btnBet;
 
 	private JLabel lblErrorLabel;
-	private final JRadioButton rdbtnLocal = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("BetGUI.rdbtnNewRadioButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
-	private final JRadioButton rdbtnTies = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("BetGUI.rdbtnNewRadioButton_1.text")); //$NON-NLS-1$ //$NON-NLS-2$
-	private final JRadioButton rdbtnVisiting = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("BetGUI.rdbtnNewRadioButton_2.text")); //$NON-NLS-1$ //$NON-NLS-2$
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+
 
 	public BetGUI(String user)
 	{
@@ -110,24 +117,12 @@ public class BetGUI extends JFrame {
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuote"));
 
 		jLabelEventDate.setBounds(new Rectangle(40, 15, 140, 25));
-		jLabelQueries.setBounds(93, 211, 406, 14);
+		jLabelQueries.setBounds(20, 211, 406, 14);
 		jLabelEvents.setBounds(295, 19, 259, 16);
 
 		this.getContentPane().add(jLabelEventDate, null);
 		this.getContentPane().add(jLabelQueries);
 		this.getContentPane().add(jLabelEvents);
-
-		jButtonClose.setBounds(new Rectangle(251, 420, 130, 30));
-
-		jButtonClose.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				jButton2_actionPerformed(e);
-			}
-		});
-
-		this.getContentPane().add(jButtonClose, null);
 
 
 		jCalendar1.setBounds(new Rectangle(40, 50, 225, 150));
@@ -176,7 +171,7 @@ public class BetGUI extends JFrame {
 
 
 
-					CreateQuestionGUI.paintDaysWithEvents(jCalendar1,datesWithEventsCurrentMonth);
+					CreateQuoteGUI.paintDaysWithEvents(jCalendar1,datesWithEventsCurrentMonth);
 													
 					
 
@@ -215,8 +210,35 @@ public class BetGUI extends JFrame {
 		this.getContentPane().add(jCalendar1, null);
 		
 		scrollPaneEvents.setBounds(new Rectangle(292, 50, 346, 150));
-		scrollPaneQueries.setBounds(new Rectangle(93, 228, 444, 116));
+		scrollPaneQueries.setBounds(new Rectangle(20, 230, 321, 90));
 
+		tableQueries.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				scrollPaneQuotes.setEnabled(true);
+				int i=tableQueries.getSelectedRow();
+				Question q=(Question)tableModelQueries.getValueAt(i,2); 
+				Vector<Quote> quotes=q.getQuotes();
+
+				tableModelQuotes.setDataVector(null, columnNamesQuotes);
+				if (quotes==null) {
+					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
+				}else {
+					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectedQuestion")+" "+q.getQuestion());
+					for (domain.Quote qt:quotes){
+						Vector<Object> row = new Vector<Object>();
+						row.add(qt.getQuoteNumber());
+						row.add(qt.getQuoteName());
+						row.add(qt.getQuoteMultiplier());
+						row.add(qt);
+						tableModelQuotes.addRow(row);	
+				}
+					
+				}
+
+			}
+		});
+		
 		tableEvents.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -225,7 +247,6 @@ public class BetGUI extends JFrame {
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
 				Vector<Question> queries=ev.getQuestions();
 
-				tableModelQueries.setDataVector(null, columnNamesQueries);
 
 				if (queries.isEmpty())
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("NoQueries")+": "+ev.getDescription());
@@ -237,17 +258,13 @@ public class BetGUI extends JFrame {
 
 					row.add(q.getQuestionNumber());
 					row.add(q.getQuestion());
-					try {
-//						row.add(q.getQuestionQuote().getQuotes());
-					}
-					catch(NullPointerException ex) {
-						row.add(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote"));
-					}
+					row.add(q);
+					
 					tableModelQueries.addRow(row);	
 				}
 				tableQueries.getColumnModel().getColumn(0).setPreferredWidth(75);
 				tableQueries.getColumnModel().getColumn(1).setPreferredWidth(268);
-				tableQueries.getColumnModel().getColumn(2).setPreferredWidth(150);
+
 			}
 		});
 
@@ -256,99 +273,97 @@ public class BetGUI extends JFrame {
 
 		tableEvents.setModel(tableModelEvents);
 		tableEvents.getColumnModel().getColumn(0).setPreferredWidth(25);
-		tableEvents.getColumnModel().getColumn(1).setPreferredWidth(268);;
-
+		tableEvents.getColumnModel().getColumn(1).setPreferredWidth(268);
+		
 		scrollPaneQueries.setViewportView(tableQueries);
 		tableModelQueries = new DefaultTableModel(null, columnNamesQueries);
+		tableModelQueries.setDataVector(null, columnNamesQueries);
+		tableModelQueries.setColumnCount(3);
 
 		tableQueries.setModel(tableModelQueries);
 		tableQueries.getColumnModel().getColumn(0).setPreferredWidth(75);
 		tableQueries.getColumnModel().getColumn(1).setPreferredWidth(268);
-		tableQueries.getColumnModel().getColumn(2).setPreferredWidth(150);
-		tableQueries.addMouseListener(new MouseAdapter() {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			int i=tableQueries.getSelectedRow();
-			if(tableQueries.getValueAt(i, 2) != null) {
-			String s=(String)tableQueries.getValueAt(i, 2);
-			rdbtnLocal.setEnabled(true);
-			rdbtnTies.setEnabled(true);
-			rdbtnVisiting.setEnabled(true);
-			
-			if(buttonGroup.isSelected(null)) {
-			btnBet.setEnabled(true);
-			}
-			
-			if(s.equals(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote"))){
-				textField.setEnabled(true);
-				textField_1.setEnabled(true);
-				textField_2.setEnabled(true);
-				btnBet.setEnabled(true);
-			}
-			}
-			else {
+		tableQueries.getColumnModel().removeColumn(tableQueries.getColumnModel().getColumn(2));
+		
 
-			//	textField.setEnabled(true);
-			//	textField_1.setEnabled(true);
-			//	textField_2.setEnabled(true);
-				
-				
-			}
-			}
-			});
-
-
+		
 		this.getContentPane().add(scrollPaneEvents, null);
 		this.getContentPane().add(scrollPaneQueries, null);
 		
+
+		scrollPaneQuotes.setBounds(358, 230, 280, 90);
 		
+		getContentPane().add(scrollPaneQuotes);
 		
-		btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuote"));
-		btnBet.setEnabled(false);
-		btnBet.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BLFacade facade = MainGUI.getBusinessLogic();
-				int i=tableEvents.getSelectedRow();
-				int j=tableQueries.getSelectedRow();
-				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2);
-				Question question=ev.getQuestions().get(j);
-				
-				Quote quote = new Quote(question,(String)tableQueries.getValueAt(i, 2),(Float)tableQueries.getValueAt(i, 2));
-				int who = 0;
-				if(rdbtnLocal.isSelected()) who = 1;
-				if(rdbtnTies.isSelected()) who = 2;
-				if(rdbtnVisiting.isSelected()) who = 3;
-				// TODO: aldatu hay, dirua jaso apostu bat egiterakoan
-				double money=0.0;
-				facade.bet(user, money, question, who);
-				
-			}
+		tableQuotes = new JTable();
+		tableQuotes = new JTable();
+		scrollPaneQuotes.setViewportView(tableQuotes);
+		tableModelQuotes = new DefaultTableModel(null, columnNamesQuotes);
+		tableQuotes.setModel(tableModelQuotes);
+		
+		tableModelQuotes.setDataVector(null, columnNamesQuotes);
+		tableModelQuotes.setColumnCount(4);//Another row for the transactions
+		
+		tableQuotes.getColumnModel().getColumn(0).setPreferredWidth(175);
+		tableQuotes.getColumnModel().getColumn(1).setPreferredWidth(175);
+		tableQuotes.getColumnModel().getColumn(2).setPreferredWidth(175);
+		tableQuotes.getColumnModel().removeColumn(tableQuotes.getColumnModel().getColumn(3));
+		
+		tableQuotes.addMouseListener(new MouseAdapter() {
+			int i=tableQuotes.getSelectedRow();
+//			Quote q=(Quote)tableModelQuotes.getValueAt(i,3); 
+			
+			
 		});
-		btnBet.setBounds(474, 373, 129, 30);
-		getContentPane().add(btnBet);
-		
-		lblErrorLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
-		lblErrorLabel.setForeground(Color.RED);
-		lblErrorLabel.setBounds(10, 423, 231, 25);
-		getContentPane().add(lblErrorLabel);
-		buttonGroup.add(rdbtnLocal);
-		rdbtnLocal.setBounds(93, 351, 109, 23);
-		
-		getContentPane().add(rdbtnLocal);
-		buttonGroup.add(rdbtnTies);
-		rdbtnTies.setBounds(214, 351, 109, 23);
-		
-		getContentPane().add(rdbtnTies);
-		buttonGroup.add(rdbtnVisiting);
-		rdbtnVisiting.setBounds(340, 351, 109, 23);
-		
-		getContentPane().add(rdbtnVisiting);
-		lblErrorLabel.setVisible(false);
-		rdbtnLocal.setEnabled(false);
-		rdbtnTies.setEnabled(false);
-		rdbtnVisiting.setEnabled(false);
+
 
 	}
+
+	public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWithEventsCurrentMonth) {
+		// For each day with events in current month, the background color for that day is changed to cyan.
+
+		
+		Calendar calendar = jCalendar.getCalendar();
+		
+		int month = calendar.get(Calendar.MONTH);
+		int today=calendar.get(Calendar.DAY_OF_MONTH);
+		int year=calendar.get(Calendar.YEAR);
+		
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		int offset = calendar.get(Calendar.DAY_OF_WEEK);
+
+		if (Locale.getDefault().equals(new Locale("es")))
+			offset += 4;
+		else
+			offset += 5;
+		
+		
+	 	for (Date d:datesWithEventsCurrentMonth){
+
+	 		calendar.setTime(d);
+	 		System.out.println(d);
+	 		
+			
+			// Obtain the component of the day in the panel of the DayChooser of the
+			// JCalendar.
+			// The component is located after the decorator buttons of "Sun", "Mon",... or
+			// "Lun", "Mar"...,
+			// the empty days before day 1 of month, and all the days previous to each day.
+			// That number of components is calculated with "offset" and is different in
+			// English and Spanish
+//			    		  Component o=(Component) jCalendar.getDayChooser().getDayPanel().getComponent(i+offset);; 
+			Component o = (Component) jCalendar.getDayChooser().getDayPanel()
+					.getComponent(calendar.get(Calendar.DAY_OF_MONTH) + offset);
+			o.setBackground(Color.CYAN);
+	 	}
+	 	
+ 			calendar.set(Calendar.DAY_OF_MONTH, today);
+	 		calendar.set(Calendar.MONTH, month);
+	 		calendar.set(Calendar.YEAR, year);
+
+	 	
+	}
+
 
 	private void jButton2_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

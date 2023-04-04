@@ -112,7 +112,7 @@ public interface BLFacade  {
 	 * @param question, the question the quote we want to change
 	 * @param quote, the new quote of the specified question
 	 */
-	@WebMethod public void createQuote(Event ev, Question question, String quoteName, Float multiplier);
+	@WebMethod public Quote createQuote(int question, String quoteName, Float multiplier);
 
 	/**
 	 * This method retrieves whether the introduced user name is in the database or not

@@ -88,11 +88,19 @@ public class UserGUI extends JFrame {
 		JButton jButtonQueryQueries = new JButton(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries"));
 		jButtonQueryQueries.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				FindQuestionsGUI findQGUI= new FindQuestionsGUI();
+				findQGUI.setVisible(true);
 			}
 		});
 		jContentPane.add(jButtonQueryQueries);
 		
 		JButton jButtonLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
+		jButtonLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BetGUI betGUI= new BetGUI(user);
+				betGUI.setVisible(true);
+			}
+		});
 		jContentPane.add(jButtonLogin);
 		
 		JButton jButtonHistory = new JButton(ResourceBundle.getBundle("Etiquetas").getString("History"));

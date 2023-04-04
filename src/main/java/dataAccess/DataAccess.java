@@ -403,17 +403,25 @@ public class DataAccess  {
 	 * @param question, the question the quote we want to change
 	 * @param quote, the new quote of the specified question
 	 */
-	public void createQuote(Event ev, Question question, String quoteName, Float multiplier) {
+	public Quote createQuote(int question, String quoteName, Float multiplier) {
 		db.getTransaction().begin();
-		Question questionDb=db.find(Question.class, question.getQuestionNumber());
-		Quote q =new Quote(question, quoteName, multiplier);
-		questionDb.addQuote(q);
+		Question questionDb=db.find(Question.class, question);
+		Quote q =questionDb.addQuote(quoteName, multiplier);
 		db.persist(q);
-		db.persist(questionDb);
-//		db.persist(ev);
 
 		db.getTransaction().commit();
+		return q;
 	}
+	public Quote changeQuote(Event ev, Question question, String quoteName, Float multiplier) {
+		db.getTransaction().begin();
+		Question questionDb=db.find(Question.class, question.getQuestionNumber());
+		Quote q =questionDb.addQuote(quoteName, multiplier);
+		db.persist(q);
+
+		db.getTransaction().commit();
+		return q;
+	}
+	
     public void depositMoney(String user, double money, String paymentOpton, String paymentMethod) {
    	db.getTransaction().begin();
    	RegisteredUser us= db.find(RegisteredUser.class, user);

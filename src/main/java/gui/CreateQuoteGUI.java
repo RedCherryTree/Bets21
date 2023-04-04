@@ -24,8 +24,6 @@ public class CreateQuoteGUI extends JFrame {
 	private final JLabel jLabelQueries = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries")); 
 	private final JLabel jLabelEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Events")); 
 
-	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
-
 	// Code for JCalendar
 	private JCalendar jCalendar1 = new JCalendar();
 	private Calendar calendarAnt = null;
@@ -70,6 +68,8 @@ public class CreateQuoteGUI extends JFrame {
 	private final JScrollPane scrollPaneQuotes = new JScrollPane();
 	private JTable tableQuotes;
 
+	private JLabel lblEmptyFields;
+
 	public CreateQuoteGUI()
 	{
 		try
@@ -86,6 +86,8 @@ public class CreateQuoteGUI extends JFrame {
 	private void jbInit() throws Exception
 	{
 
+		BLFacade facade;
+		
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(700, 500));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuote"));
@@ -98,22 +100,10 @@ public class CreateQuoteGUI extends JFrame {
 		this.getContentPane().add(jLabelQueries);
 		this.getContentPane().add(jLabelEvents);
 
-		jButtonClose.setBounds(new Rectangle(251, 420, 130, 30));
-
-		jButtonClose.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				jButton2_actionPerformed(e);
-			}
-		});
-
-		this.getContentPane().add(jButtonClose, null);
-
 
 		jCalendar1.setBounds(new Rectangle(40, 50, 225, 150));
 
-		BLFacade facade = MainGUI.getBusinessLogic();
+	    facade = MainGUI.getBusinessLogic();
 		datesWithEventsCurrentMonth=facade.getEventsMonth(jCalendar1.getDate());
 		CreateQuestionGUI.paintDaysWithEvents(jCalendar1,datesWithEventsCurrentMonth);
 
@@ -196,16 +186,17 @@ public class CreateQuoteGUI extends JFrame {
 		this.getContentPane().add(jCalendar1, null);
 		
 		scrollPaneEvents.setBounds(new Rectangle(292, 50, 346, 150));
-		scrollPaneQueries.setBounds(new Rectangle(93, 228, 444, 85));
+		scrollPaneQueries.setBounds(new Rectangle(93, 228, 444, 111));
 
 		tableQueries.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				scrollPaneQuotes.setEnabled(true);
 				int i=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(i,2); 
 				Vector<Quote> quotes=q.getQuotes();
-
+				btnChangeQuoteButton.setEnabled(true);
 				tableModelQuotes.setDataVector(null, columnNamesQuotes);
 				if (quotes==null) {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
@@ -221,9 +212,7 @@ public class CreateQuoteGUI extends JFrame {
 				}
 					
 				}
-				tableQuotes.getColumnModel().getColumn(0).setPreferredWidth(75);
-				tableQuotes.getColumnModel().getColumn(1).setPreferredWidth(268);
-				tableQuotes.getColumnModel().getColumn(2).setPreferredWidth(150);
+
 			}
 		});
 		
@@ -234,7 +223,8 @@ public class CreateQuoteGUI extends JFrame {
 				int i=tableEvents.getSelectedRow();
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
 				Vector<Question> queries=ev.getQuestions();
-
+				tableModelQueries.getDataVector().clear();
+				tableQueries.updateUI();
 
 				if (queries.isEmpty())
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("NoQueries")+": "+ev.getDescription());
@@ -273,14 +263,10 @@ public class CreateQuoteGUI extends JFrame {
 		tableQueries.getColumnModel().getColumn(1).setPreferredWidth(268);
 		tableQueries.getColumnModel().removeColumn(tableQueries.getColumnModel().getColumn(2));
 		
-		tableQueries.addMouseListener(new MouseAdapter() {
-		
-			
-			});
 
-		textFieldMultiplier.setBounds(94, 378, 86, 20);
+		textFieldMultiplier.setBounds(123, 387, 86, 20);
 		textFieldMultiplier.setColumns(10);
-		textFieldQuote.setBounds(94, 330, 86, 20);
+		textFieldQuote.setBounds(123, 354, 86, 20);
 		textFieldQuote.setColumns(10);
 		
 		this.getContentPane().add(scrollPaneEvents, null);
@@ -288,42 +274,52 @@ public class CreateQuoteGUI extends JFrame {
 		
 		
 		btnChangeQuoteButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuote"));
-		btnChangeQuoteButton.setEnabled(true);
+		btnChangeQuoteButton.setEnabled(false);
 		btnChangeQuoteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BLFacade facade = MainGUI.getBusinessLogic();
-				btnChangeQuoteButton.setEnabled(false);
+				
 				if (textFieldQuote.getText()!= null && textFieldMultiplier.getText() != null) {
 					try {
+						lblEmptyFields.setVisible(true);
 						String quoteName= textFieldQuote.getText();
+						textFieldQuote.setText("");
 						Float multiplier=Float.parseFloat(textFieldMultiplier.getText());
+						textFieldMultiplier.setText("");
 						int i=tableEvents.getSelectedRow();
 						int j=tableQueries.getSelectedRow();
 						domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2);
 						Question question=ev.getQuestions().get(j);
-						facade.createQuote(ev, question, quoteName, multiplier);
-						scrollPaneQueries.setEnabled(false);
+						Quote quote=facade.createQuote(question.getQuestionNumber(), quoteName, multiplier);
+						Vector<Object> row = new Vector<Object>();
+						row.add(quote.getQuoteNumber());
+						row.add(quote.getQuoteName());
+						row.add(quote.getQuoteMultiplier());
+						row.add(quote);
+						tableModelQuotes.addRow(row);	
 					}
 					catch(Exception ex){
 //						lblErrorLabel.setVisible(true);
 					}
 				}
+				else {
+					lblEmptyFields.setVisible(true);
+				}
 			}
 		});
-		btnChangeQuoteButton.setBounds(474, 373, 129, 30);
+		btnChangeQuoteButton.setBounds(506, 370, 113, 54);
 		getContentPane().add(btnChangeQuoteButton);
 		
 		JLabel jLabelQuote = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote"));
-		jLabelQuote.setBounds(40, 333, 46, 14);
+		jLabelQuote.setBounds(40, 357, 73, 14);
 		getContentPane().add(jLabelQuote);
 		
 		getContentPane().add(textFieldQuote);
-		jLabelMultiplier.setBounds(40, 381, 46, 14);
+		jLabelMultiplier.setBounds(40, 390, 73, 14);
 		
 		getContentPane().add(jLabelMultiplier);
 		
 		getContentPane().add(textFieldMultiplier);
-		scrollPaneQuotes.setBounds(221, 333, 211, 58);
+		scrollPaneQuotes.setBounds(237, 350, 259, 79);
 		
 		getContentPane().add(scrollPaneQuotes);
 		
@@ -333,12 +329,24 @@ public class CreateQuoteGUI extends JFrame {
 		tableModelQuotes = new DefaultTableModel(null, columnNamesQuotes);
 		tableQuotes.setModel(tableModelQuotes);
 		
+		lblEmptyFields = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField"));
+		lblEmptyFields.setForeground(new Color(255, 0, 0));
+		lblEmptyFields.setBounds(40, 415, 177, 14);
+		getContentPane().add(lblEmptyFields);
+		lblEmptyFields.setVisible(false);
+		
 		tableModelQuotes.setDataVector(null, columnNamesQuotes);
 		tableModelQuotes.setColumnCount(4);//Another row for the transactions
 		
-		tableQuotes.getColumnModel().getColumn(0).setPreferredWidth(100);
-		tableQuotes.getColumnModel().getColumn(1).setPreferredWidth(279);
+		tableQuotes.getColumnModel().getColumn(0).setPreferredWidth(175);
+		tableQuotes.getColumnModel().getColumn(1).setPreferredWidth(175);
+		tableQuotes.getColumnModel().getColumn(2).setPreferredWidth(175);
 		tableQuotes.getColumnModel().removeColumn(tableQuotes.getColumnModel().getColumn(3));
+		
+		tableQuotes.addMouseListener(new MouseAdapter() {
+			
+			
+		});
 
 	}
 
@@ -385,10 +393,6 @@ public class CreateQuoteGUI extends JFrame {
 	 		calendar.set(Calendar.YEAR, year);
 
 	 	
-	}
-	
-	private void jButton2_actionPerformed(ActionEvent e) {
-		this.setVisible(false);
 	}
 }
 
