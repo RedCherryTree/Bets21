@@ -22,6 +22,7 @@ public class Question implements Serializable {
 	private String question; 
 	private float betMinimum;
 	private String result;  
+	private boolean hasFinished;
 	@XmlIDREF
 	private Event event;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
@@ -135,6 +136,15 @@ public class Question implements Serializable {
 	 */
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+
+	
+	public boolean isHasFinished() {
+		return hasFinished;
+	}
+
+	public void setHasFinished(boolean hasFinished) {
+		this.hasFinished = hasFinished;
 	}
 
 	public String toString(){
