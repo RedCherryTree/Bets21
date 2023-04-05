@@ -111,6 +111,13 @@ public class AdminGUI extends JFrame {
 		contentPane.add(SetResultButton);
 		
 		JButton DeleteEventButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DeleteEvent")); //$NON-NLS-1$ //$NON-NLS-2$
+		DeleteEventButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DeleteEventGUI deleteEventGUI= new DeleteEventGUI();
+				deleteEventGUI.setVisible(true);
+				
+			}
+		});
 		DeleteEventButton.setBounds(220, 133, 204, 50);
 		contentPane.add(DeleteEventButton);
 		

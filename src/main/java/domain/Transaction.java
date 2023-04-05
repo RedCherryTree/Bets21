@@ -47,17 +47,17 @@ public class Transaction {
 	 * @param money
 	 * @param user
 	 */
-	public Transaction(String transactionType,String paymentOpton, String paymentMethod, double money, RegisteredUser user) {
+	public Transaction(String paymentOpton, String paymentMethod, double money, RegisteredUser user) {
 		super();
-		this.transactionType=transactionType;
+		this.transactionType="Deposit";
 		this.money=money;
 		this.user=user;
 		this.paymentOption=paymentOpton;
 		this.paymentMethod=paymentMethod;
 	}
-	public Transaction(String transactionType, double money, RegisteredUser user) {
+	public Transaction( double money, RegisteredUser user) {
 		super();
-		this.transactionType=transactionType;
+		this.transactionType="Refund";
 		this.money=money;
 		this.user=user;
 	}

@@ -446,7 +446,7 @@ public class BetGUI extends JFrame {
 		lblMultiplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblMultiplier.setBounds(257, 94, 138, 14);
 		panel.add(lblMultiplier);
-		lblNewLabel.setBounds(395, 69, 21, 14);
+		lblNewLabel.setBounds(401, 67, 21, 14);
 		
 		panel.add(lblNewLabel);
 		btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));

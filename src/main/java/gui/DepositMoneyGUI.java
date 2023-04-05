@@ -178,7 +178,7 @@ public class DepositMoneyGUI extends JFrame {
 		contentPane.add(lblEmptyField);
 		lblEmptyField.setVisible(false);
 		
-<<<<<<< HEAD
+
 		JButton btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
 		btnGoBack.setBounds(304, 231, 120, 23);
 		contentPane.add(btnGoBack);
@@ -189,13 +189,13 @@ public class DepositMoneyGUI extends JFrame {
 				btnGoBack_actionPerformed(e);
 			}
 		});
-=======
+
 		lblPayDone = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("PayDone"));
 		lblPayDone.setForeground(Color.BLACK);
 		lblPayDone.setBounds(237, 120, 155, 14);
 		contentPane.add(lblPayDone);
 		lblPayDone.setVisible(false);
->>>>>>> 0d05c4c98785d3ba5e5897f442c176cfc6cd8185
+
 	}
 	private void btnGoBack_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

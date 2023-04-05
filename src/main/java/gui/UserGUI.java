@@ -99,7 +99,7 @@ public class UserGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BetGUI betGUI= new BetGUI(user);
 				betGUI.setVisible(true);
-				close_actionPerformed(e);
+				close_actionPerformed(e); 
 			}
 		});
 		jContentPane.add(jButtonLogin);
@@ -116,7 +116,7 @@ public class UserGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DepositMoneyGUI depositGUI= new DepositMoneyGUI(user);
 				depositGUI.setVisible(true);
-				close_actionPerformed();
+				close_actionPerformed(e);
 			}
 		});
 		JSplitPane splitPaneDown = new JSplitPane();
@@ -126,7 +126,7 @@ public class UserGUI extends JFrame {
 		jContentPane.add(splitPaneDown);
 		
 	}
-	private void close_actionPerformed() {
+	private void close_actionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

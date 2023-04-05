@@ -101,13 +101,19 @@ public class MyAccountBalanceGUI extends JFrame {
 			row.add(t.getTransactionNumber());
 			if(t.getTransactionType().equals("Bet")) {
 				row.add(ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+":"+t.getMoney()+"€");
+				
 			}
 			else {
 				if(t.getTransactionType().equals("Deposit")) {
 					row.add(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney")+":"+t.getMoney()+"€");
 				}
 				else {
-					row.add(ResourceBundle.getBundle("Etiquetas").getString("EarnedMoney")+":"+t.getMoney()+"€");
+					if(t.getTransactionType().equals("Refund")) {
+						row.add(ResourceBundle.getBundle("Etiquetas").getString("RefundedMoney")+":"+t.getMoney()+"€");
+					}
+					else {
+						row.add(ResourceBundle.getBundle("Etiquetas").getString("EarnedMoney")+":"+t.getMoney()+"€");
+					}
 				}
 			}
 			row.add(t); // t object added in order to obtain it with tableModelEvents.getValueAt(i,2)

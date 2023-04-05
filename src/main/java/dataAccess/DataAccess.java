@@ -14,11 +14,13 @@ import javax.jws.WebMethod;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.Admin;
+import domain.Bet;
 import domain.Event;
 import domain.Question;
 import domain.Quote;
@@ -449,17 +451,29 @@ public class DataAccess  {
 		
 	}
 
-	public Event deleteEvent(Integer eventnumber, Date eventDate)throws EventDontExist{
+	public Event deleteEvent(Integer eventNumber, Date eventDate)throws EventDontExist{
 		db.getTransaction().begin();
-		Event ev = db.find(Event.class, eventnumber);
+		Event ev = db.find(Event.class, eventNumber);
 		if(ev==null) {
 			throw new EventDontExist(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
 		}
 		else {
 			
-			//DEVOLVER EL DINERO DE LAS APUESTAS
-		
-			db.remove(ev);
+			TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.question.event.eventNumber=="+eventNumber+"",Bet.class);
+			List<Bet> willBeRefunded= query.getResultList();
+			System.out.println("This bets will be refunded: ");
+			for(Bet bet: willBeRefunded) {
+				System.out.println(bet.toString());
+				RegisteredUser us= bet.getUser();
+			   	Transaction transaction=us.refundMoney(bet.getMoney());
+			   	db.persist(transaction);
+			}
+			Query query1 = db.createQuery("DELETE FROM Quote quote WHERE quote.question.event.eventNumber=="+eventNumber+""); 
+			Query query2 = db.createQuery("DELETE FROM Question question WHERE question.event.eventNumber=="+eventNumber+"");
+			Query query3 = db.createQuery("DELETE FROM Event event WHERE event.eventNumber=="+eventNumber+""); 
+			query1.executeUpdate();
+			query2.executeUpdate();
+			query3.executeUpdate();
 		}
 		
 		db.getTransaction().commit();

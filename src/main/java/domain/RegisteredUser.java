@@ -95,9 +95,20 @@ public class RegisteredUser extends User implements Serializable{
 	}
 
 
+	public void setMyTransactions(Vector<Transaction> myTransactions) {
+		this.myTransactions = myTransactions;
+	}
+
+
+	@Override
+	public String toString() {
+		return super.toString()+" money=" + money + "]";
+	}
+
+
 	public Transaction addMoney(double money, String paymentOpton, String paymentMethod) {
 		this.money+= money;
-		Transaction transaction= new Transaction("Deposit", paymentOpton, paymentMethod,  money, this);
+		Transaction transaction= new Transaction( paymentOpton, paymentMethod,  money, this);
 		this.myTransactions.add(transaction);
 		return transaction;
 	}
@@ -105,6 +116,13 @@ public class RegisteredUser extends User implements Serializable{
 	public Transaction bet(double money, RegisteredUser user, Quote quote ) {
 		this.money-= money;
 		Transaction transaction= new Transaction(money, user, quote);
+		this.myTransactions.add(transaction);
+		return transaction;
+	}
+	
+	public Transaction refundMoney(double money) {
+		this.money+= money;
+		Transaction transaction= new Transaction(money, this);
 		this.myTransactions.add(transaction);
 		return transaction;
 	}

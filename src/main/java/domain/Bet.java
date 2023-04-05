@@ -78,6 +78,12 @@ public class Bet {
 		this.money = money;
 	}
 
+	@Override
+	public String toString() {
+		return "Bet [betNumber=" + betNumber + ", betQuote=" + betQuote + ", user=" + user + ", transaction="
+				+ transaction + ", money=" + money + "]";
+	}
+
 
 	
 }

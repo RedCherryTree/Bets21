@@ -68,6 +68,11 @@ public class Quote implements Serializable {
 	public String getQuotes() {
 		return quoteName;
 	}
+	@Override
+	public String toString() {
+		return "Quote [quoteNumber=" + quoteNumber + ", quoteName=" + quoteName + ", quoteMultiplier=" + quoteMultiplier
+				+ ", question=" + question + "]";
+	}
 	
 
 	
