@@ -40,6 +40,7 @@ import domain.User;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import java.awt.Font;
+import javax.swing.JSpinner;
 
 public class BetGUI extends JFrame {
 
@@ -101,11 +102,16 @@ public class BetGUI extends JFrame {
 
 
 	private JLabel lblQuestion;
-	private JTextField textField;
 
 	private JLabel lblQuote;
 
 	private JLabel lblEvent;
+
+	private JLabel lblMoneyBet;
+
+	private JSpinner spinnerBet;
+
+	private JLabel lblMultiplier;
 	
 
 	public BetGUI(String user)
@@ -227,12 +233,22 @@ public class BetGUI extends JFrame {
 		tableQueries.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				tableModelQuotes.getDataVector().clear();
+				tableQuotes.updateUI();
+				
+				lblEvent.setText(ResourceBundle.getBundle("Etiquetas").getString("Event")+": ");
+				lblQuestion.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
+				lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": ");
+				lblMinimumBet.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice")+": ");
+				lblMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+": ");
+				btnBet.setEnabled(false);
+				spinnerBet.setEnabled(false);
+				
 				scrollPaneQuotes.setEnabled(true);
 				int i=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(i,2); 
 				Vector<Quote> quotes=q.getQuotes();
 
-				tableModelQuotes.setDataVector(null, columnNamesQuotes);
 				if (quotes==null) {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
 				}else {
@@ -254,6 +270,19 @@ public class BetGUI extends JFrame {
 		tableEvents.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				tableModelQueries.getDataVector().clear();
+				tableQueries.updateUI();
+				tableModelQuotes.getDataVector().clear();
+				tableQuotes.updateUI();
+				
+				lblEvent.setText(ResourceBundle.getBundle("Etiquetas").getString("Event")+": ");
+				lblQuestion.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
+				lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": ");
+				lblMinimumBet.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice")+": ");
+				lblMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+": ");
+				btnBet.setEnabled(false);
+				spinnerBet.setEnabled(false);
+				
 				scrollPaneQueries.setEnabled(true);
 				int i=tableEvents.getSelectedRow();
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
@@ -312,20 +341,28 @@ public class BetGUI extends JFrame {
 		scrollPaneQuotes.setViewportView(tableQuotes);
 		tableModelQuotes = new DefaultTableModel(null, columnNamesQuotes);
 		tableQuotes.setModel(tableModelQuotes);
-		panel.setBounds(40, 331, 598, 107);
+		panel.setBounds(40, 331, 598, 119);
 		
 		tableQuotes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int ie=tableEvents.getSelectedRow();
-				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(ie,2); // obtain ev object
+				int i=tableEvents.getSelectedRow();
+				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object 
 				lblEvent.setText(ResourceBundle.getBundle("Etiquetas").getString("Event")+": "+ ev.getDescription());
 				int iques=tableQueries.getSelectedRow();
+				
 				domain.Question question=(domain.Question)tableModelQueries.getValueAt(iques,2);
-				lblQuestion.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
+				lblQuestion.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+question.getQuestion());
+				lblMinimumBet.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice")+": "+question.getBetMinimum());
+				
 				int quot=tableQuotes.getSelectedRow();
 				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
 				lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+quote.getQuoteName());
+				lblMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+":   x"+quote.getQuoteMultiplier());
+				
+				btnBet.setEnabled(true);
+				spinnerBet.setEnabled(true);
+				spinnerBet.setValue(question.getBetMinimum());
 			}
 		});
 		
@@ -334,30 +371,28 @@ public class BetGUI extends JFrame {
 		
 		lblMinimumBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice")+": ");
 		lblMinimumBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMinimumBet.setBounds(20, 49, 122, 14);
+		lblMinimumBet.setBounds(30, 94, 122, 14);
 		panel.add(lblMinimumBet);
 		
 		lblQuestion = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
-		lblQuestion.setBounds(30, 70, 158, 14);
+		lblQuestion.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblQuestion.setBounds(30, 44, 217, 14);
 		panel.add(lblQuestion);
 //		lblQuestion.setVisible(false);
 		
 		lblQuote = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": ");
-		lblQuote.setBounds(27, 95, 217, 14);
+		lblQuote.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblQuote.setBounds(30, 69, 217, 14);
 		panel.add(lblQuote);
 		
-		textField = new JTextField();
-		textField.setText(ResourceBundle.getBundle("Etiquetas").getString("")); //$NON-NLS-1$ //$NON-NLS-2$
-		textField.setBounds(328, 47, 86, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		lblMoneyBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+":");
+		lblMoneyBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblMoneyBet.setBounds(274, 69, 79, 14);
+		panel.add(lblMoneyBet);
 		
-		JLabel lblNewLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabel.setBounds(210, 50, 108, 14);
-		panel.add(lblNewLabel);
-		
-	    btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet")); //$NON-NLS-1$ //$NON-NLS-2$
-	    btnBet.setBounds(449, 30, 139, 54);
+	    btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet")+"!"); //$NON-NLS-1$ //$NON-NLS-2$
+	    btnBet.setFont(new Font("Tahoma", Font.BOLD, 20));
+	    btnBet.setBounds(433, 40, 155, 67);
 		panel.add(btnBet);
 		btnBet.setEnabled(false);
 		
@@ -365,6 +400,17 @@ public class BetGUI extends JFrame {
 		lblEvent.setBounds(20, 11, 168, 12);
 		panel.add(lblEvent);
 		lblEvent.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		spinnerBet = new JSpinner();
+		spinnerBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		spinnerBet.setBounds(363, 66, 53, 20);
+		panel.add(spinnerBet);
+		spinnerBet.setEnabled(false);
+		
+		lblMultiplier = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+": ");
+		lblMultiplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblMultiplier.setBounds(303, 94, 113, 14);
+		panel.add(lblMultiplier);
 //		lblQuote.setVisible(false);
 		
 		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+facade.getUserMoney(user)+"€");
