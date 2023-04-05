@@ -15,7 +15,7 @@ public class Bet {
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
 	private int betNumber;
-	private Question betQuestion;
+	private Quote betQuote;
 	private RegisteredUser user;
 	
 	@XmlIDREF
@@ -23,18 +23,17 @@ public class Bet {
 	private Transaction transaction;
 	
 	private double money;
-	private int selectedResult;
 	
 	public Bet() {
 		super();
 	}
 	
-	public Bet(double money, int selectedResult, RegisteredUser user, Question betQuestion, Transaction transaction) {
+	public Bet(double money, RegisteredUser user,Quote betQuote, Transaction transaction) {
 		super();
 		this.money=money;
-		this.selectedResult=selectedResult;
 		this.user=user;
-		this.betQuestion=betQuestion;
+		this.betQuote=betQuote;
+		this.transaction=transaction;
 	}
 
 	public int getBetNumber() {
@@ -45,12 +44,22 @@ public class Bet {
 		this.betNumber = betNumber;
 	}
 
-	public Question getBetQuestion() {
-		return betQuestion;
+
+
+	public Quote getBetQuote() {
+		return betQuote;
 	}
 
-	public void setBetQuestion(Question betQuestion) {
-		this.betQuestion = betQuestion;
+	public void setBetQuote(Quote betQuote) {
+		this.betQuote = betQuote;
+	}
+
+	public Transaction getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
 	}
 
 	public RegisteredUser getUser() {
@@ -69,12 +78,6 @@ public class Bet {
 		this.money = money;
 	}
 
-	public int getSelectedResult() {
-		return selectedResult;
-	}
 
-	public void setSelectedResult(int selectedResult) {
-		this.selectedResult = selectedResult;
-	}
 	
 }

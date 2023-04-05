@@ -26,6 +26,7 @@ import domain.RegisteredUser;
 import domain.Transaction;
 import domain.User;
 import exceptions.EventAlreadyExist;
+import exceptions.EventDontExist;
 import exceptions.QuestionAlreadyExist;
 
 /**
@@ -438,13 +439,30 @@ public class DataAccess  {
      	return us.getMyTransactions();
      }
 
- 	public void bet(String user, double money, Question question, int selectedResult) {
+ 	public void bet(String user, double money, int quoteNumber) {
 		db.getTransaction().begin();
 		RegisteredUser us= db.find(RegisteredUser.class, user);
-		Transaction transaction= us.bet(money, selectedResult, question);
+		Quote quote= db.find(Quote.class, quoteNumber);
+		Transaction transaction= us.bet(money, us, quote);
 		db.persist(transaction);
 		db.getTransaction().commit();
 		
 	}
 
+	public Event deleteEvent(Integer eventnumber, Date eventDate)throws EventDontExist{
+		db.getTransaction().begin();
+		Event ev = db.find(Event.class, eventnumber);
+		if(ev==null) {
+			throw new EventDontExist(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
+		}
+		else {
+			
+			//DEVOLVER EL DINERO DE LAS APUESTAS
+		
+			db.remove(ev);
+		}
+		
+		db.getTransaction().commit();
+		return ev;
+	}
 }
