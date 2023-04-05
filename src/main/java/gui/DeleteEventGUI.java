@@ -71,7 +71,7 @@ public class DeleteEventGUI extends JFrame {
 		
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(700, 500));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuote"));
+		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("DeleteEvent"));
 
 		jLabelEventDate.setBounds(new Rectangle(40, 15, 140, 25));
 		jLabelEvents.setBounds(40, 200, 259, 16);
