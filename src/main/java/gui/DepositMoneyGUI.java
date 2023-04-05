@@ -41,6 +41,7 @@ public class DepositMoneyGUI extends JFrame {
     private DefaultComboBoxModel<String> paymentOptions = new DefaultComboBoxModel();
 	private JLabel lblEuro;
 	private JLabel lblEmptyField;
+	private JLabel lblPayDone;
 
 	/**
 	 * Launch the application.
@@ -135,13 +136,19 @@ public class DepositMoneyGUI extends JFrame {
 					String pass=passwordFieldP.getText();
 					if(method.equals("")||pass.equals("")) {
 						lblEmptyField.setVisible(true);
+						lblPayDone.setVisible(false);
 					}
 					else {
 						facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()), option, method);
+						lblEmptyField.setVisible(false);
+						rdbtnTermsConditions.setForeground(Color.BLACK);
+						lblPayDone.setVisible(true);
+
 					}
 				}
 				else {
-					rdbtnTermsConditions.setForeground(new Color(255, 0, 0));
+					rdbtnTermsConditions.setForeground(Color.RED);
+					lblPayDone.setVisible(false);
 				}
 			}
 		});
@@ -168,18 +175,23 @@ public class DepositMoneyGUI extends JFrame {
 		rdbtnTermsConditions.setBounds(229, 141, 199, 23);
 		contentPane.add(rdbtnTermsConditions);
 		
-		
 		lblEuro = new JLabel("€");
 		lblEuro.setFont(new Font("Source Serif Pro Black", Font.PLAIN, 18));
 		lblEuro.setBounds(193, 131, 24, 29);
 		lblEuro.setForeground(Color.BLACK);
 		contentPane.add(lblEuro);
 		
-		lblEmptyField = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblEmptyField = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField"));
 		lblEmptyField.setForeground(Color.RED);
 		lblEmptyField.setBounds(237, 120, 155, 14);
 		contentPane.add(lblEmptyField);
 		lblEmptyField.setVisible(false);
+		
+		lblPayDone = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("PayDone"));
+		lblPayDone.setForeground(Color.BLACK);
+		lblPayDone.setBounds(237, 120, 155, 14);
+		contentPane.add(lblPayDone);
+		lblPayDone.setVisible(false);
 	}
 	private void btnGoBack_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

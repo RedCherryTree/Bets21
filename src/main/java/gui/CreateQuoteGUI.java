@@ -191,6 +191,8 @@ public class CreateQuoteGUI extends JFrame {
 		tableQueries.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				tableModelQuotes.getDataVector().clear();
+				tableQuotes.updateUI();
 				
 				scrollPaneQuotes.setEnabled(true);
 				int i=tableQueries.getSelectedRow();
@@ -219,6 +221,9 @@ public class CreateQuoteGUI extends JFrame {
 		tableEvents.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				tableModelQuotes.getDataVector().clear();
+				tableQuotes.updateUI();
+				
 				scrollPaneQueries.setEnabled(true);
 				int i=tableEvents.getSelectedRow();
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
