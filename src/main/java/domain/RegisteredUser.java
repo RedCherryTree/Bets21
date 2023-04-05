@@ -126,4 +126,12 @@ public class RegisteredUser extends User implements Serializable{
 		this.myTransactions.add(transaction);
 		return transaction;
 	}
+	
+	public Transaction winnedBet(double money) {
+		this.money+= money;
+		Transaction transaction= new Transaction(money, this);
+		transaction.setTransactionType("betResult");
+		this.myTransactions.add(transaction);
+		return transaction;
+	}
 }

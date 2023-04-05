@@ -7,6 +7,8 @@ import com.toedter.calendar.JCalendar;
 import domain.Question;
 import domain.Quote;
 import domain.RegisteredUser;
+import exceptions.DateExpired;
+import exceptions.EventDontExist;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +33,6 @@ public class SetResultGUI extends JFrame {
 	private Calendar calendarAct = null;
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 	private JScrollPane scrollPaneQueries = new JScrollPane();
-	
 	
 	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
 
@@ -189,7 +190,7 @@ public class SetResultGUI extends JFrame {
 		tableQueries.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				scrollPaneQuotes.setEnabled(true);
 				int i=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(i,2); 
@@ -199,7 +200,6 @@ public class SetResultGUI extends JFrame {
 				}else {
 					btnSetResult.setEnabled(true);	
 				}
-				tableModelQuotes.setDataVector(null, columnNamesQuotes);
 				if (quotes==null) {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
 				}else {
@@ -221,6 +221,7 @@ public class SetResultGUI extends JFrame {
 		tableEvents.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+
 				scrollPaneQueries.setEnabled(true);
 				int i=tableEvents.getSelectedRow();
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
@@ -269,6 +270,7 @@ public class SetResultGUI extends JFrame {
 		this.getContentPane().add(scrollPaneEvents, null);
 		this.getContentPane().add(scrollPaneQueries, null);
 		
+
 		
 		btnSetResult = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SetResult"));
 		btnSetResult.setEnabled(false);
@@ -278,28 +280,17 @@ public class SetResultGUI extends JFrame {
 				domain.Quote qt=(domain.Quote)tableModelQuotes.getValueAt(i,3); 
 				int j=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(j,2); 
-				
-				for (Quote kuota:q.getQuotes()) {
-					if (kuota!=qt) {
-//						qt.setWinner(false);	
-					}else {
-//						qt.setWinner(true);	
-					}
-				}
-				q.setHasFinished(true);
-				q.setResult(qt.getQuoteName());
-
-				//PAGAR A LOS QUE HAN GANADO LA APUESTA
+				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
+				facade.selectWinner(ev.getEventNumber(), ev.getEventDate(), q.getQuestionNumber(), qt.getQuoteNumber());
+			
 			}
 		});
-		
 		
 		btnSetResult.setBounds(506, 370, 113, 54);
 		getContentPane().add(btnSetResult);
 		scrollPaneQuotes.setBounds(90, 350, 327, 79);
 		
 		getContentPane().add(scrollPaneQuotes);
-		
 		tableQuotes = new JTable();
 		tableQuotes = new JTable();
 		scrollPaneQuotes.setViewportView(tableQuotes);
@@ -319,11 +310,6 @@ public class SetResultGUI extends JFrame {
 		tableQuotes.getColumnModel().getColumn(1).setPreferredWidth(175);
 		tableQuotes.getColumnModel().getColumn(2).setPreferredWidth(175);
 		tableQuotes.getColumnModel().removeColumn(tableQuotes.getColumnModel().getColumn(3));
-		
-		tableQuotes.addMouseListener(new MouseAdapter() {
-			
-			
-		});
 
 	}
 

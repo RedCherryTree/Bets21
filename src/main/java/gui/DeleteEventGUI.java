@@ -32,7 +32,7 @@ public class DeleteEventGUI extends JFrame {
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 	private JScrollPane scrollPaneQueries = new JScrollPane();
 	
-	
+	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
 
 	private JTable tableEvents= new JTable();
@@ -202,9 +202,22 @@ public class DeleteEventGUI extends JFrame {
 		btnDeleteEvent.setVisible(true);
 		btnDeleteEvent.setBounds(222, 411, 241, 39);
 		getContentPane().add(btnDeleteEvent);
-	 	
+		
+		jButtonClose.setBounds(new Rectangle(521, 344, 130, 30));
+		jButtonClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jButtonClose_actionPerformed(e);
+			}
+		});
+		
+		this.getContentPane().add(jButtonClose, null);
+		
 	}
 
+
+
+	
+	
 //	private void jButtonDelete_actionPerformed(ActionEvent e) {
 //		JLabel jLabelMsg = null;
 //		try {

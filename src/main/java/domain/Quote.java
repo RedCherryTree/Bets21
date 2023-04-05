@@ -21,6 +21,8 @@ public class Quote implements Serializable {
 	private Float quoteMultiplier;
 	@XmlIDREF
 	private Question question;
+	private boolean isWinner;
+
 	public int getQuoteNumber() {
 		return quoteNumber;
 	}
@@ -46,6 +48,13 @@ public class Quote implements Serializable {
 	}
 	public Float getQuoteMultiplier() {
 		return quoteMultiplier;
+	}
+	
+	public boolean isWinner() {
+		return isWinner;
+	}
+	public void setWinner(boolean isWinner) {
+		this.isWinner = isWinner;
 	}
 	
 	public Quote() {
