@@ -1,0 +1,7 @@
+- Egileak: Beñat Cantalapiedra, Gaizka Cerezo, Martin Etxeberria (Scrum Master), Ibon San Martín
+- Inplementutako erabilpen kasuak:
+- Web zerbitzuak inplementatu duzue: 
+- Internalizazioa (lengoaia desberdinak) inplementatu duzue: BAI
+- Izandako arazo nagusiak:
+- Erabilitako horduak: 40h
+- Bideoaren URLa: 
