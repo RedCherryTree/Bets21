@@ -74,7 +74,7 @@ public class UserGUI extends JFrame {
 		jLabelUsername.setFont(new Font("Dialog", Font.BOLD, 13));
 		
 		BLFacade facade = MainGUI.getBusinessLogic();
-		JLabel jLabelMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Money")+": "+facade.getUserMoney(user)+" €");
+		JLabel jLabelMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Money")+": "+(double)Math.round(facade.getUserMoney(user))+" €");
 		jLabelMoney.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelMoney.setForeground(Color.BLACK);
 		jLabelMoney.setFont(new Font("Dialog", Font.BOLD, 13));

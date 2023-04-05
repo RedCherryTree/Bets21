@@ -100,19 +100,19 @@ public class MyAccountBalanceGUI extends JFrame {
 
 			row.add(t.getTransactionNumber());
 			if(t.getTransactionType().equals("Bet")) {
-				row.add(ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+":"+t.getMoney()+"€");
+				row.add(ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+":"+String.format("%.2f",  t.getMoney())+"€");
 				
 			}
 			else {
 				if(t.getTransactionType().equals("Deposit")) {
-					row.add(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney")+":"+t.getMoney()+"€");
+					row.add(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney")+":"+String.format("%.2f",  t.getMoney())+"€");
 				}
 				else {
 					if(t.getTransactionType().equals("Refund")) {
-						row.add(ResourceBundle.getBundle("Etiquetas").getString("RefundedMoney")+":"+t.getMoney()+"€");
+						row.add(ResourceBundle.getBundle("Etiquetas").getString("RefundedMoney")+":"+String.format("%.2f", t.getMoney())+"€");
 					}
 					else {
-						row.add(ResourceBundle.getBundle("Etiquetas").getString("EarnedMoney")+":"+t.getMoney()+"€");
+						row.add(ResourceBundle.getBundle("Etiquetas").getString("EarnedMoney")+":"+String.format("%.2f", t.getMoney())+"€");
 					}
 				}
 			}
@@ -176,8 +176,8 @@ public class MyAccountBalanceGUI extends JFrame {
 		lblNewLabelPaymentMethod.setBounds(265, 46, 139, 14);
 		DetailsPanel.add(lblNewLabelPaymentMethod);
 		
-		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+facade.getUserMoney(user)+"€");
-		lblCurrentMoney.setBounds(301, 11, 123, 14);
+		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+String.format("%.2f", facade.getUserMoney(user))+"€");
+		lblCurrentMoney.setBounds(260, 11, 164, 14);
 		contentPane.add(lblCurrentMoney);
 		
 		

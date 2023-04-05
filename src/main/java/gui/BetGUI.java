@@ -41,6 +41,7 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import java.awt.Font;
 import javax.swing.JSpinner;
+import java.awt.SystemColor;
 
 public class BetGUI extends JFrame {
 
@@ -117,6 +118,9 @@ public class BetGUI extends JFrame {
 	private final JLabel lblNewLabel = new JLabel("€"); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private JButton btnGoBack;
+	private JLabel lblNewLabel_1;
+
+	private JLabel lblHasFinished;
 	
 
 	public BetGUI(String user)
@@ -140,6 +144,7 @@ public class BetGUI extends JFrame {
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
 
 		jLabelEventDate.setBounds(new Rectangle(40, 35, 140, 14));
+		jLabelQueries.setForeground(SystemColor.menuText);
 		jLabelQueries.setBounds(20, 211, 406, 14);
 		jLabelEvents.setBounds(294, 34, 259, 16);
 
@@ -257,7 +262,14 @@ public class BetGUI extends JFrame {
 				int i=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(i,2); 
 				Vector<Quote> quotes=q.getQuotes();
-
+				if(q.isHasFinished()) {
+					tableQuotes.setEnabled(false);
+					lblHasFinished.setVisible(true);	
+				}
+				else {
+					tableQuotes.setEnabled(true);
+					lblHasFinished.setVisible(false);
+				}
 				if (quotes==null) {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
 				}else {
@@ -462,7 +474,7 @@ public class BetGUI extends JFrame {
 		});
 //		lblQuote.setVisible(false);
 		
-		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+facade.getUserMoney(user)+"€");
+		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+(double)Math.round(facade.getUserMoney(user))+"€");
 		lblCurrentMoney.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCurrentMoney.setBounds(480, 11, 158, 12);
 		getContentPane().add(lblCurrentMoney);
@@ -471,6 +483,12 @@ public class BetGUI extends JFrame {
 		lblErrors.setBounds(453, 331, 185, 14);
 		getContentPane().add(lblErrors);
 		lblErrors.setForeground(Color.RED);
+		
+		lblHasFinished = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("HasFinished"));
+		lblHasFinished.setForeground(Color.RED);
+		lblHasFinished.setBounds(20, 319, 321, 14);
+		getContentPane().add(lblHasFinished);
+		lblHasFinished.setVisible(false);	
 		lblErrors.setVisible(false);
 		
 		

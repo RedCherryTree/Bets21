@@ -132,6 +132,14 @@ public class Event implements Serializable {
 	
 	
 	
-	
+	public boolean hasFinished() {
+		boolean devol= questions.isEmpty();
+		for(Question question: this.questions) {
+			if(!question.isHasFinished()) {
+				return false;
+			}
+		}
+		return devol;
+	}
 
 }

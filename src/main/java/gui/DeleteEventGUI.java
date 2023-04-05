@@ -218,34 +218,7 @@ public class DeleteEventGUI extends JFrame {
 
 	
 	
-//	private void jButtonDelete_actionPerformed(ActionEvent e) {
-//		JLabel jLabelMsg = null;
-//		try {
-//			JLabel jLabelError = null;
-//			jLabelError.setText("");
-//			jLabelMsg.setText("");
 
-///			JLabel jTextFieldDeleteEvent = null;
-			// Displays an exception if the query field is empty
-//			String description = jTextFieldDeleteEvent.getText();
-
-//			if (description.length() > 0) {
-				// Obtain the business logic from a StartWindow class (local or remote)
-//				BLFacade facade = MainGUI.getBusinessLogic();
-				
-//				facade.deleteEvent(Integer.valueOf(description), UtilDate.trim(jCalendar.getDate()));
-
-//				jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("EventDeleted"));
-			
-//			} //else
-//				jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEvent2"));
-//		} catch (DateExpired e1) {
-//			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("DateExpired"));
- //		}  catch (EventDontExist e1) {
-			
-// 			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventDontExist"));
-//		} 
-//	}
 
 	private void jButtonClose_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

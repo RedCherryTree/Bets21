@@ -269,11 +269,11 @@ public class BLFacadeImplementation  implements BLFacade {
     };
     
     @WebMethod
-    public void selectWinner(Integer eventNumber, Date eventDate, Integer questionNumber, Integer quoteNumber) {
+    public void selectWinner(Integer questionNumber, Integer quoteNumber) {
    	   
    		dbManager.open(false);
 
-   		dbManager.selectWinner(eventNumber, eventDate, questionNumber, quoteNumber);		
+   		dbManager.selectWinner( questionNumber, quoteNumber);		
 	
    		dbManager.close();
     };

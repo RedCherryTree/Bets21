@@ -179,6 +179,7 @@ public class SetResultGUI extends JFrame {
 					}
 
 				}
+
 			} 
 		});
 
@@ -191,14 +192,22 @@ public class SetResultGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
+				tableModelQuotes.getDataVector().clear();
+				tableQuotes.updateUI();
+				
 				scrollPaneQuotes.setEnabled(true);
 				int i=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(i,2); 
 				Vector<Quote> quotes=q.getQuotes();
 				if(q.isHasFinished()) {
-					btnSetResult.setEnabled(false);			
+					btnSetResult.setEnabled(false);	
+					tableQuotes.setEnabled(false);
+					lblEmptyFields.setText(ResourceBundle.getBundle("Etiquetas").getString("HasFinished"));
+					lblEmptyFields.setVisible(true);
 				}else {
 					btnSetResult.setEnabled(true);	
+					lblEmptyFields.setVisible(false);
+					tableQuotes.setEnabled(true);
 				}
 				if (quotes==null) {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
@@ -221,6 +230,10 @@ public class SetResultGUI extends JFrame {
 		tableEvents.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				tableModelQuotes.getDataVector().clear();
+				tableQuotes.updateUI();
+				tableModelQueries.getDataVector().clear();
+				tableQueries.updateUI();
 
 				scrollPaneQueries.setEnabled(true);
 				int i=tableEvents.getSelectedRow();
@@ -281,12 +294,12 @@ public class SetResultGUI extends JFrame {
 				int j=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(j,2); 
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
-				facade.selectWinner(ev.getEventNumber(), ev.getEventDate(), q.getQuestionNumber(), qt.getQuoteNumber());
+				facade.selectWinner(q.getQuestionNumber(), qt.getQuoteNumber());
 			
 			}
 		});
 		
-		btnSetResult.setBounds(506, 370, 113, 54);
+		btnSetResult.setBounds(471, 350, 148, 74);
 		getContentPane().add(btnSetResult);
 		scrollPaneQuotes.setBounds(90, 350, 327, 79);
 		
@@ -299,7 +312,7 @@ public class SetResultGUI extends JFrame {
 		
 		lblEmptyFields = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField"));
 		lblEmptyFields.setForeground(new Color(255, 0, 0));
-		lblEmptyFields.setBounds(174, 435, 177, 14);
+		lblEmptyFields.setBounds(90, 440, 327, 14);
 		getContentPane().add(lblEmptyFields);
 		lblEmptyFields.setVisible(false);
 		

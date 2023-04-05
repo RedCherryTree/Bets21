@@ -480,9 +480,8 @@ public class DataAccess  {
 		return ev;
 	}
 	
-	public void selectWinner(Integer eventNumber, Date eventDate, Integer questionNumber, Integer quoteNumber) {
+	public void selectWinner(Integer questionNumber, Integer quoteNumber) {
 		db.getTransaction().begin();
-		Event ev = db.find(Event.class, eventNumber);
 		Question q = db.find(Question.class, questionNumber);
 		Quote qt = db.find(Quote.class, quoteNumber);
 		
@@ -493,20 +492,20 @@ public class DataAccess  {
 				}else {
 					qt.setWinner(true);	
 				}
-			}
-			q.setHasFinished(true);
-			q.setResult(qt.getQuoteName());
-			
-			TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.question.event.eventNumber=="+eventNumber+"",Bet.class);		
-			List<Bet> willBeRefunded= query.getResultList();
-			System.out.println("You win a bet ");
-			for(Bet bet: willBeRefunded) {
-				System.out.println(bet.toString());
-				RegisteredUser us= bet.getUser();
-				Quote kuota=bet.getBetQuote();
-				float mul = kuota.getQuoteMultiplier();
-				Transaction transaction=us.winnedBet(bet.getMoney()*mul);
-			  	db.persist(transaction);
+		}
+		q.setHasFinished(true);
+		q.setResult(qt.getQuoteName());
+		double mul = qt.getQuoteMultiplier();
+		
+		TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.question.questionNumber=="+questionNumber+"",Bet.class);		
+		List<Bet> winners= query.getResultList();
+		System.out.println("Winners of the bet: ");
+		for(Bet bet: winners) {
+			System.out.println(bet.toString());
+			RegisteredUser us= bet.getUser();
+			Quote kuota=bet.getBetQuote();
+			Transaction transaction=us.winnerBet(bet.getMoney()*mul);
+			 db.persist(transaction);
 			}	
 		}else {
 			System.out.println("The result of this question has already been decided");
