@@ -147,7 +147,7 @@ public class DepositMoneyGUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(34, 209, 358, 41);
+		btnNewButton.setBounds(10, 179, 414, 41);
 		contentPane.add(btnNewButton);
 		
 		lblSelectAmount = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("SelectAmount"));
@@ -156,13 +156,13 @@ public class DepositMoneyGUI extends JFrame {
 		
 		rdbtnTermsConditions = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("TermsAndConditions"));
 		rdbtnTermsConditions.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		rdbtnTermsConditions.setBounds(34, 179, 199, 23);
+		rdbtnTermsConditions.setBounds(28, 227, 199, 23);
 		contentPane.add(rdbtnTermsConditions);
 		
 		
 		lblEuro = new JLabel("€");
-		lblEuro.setFont(new Font("Source Serif Pro Black", Font.PLAIN, 18));
-		lblEuro.setBounds(187, 139, 24, 29);
+		lblEuro.setFont(new Font("Sylfaen", Font.PLAIN, 18));
+		lblEuro.setBounds(187, 144, 24, 23);
 		lblEuro.setForeground(Color.BLACK);
 		contentPane.add(lblEuro);
 		
@@ -171,6 +171,17 @@ public class DepositMoneyGUI extends JFrame {
 		lblEmptyField.setBounds(237, 120, 155, 14);
 		contentPane.add(lblEmptyField);
 		lblEmptyField.setVisible(false);
+		
+		JButton btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
+		btnGoBack.setBounds(304, 231, 120, 23);
+		contentPane.add(btnGoBack);
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserGUI userGUI= new UserGUI(user);
+				userGUI.setVisible(true);
+				btnGoBack_actionPerformed(e);
+			}
+		});
 	}
 	private void btnGoBack_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

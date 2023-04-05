@@ -24,6 +24,7 @@ public class PurchaseGUI extends JFrame {
 	private JLabel lblThanksPurchase;
 	private JButton btnAddMoney;
 	private JLabel jLabelSelectOption;
+	private JButton btnGoBack;
 
 
 	/**
@@ -84,15 +85,15 @@ public class PurchaseGUI extends JFrame {
 		});
 		contentPane.add(btnAddMoney);
 		
-		JButton btnNewButton_2 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
-		btnNewButton_2.addActionListener(new ActionListener() {
+		btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
+		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserGUI userGUI= new UserGUI(user);
 				userGUI.setVisible(true);
 				close_actionPerformed(e);
 			}
 		});
-		contentPane.add(btnNewButton_2);		
+		contentPane.add(btnGoBack);		
 	}
 	private void close_actionPerformed(ActionEvent e) {
 		this.setVisible(false);

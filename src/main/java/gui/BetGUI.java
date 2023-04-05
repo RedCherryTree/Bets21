@@ -115,6 +115,8 @@ public class BetGUI extends JFrame {
 
 	private JLabel lblErrors;
 	private final JLabel lblNewLabel = new JLabel("€"); //$NON-NLS-1$ //$NON-NLS-2$
+
+	private JButton btnGoBack;
 	
 
 	public BetGUI(String user)
@@ -194,9 +196,10 @@ public class BetGUI extends JFrame {
 
 					CreateQuoteGUI.paintDaysWithEvents(jCalendar1,datesWithEventsCurrentMonth);
 													
-					
+
 
 					try {
+						
 						tableModelEvents.setDataVector(null, columnNamesEvents);
 						tableModelEvents.setColumnCount(3); // another column added to allocate ev objects
 
@@ -223,7 +226,10 @@ public class BetGUI extends JFrame {
 
 						jLabelQueries.setText(e1.getMessage());
 					}
-
+					tableModelQuotes.getDataVector().clear();
+					tableQuotes.updateUI();
+					tableModelQueries.getDataVector().clear();
+					tableQueries.updateUI();
 				}
 			} 
 		});
@@ -379,7 +385,7 @@ public class BetGUI extends JFrame {
 		
 		lblQuestion = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
 		lblQuestion.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblQuestion.setBounds(30, 44, 217, 14);
+		lblQuestion.setBounds(30, 44, 306, 14);
 		panel.add(lblQuestion);
 //		lblQuestion.setVisible(false);
 		
@@ -421,18 +427,18 @@ public class BetGUI extends JFrame {
 	    	}
 	    });
 	    btnBet.setFont(new Font("Tahoma", Font.BOLD, 20));
-	    btnBet.setBounds(426, 40, 155, 67);
+	    btnBet.setBounds(426, 11, 162, 71);
 		panel.add(btnBet);
 		btnBet.setEnabled(false);
 		
 		lblEvent = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Event")+": ");
-		lblEvent.setBounds(20, 11, 168, 12);
+		lblEvent.setBounds(20, 11, 306, 12);
 		panel.add(lblEvent);
 		lblEvent.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		spinnerBet = new JSpinner();
 		spinnerBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		spinnerBet.setBounds(334, 66, 53, 20);
+		spinnerBet.setBounds(342, 66, 53, 20);
 		panel.add(spinnerBet);
 		spinnerBet.setEnabled(false);
 		
@@ -440,21 +446,32 @@ public class BetGUI extends JFrame {
 		lblMultiplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblMultiplier.setBounds(257, 94, 138, 14);
 		panel.add(lblMultiplier);
-		
-		lblErrors = new JLabel();
-		lblErrors.setForeground(Color.RED);
-		lblErrors.setBounds(426, 105, 185, 14);
-		panel.add(lblErrors);
 		lblNewLabel.setBounds(395, 69, 21, 14);
 		
 		panel.add(lblNewLabel);
-		lblErrors.setVisible(false);
+		btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
+		btnGoBack.setBounds(467, 94, 121, 25);
+		panel.add(btnGoBack);
+		btnGoBack.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserGUI userGUI= new UserGUI(user);
+				userGUI.setVisible(true);
+				close_actionPerformed(e);
+			}
+		});
 //		lblQuote.setVisible(false);
 		
 		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+facade.getUserMoney(user)+"€");
 		lblCurrentMoney.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCurrentMoney.setBounds(480, 11, 158, 12);
 		getContentPane().add(lblCurrentMoney);
+		
+		lblErrors = new JLabel();
+		lblErrors.setBounds(453, 331, 185, 14);
+		getContentPane().add(lblErrors);
+		lblErrors.setForeground(Color.RED);
+		lblErrors.setVisible(false);
 		
 		
 		tableModelQuotes.setDataVector(null, columnNamesQuotes);
