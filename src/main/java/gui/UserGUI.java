@@ -74,7 +74,7 @@ public class UserGUI extends JFrame {
 		jLabelUsername.setFont(new Font("Dialog", Font.BOLD, 13));
 		
 		BLFacade facade = MainGUI.getBusinessLogic();
-		JLabel jLabelMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Money")+": "+facade.getUserMoney(user));
+		JLabel jLabelMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Money")+": "+facade.getUserMoney(user)+" €");
 		jLabelMoney.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelMoney.setForeground(Color.BLACK);
 		jLabelMoney.setFont(new Font("Dialog", Font.BOLD, 13));
@@ -116,7 +116,7 @@ public class UserGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DepositMoneyGUI depositGUI= new DepositMoneyGUI(user);
 				depositGUI.setVisible(true);
-				close_actionPerformed(e);
+				close_actionPerformed();
 			}
 		});
 		JSplitPane splitPaneDown = new JSplitPane();
@@ -126,7 +126,7 @@ public class UserGUI extends JFrame {
 		jContentPane.add(splitPaneDown);
 		
 	}
-	private void close_actionPerformed(ActionEvent e) {
+	private void close_actionPerformed() {
 		this.setVisible(false);
 	}
 }
