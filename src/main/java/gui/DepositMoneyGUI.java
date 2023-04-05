@@ -31,7 +31,6 @@ public class DepositMoneyGUI extends JFrame {
 	private JPasswordField passwordFieldP;
 	private JLabel lblCreditCard;
 	private JLabel lblSelectAmount;
-	private JButton btnGoBack;
 	private JRadioButton rdbtnTermsConditions;
 	private JLabel lblPassword;
 	private JComboBox comboBoxPaymentOption;
@@ -64,7 +63,6 @@ public class DepositMoneyGUI extends JFrame {
 	public DepositMoneyGUI(String user) {
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney")); //$NON-NLS-1$ //$NON-NLS-2$
 		String us=user;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -114,7 +112,7 @@ public class DepositMoneyGUI extends JFrame {
 		contentPane.add(passwordFieldP);
 		
 		comboBoxAmountOfMoney = new JComboBox();
-		comboBoxAmountOfMoney.setBounds(141, 131, 42, 29);
+		comboBoxAmountOfMoney.setBounds(135, 139, 42, 29);
 		contentPane.add(comboBoxAmountOfMoney);
 		comboBoxAmountOfMoney.setModel(amountOfMoney);
 		comboBoxAmountOfMoney.setSelectedItem(null);
@@ -138,6 +136,10 @@ public class DepositMoneyGUI extends JFrame {
 					}
 					else {
 						facade.depositMoney(user, Integer.parseInt((String) comboBoxAmountOfMoney.getSelectedItem()), option, method);
+						PurchaseGUI purchaseGUI= new PurchaseGUI(user);
+						purchaseGUI.setVisible(true);
+						btnGoBack_actionPerformed(e);
+						
 					}
 				}
 				else {
@@ -145,33 +147,22 @@ public class DepositMoneyGUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(97, 171, 245, 41);
+		btnNewButton.setBounds(34, 209, 358, 41);
 		contentPane.add(btnNewButton);
 		
 		lblSelectAmount = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("SelectAmount"));
-		lblSelectAmount.setBounds(34, 138, 104, 14);
+		lblSelectAmount.setBounds(34, 146, 104, 14);
 		contentPane.add(lblSelectAmount);
-		
-		btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
-		btnGoBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnGoBack_actionPerformed(e);
-				UserGUI user= new UserGUI(us);
-				user.setVisible(true);
-			}
-		});
-		btnGoBack.setBounds(131, 220, 170, 30);
-		contentPane.add(btnGoBack);
 		
 		rdbtnTermsConditions = new JRadioButton(ResourceBundle.getBundle("Etiquetas").getString("TermsAndConditions"));
 		rdbtnTermsConditions.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		rdbtnTermsConditions.setBounds(229, 141, 199, 23);
+		rdbtnTermsConditions.setBounds(34, 179, 199, 23);
 		contentPane.add(rdbtnTermsConditions);
 		
 		
 		lblEuro = new JLabel("€");
 		lblEuro.setFont(new Font("Source Serif Pro Black", Font.PLAIN, 18));
-		lblEuro.setBounds(193, 131, 24, 29);
+		lblEuro.setBounds(187, 139, 24, 29);
 		lblEuro.setForeground(Color.BLACK);
 		contentPane.add(lblEuro);
 		

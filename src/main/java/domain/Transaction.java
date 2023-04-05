@@ -62,6 +62,13 @@ public class Transaction {
 		this.user=user;
 	}
 
+	public Transaction(double money, RegisteredUser user, Quote betQuote) {
+		super();
+		this.transactionType="Bet";
+		this.money=money;
+		this.user=user;
+		this.myBet= new Bet(money, user, betQuote, this);
+	}
 	public Integer getTransactionNumber() {
 		return transactionNumber;
 	}

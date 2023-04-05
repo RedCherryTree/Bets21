@@ -112,6 +112,9 @@ public class BetGUI extends JFrame {
 	private JSpinner spinnerBet;
 
 	private JLabel lblMultiplier;
+
+	private JLabel lblErrors;
+	private final JLabel lblNewLabel = new JLabel("€"); //$NON-NLS-1$ //$NON-NLS-2$
 	
 
 	public BetGUI(String user)
@@ -341,7 +344,7 @@ public class BetGUI extends JFrame {
 		scrollPaneQuotes.setViewportView(tableQuotes);
 		tableModelQuotes = new DefaultTableModel(null, columnNamesQuotes);
 		tableQuotes.setModel(tableModelQuotes);
-		panel.setBounds(40, 331, 598, 119);
+		panel.setBounds(40, 331, 598, 130);
 		
 		tableQuotes.addMouseListener(new MouseAdapter() {
 			@Override
@@ -358,7 +361,7 @@ public class BetGUI extends JFrame {
 				int quot=tableQuotes.getSelectedRow();
 				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
 				lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+quote.getQuoteName());
-				lblMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+":   x"+quote.getQuoteMultiplier());
+				lblMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+":        x"+quote.getQuoteMultiplier());
 				
 				btnBet.setEnabled(true);
 				spinnerBet.setEnabled(true);
@@ -387,12 +390,38 @@ public class BetGUI extends JFrame {
 		
 		lblMoneyBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+":");
 		lblMoneyBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMoneyBet.setBounds(274, 69, 79, 14);
+		lblMoneyBet.setBounds(257, 69, 79, 14);
 		panel.add(lblMoneyBet);
 		
 	    btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet")+"!"); //$NON-NLS-1$ //$NON-NLS-2$
+	    btnBet.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		int iques=tableQueries.getSelectedRow();
+				domain.Question question=(domain.Question)tableModelQueries.getValueAt(iques,2);
+				int quot=tableQuotes.getSelectedRow();
+				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
+	    		double betMon= (int)spinnerBet.getValue();
+	    		if(betMon>facade.getUserMoney(user)) {
+	    			lblErrors.setVisible(true);
+	    			lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("NotEnouhgMoney")+"!");
+	    		}
+	    		else {
+	    			if(betMon<question.getBetMinimum()) {
+	    				lblErrors.setVisible(true);
+	    				lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("HigherBet")+"!");
+	    			}
+	    			else {
+	    				facade.bet(user, betMon, quote.getQuoteNumber());
+	    				lblErrors.setVisible(false);
+	    				PurchaseGUI purchaseGUI= new PurchaseGUI(user);
+	    				purchaseGUI.setVisible(true);
+	    				close_actionPerformed(e);
+	    			}
+	    		}
+	    	}
+	    });
 	    btnBet.setFont(new Font("Tahoma", Font.BOLD, 20));
-	    btnBet.setBounds(433, 40, 155, 67);
+	    btnBet.setBounds(426, 40, 155, 67);
 		panel.add(btnBet);
 		btnBet.setEnabled(false);
 		
@@ -403,14 +432,23 @@ public class BetGUI extends JFrame {
 		
 		spinnerBet = new JSpinner();
 		spinnerBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		spinnerBet.setBounds(363, 66, 53, 20);
+		spinnerBet.setBounds(334, 66, 53, 20);
 		panel.add(spinnerBet);
 		spinnerBet.setEnabled(false);
 		
 		lblMultiplier = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+": ");
 		lblMultiplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMultiplier.setBounds(303, 94, 113, 14);
+		lblMultiplier.setBounds(257, 94, 138, 14);
 		panel.add(lblMultiplier);
+		
+		lblErrors = new JLabel();
+		lblErrors.setForeground(Color.RED);
+		lblErrors.setBounds(426, 105, 185, 14);
+		panel.add(lblErrors);
+		lblNewLabel.setBounds(395, 69, 21, 14);
+		
+		panel.add(lblNewLabel);
+		lblErrors.setVisible(false);
 //		lblQuote.setVisible(false);
 		
 		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+facade.getUserMoney(user)+"€");
@@ -483,7 +521,7 @@ public class BetGUI extends JFrame {
 	}
 
 
-	private void jButton2_actionPerformed(ActionEvent e) {
+	private void close_actionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

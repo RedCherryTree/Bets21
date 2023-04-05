@@ -99,6 +99,7 @@ public class UserGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BetGUI betGUI= new BetGUI(user);
 				betGUI.setVisible(true);
+				close_actionPerformed(e);
 			}
 		});
 		jContentPane.add(jButtonLogin);

@@ -6,6 +6,7 @@ import configuration.UtilDate;
 import com.toedter.calendar.JCalendar;
 import domain.Question;
 import domain.Quote;
+import domain.RegisteredUser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -193,7 +194,11 @@ public class SetResultGUI extends JFrame {
 				int i=tableQueries.getSelectedRow();
 				Question q=(Question)tableModelQueries.getValueAt(i,2); 
 				Vector<Quote> quotes=q.getQuotes();
-				btnSetResult.setEnabled(true);
+				if(q.isHasFinished()) {
+					btnSetResult.setEnabled(false);			
+				}else {
+					btnSetResult.setEnabled(true);	
+				}
 				tableModelQuotes.setDataVector(null, columnNamesQuotes);
 				if (quotes==null) {
 					jLabelQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("StillNoQuote")+": "+q.getQuestion());
@@ -269,12 +274,22 @@ public class SetResultGUI extends JFrame {
 		btnSetResult.setEnabled(false);
 		btnSetResult.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				scrollPaneQuotes.setEnabled(true);
 				int i=tableQuotes.getSelectedRow();
 				domain.Quote qt=(domain.Quote)tableModelQuotes.getValueAt(i,3); 
+				int j=tableQueries.getSelectedRow();
+				Question q=(Question)tableModelQueries.getValueAt(j,2); 
 				
-				
-				
+				for (Quote kuota:q.getQuotes()) {
+					if (kuota!=qt) {
+//						qt.setWinner(false);	
+					}else {
+//						qt.setWinner(true);	
+					}
+				}
+				q.setHasFinished(true);
+				q.setResult(qt.getQuoteName());
+
+				//PAGAR A LOS QUE HAN GANADO LA APUESTA
 			}
 		});
 		

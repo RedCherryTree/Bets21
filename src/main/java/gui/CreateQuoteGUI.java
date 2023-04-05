@@ -193,8 +193,7 @@ public class CreateQuoteGUI extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				tableModelQuotes.getDataVector().clear();
 				tableQuotes.updateUI();
-				tableModelQueries.getDataVector().clear();
-				tableQueries.updateUI();
+
 				
 				scrollPaneQuotes.setEnabled(true);
 				int i=tableQueries.getSelectedRow();
@@ -225,6 +224,7 @@ public class CreateQuoteGUI extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				tableModelQuotes.getDataVector().clear();
 				tableQuotes.updateUI();
+
 				
 				scrollPaneQueries.setEnabled(true);
 				int i=tableEvents.getSelectedRow();

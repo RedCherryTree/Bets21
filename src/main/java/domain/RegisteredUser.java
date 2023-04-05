@@ -102,11 +102,9 @@ public class RegisteredUser extends User implements Serializable{
 		return transaction;
 	}
 	
-	public Transaction bet(double money, int selectedResult, Question question ) {
+	public Transaction bet(double money, RegisteredUser user, Quote quote ) {
 		this.money-= money;
-		Transaction transaction= new Transaction("Bet", money, this);
-		Bet bet= new Bet(money, selectedResult,this, question, transaction);
-		transaction.setMyBet(bet);
+		Transaction transaction= new Transaction(money, user, quote);
 		this.myTransactions.add(transaction);
 		return transaction;
 	}

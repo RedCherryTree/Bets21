@@ -124,6 +124,8 @@ public interface BLFacade  {
 	@WebMethod public void depositMoney(String user, double money, String paymentOpton, String paymentMethod);
 	 @WebMethod public double getUserMoney(String user);
 	 @WebMethod public Vector<Transaction> getUserTransactions(String user);
-	 @WebMethod public void bet(String user, double money,Question question, int selectedResult);
+	 @WebMethod public void bet(String user, double money, int quoteNumber);
+	 
+	 @WebMethod Event deleteEvent(Integer eventnumber, Date eventDate) throws DateExpired, EventDontExist;
 	
 }

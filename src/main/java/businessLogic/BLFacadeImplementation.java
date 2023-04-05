@@ -245,10 +245,27 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     	return myTransactions;
     }
-    @WebMethod public void bet(String user, double money,Question question, int selectedResult){
+    @WebMethod public void bet(String user, double money,int quoteNumber){
     	dbManager.open(false);
-    	dbManager.bet(user, money, question, selectedResult);
+    	dbManager.bet(user, money, quoteNumber);
     	dbManager.close();
     }
+    
+    @WebMethod
+    public Event deleteEvent(Integer eventnumber, Date eventDate) throws DateExpired, EventDontExist{
+   	   
+   		dbManager.open(false);
+   		Event ev=null; 
+   			    
+   		if(new Date().compareTo(eventDate)>0) 
+   			throw new DateExpired(ResourceBundle.getBundle("Etiquetas").getString("DateExpired"));
+   				
+   		
+   		 ev=dbManager.deleteEvent( eventnumber, eventDate);		
+
+   		dbManager.close();
+   		
+   		return ev;
+    };
 }
 
