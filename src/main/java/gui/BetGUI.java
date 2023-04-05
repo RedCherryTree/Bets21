@@ -362,7 +362,7 @@ public class BetGUI extends JFrame {
 		scrollPaneQuotes.setViewportView(tableQuotes);
 		tableModelQuotes = new DefaultTableModel(null, columnNamesQuotes);
 		tableQuotes.setModel(tableModelQuotes);
-		panel.setBounds(40, 331, 598, 130);
+		panel.setBounds(40, 338, 598, 123);
 		
 		tableQuotes.addMouseListener(new MouseAdapter() {
 			@Override

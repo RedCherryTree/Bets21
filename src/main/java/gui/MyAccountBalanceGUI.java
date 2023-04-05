@@ -44,6 +44,8 @@ public class MyAccountBalanceGUI extends JFrame {
 	private JLabel lblNewLabelPaymentOption;
 	private JLabel lblNewLabelPaymentMethod;
 	private JLabel lblCurrentMoney;
+	private JLabel lblNewLabel;
+	private JLabel lblQuote;
 
 
 	/**
@@ -131,50 +133,72 @@ public class MyAccountBalanceGUI extends JFrame {
 				int i=BalanceTable.getSelectedRow();
 				domain.Transaction t=(domain.Transaction)tableModelTransactions.getValueAt(i,2); // obtain t object
 				if(t.getTransactionType().equals("Bet")) {//Hay que acabar cuando se implemente Bet
+					lblPaymentOption.setVisible(true);
+					lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
 					
+					lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+t.getMyBet().getBetQuote().getQuestion().getQuestion()); 
+					lblPaymentMethod.setVisible(true);
+					
+					lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+t.getMyBet().getBetQuote().getQuoteName()); 
+					lblQuote.setVisible(true);
 				}
 				else {
 					if(t.getTransactionType().equals("Deposit")) {
 						lblPaymentOption.setVisible(true);
+						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption")+": "+t.getPaymentOption());
 						
-						lblNewLabelPaymentOption.setText(t.getPaymentOption());
-						lblNewLabelPaymentOption.setVisible(true);
-						
+						lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("UsedPaymentCDOrMail")+": "+t.getPaymentMethod()); 
 						lblPaymentMethod.setVisible(true);
-						lblNewLabelPaymentMethod.setText(t.getPaymentMethod());
-
-					}
-					else {//Hay que acabar cuando se implemente QuestionWinner
+						lblQuote.setVisible(false);
 						
+					}
+					else {
+						if(t.getTransactionType().equals("Refund")) {
+	//						lblPaymentOption.setVisible(true);
+	//						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
+							
+	//						lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+t.getMyBet().getBetQuote().getQuestion().getQuestion()); 
+	//						lblPaymentMethod.setVisible(true);
+							
+	//						lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+t.getMyBet().getBetQuote().getQuoteName()); 
+	//						lblQuote.setVisible(true);
+						}
+						else {
+	//						lblPaymentOption.setVisible(true);
+	//						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
+							
+	//						lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+t.getMyBet().getBetQuote().getQuestion().getQuestion()); 
+	//						lblPaymentMethod.setVisible(true);
+							
+	//						lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+t.getMyBet().getBetQuote().getQuoteName()); 
+	//						lblQuote.setVisible(true);
+						}
+						}
 					}
 				}
-			}
+			
 		});
 		
 		DetailsPanel = new JPanel();
-		DetailsPanel.setBounds(10, 176, 414, 71);
+		DetailsPanel.setBounds(10, 176, 414, 85);
 		contentPane.add(DetailsPanel);
 		DetailsPanel.setLayout(null);
 		DetailsPanel.setVisible(true);
 		
 		lblPaymentOption = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption")+":");
-		lblPaymentOption.setBounds(10, 11, 245, 14);
+		lblPaymentOption.setBounds(10, 11, 394, 14);
 		DetailsPanel.add(lblPaymentOption);
 		lblPaymentOption.setVisible(false);
 		
 		lblPaymentMethod = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("UsedPaymentCDOrMail")+":");
-		lblPaymentMethod.setBounds(10, 46, 245, 14);
+		lblPaymentMethod.setBounds(10, 36, 394, 14);
 		DetailsPanel.add(lblPaymentMethod);
+		
+		lblQuote = new JLabel();
+		lblQuote.setBounds(10, 60, 394, 14);
+		DetailsPanel.add(lblQuote);
 		lblPaymentMethod.setVisible(false);
 		
-		
-		lblNewLabelPaymentOption = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabelPaymentOption.setBounds(265, 11, 139, 14);
-		DetailsPanel.add(lblNewLabelPaymentOption);
-		
-		lblNewLabelPaymentMethod = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabelPaymentMethod.setBounds(265, 46, 139, 14);
-		DetailsPanel.add(lblNewLabelPaymentMethod);
 		
 		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+String.format("%.2f", facade.getUserMoney(user))+"€");
 		lblCurrentMoney.setBounds(260, 11, 164, 14);
