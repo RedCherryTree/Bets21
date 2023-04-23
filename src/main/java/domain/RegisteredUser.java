@@ -95,43 +95,30 @@ public class RegisteredUser extends User implements Serializable{
 	}
 
 
-	public void setMyTransactions(Vector<Transaction> myTransactions) {
-		this.myTransactions = myTransactions;
-	}
-
-
-	@Override
-	public String toString() {
-		return super.toString()+" money=" + money + "]";
-	}
-
-
-	public Transaction addMoney(double money, String paymentOpton, String paymentMethod) {
+	public Transaction depositMoney(double money, String paymentOpton, String paymentMethod) {
 		this.money+= money;
-		Transaction transaction= new Transaction( paymentOpton, paymentMethod,  money, this);
+		Transaction transaction= new DepositMoney( paymentOpton, paymentMethod, money, this);
 		this.myTransactions.add(transaction);
 		return transaction;
 	}
 	
-	public Transaction bet(double money, RegisteredUser user, Quote quote ) {
+	public Transaction bet(double money, int selectedResult, Question question ) {
 		this.money-= money;
-		Transaction transaction= new Transaction(money, user, quote);
-		this.myTransactions.add(transaction);
-		return transaction;
+		Transaction bet= new Bet(money, selectedResult,this, question);
+		this.myTransactions.add(bet);
+		return bet;
+	}
+	public Transaction refundMoney(Bet bet, String reasonToRefund) {
+		this.money+= money;
+		Transaction refund= new RefundMoney( bet, reasonToRefund);
+		this.myTransactions.add(refund);
+		return refund;		
 	}
 	
-	public Transaction refundMoney(double money) {
+	public Transaction betWinner(Bet bet){
 		this.money+= money;
-		Transaction transaction= new Transaction(money, this);
-		this.myTransactions.add(transaction);
-		return transaction;
-	}
-	
-	public Transaction winnerBet(double money) {
-		this.money+= money;
-		Transaction transaction= new Transaction(money, this);
-		transaction.setTransactionType("betResult");
-		this.myTransactions.add(transaction);
-		return transaction;
+		Transaction winner= new BetWinner(bet);
+		this.myTransactions.add(winner);
+		return winner;	
 	}
 }

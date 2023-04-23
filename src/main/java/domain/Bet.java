@@ -10,30 +10,23 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @Entity
-public class Bet {
+public class Bet extends Transaction{
 	@Id 
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
 	private int betNumber;
-	private Quote betQuote;
-	private RegisteredUser user;
+	private Question betQuestion;
 	
-	@XmlIDREF
-	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
-	private Transaction transaction;
-	
-	private double money;
+	private int selectedResult;
 	
 	public Bet() {
 		super();
 	}
 	
-	public Bet(double money, RegisteredUser user,Quote betQuote, Transaction transaction) {
-		super();
-		this.money=money;
-		this.user=user;
-		this.betQuote=betQuote;
-		this.transaction=transaction;
+	public Bet(double money, int selectedResult, RegisteredUser user, Question betQuestion) {
+		super(money, user);
+		this.selectedResult=selectedResult;
+		this.betQuestion=betQuestion;
 	}
 
 	public int getBetNumber() {
@@ -44,46 +37,24 @@ public class Bet {
 		this.betNumber = betNumber;
 	}
 
-
-
-	public Quote getBetQuote() {
-		return betQuote;
+	public Question getBetQuestion() {
+		return betQuestion;
 	}
 
-	public void setBetQuote(Quote betQuote) {
-		this.betQuote = betQuote;
+	public void setBetQuestion(Question betQuestion) {
+		this.betQuestion = betQuestion;
 	}
 
-	public Transaction getTransaction() {
-		return transaction;
+	public int getSelectedResult() {
+		return selectedResult;
 	}
 
-	public void setTransaction(Transaction transaction) {
-		this.transaction = transaction;
+	public void setSelectedResult(int selectedResult) {
+		this.selectedResult = selectedResult;
 	}
-
-	public RegisteredUser getUser() {
-		return user;
-	}
-
-	public void setUser(RegisteredUser user) {
-		this.user = user;
-	}
-
-	public double getMoney() {
-		return money;
-	}
-
-	public void setMoney(double money) {
-		this.money = money;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "Bet [betNumber=" + betNumber + ", betQuote=" + betQuote + ", user=" + user + ", transaction="
-				+ transaction + ", money=" + money + "]";
+		return "Money bet= "+super.getMoney();
 	}
-
-
-	
 }

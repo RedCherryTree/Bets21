@@ -1,5 +1,7 @@
 package domain;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,23 +16,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity 
-public class Transaction {
+public class Transaction implements Serializable{
 
 	@Id 
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
 	private Integer transactionNumber;
-	private String transactionType;//Bet, Deposit or betResult money
+//	private String transactionType;//Bet(Bet), betResult(returnMoney), refundMoney(returnMoney), (Deposit)Deposit
 	private double money;
 	
-	//Si se inserta dinero
-	private String paymentOption;
-	private String paymentMethod;
-	
-	//Si apuestas
-	@XmlIDREF
-	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
-	private Bet myBet;
 	
 	@XmlIDREF
 	private RegisteredUser user; 
@@ -47,42 +41,18 @@ public class Transaction {
 	 * @param money
 	 * @param user
 	 */
-	public Transaction(String paymentOpton, String paymentMethod, double money, RegisteredUser user) {
+	public Transaction(double money, RegisteredUser user) {
 		super();
-		this.transactionType="Deposit";
-		this.money=money;
-		this.user=user;
-		this.paymentOption=paymentOpton;
-		this.paymentMethod=paymentMethod;
-	}
-	public Transaction( double money, RegisteredUser user) {
-		super();
-		this.transactionType="Refund";
 		this.money=money;
 		this.user=user;
 	}
 
-	public Transaction(double money, RegisteredUser user, Quote betQuote) {
-		super();
-		this.transactionType="Bet";
-		this.money=money;
-		this.user=user;
-		this.myBet= new Bet(money, user, betQuote, this);
-	}
 	public Integer getTransactionNumber() {
 		return transactionNumber;
 	}
 
 	public void setTransactionNumber(Integer transactionNumber) {
 		this.transactionNumber = transactionNumber;
-	}
-
-	public String getTransactionType() {
-		return transactionType;
-	}
-
-	public void setTransactionType(String transactionType) {
-		this.transactionType = transactionType;
 	}
 
 	public double getMoney() {
@@ -101,32 +71,4 @@ public class Transaction {
 		this.user = user;
 	}
 	
-	public String getPaymentOption() {
-		return paymentOption;
-	}
-	public void setPaymentOption(String paymentOption) {
-		this.paymentOption = paymentOption;
-	}
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-	public Bet getMyBet() {
-		return myBet;
-	}
-	public void setMyBet(Bet myBet) {
-		this.myBet = myBet;
-	}
-	public String toString(){
-		String transaction=transactionNumber+";"+transactionType+";";
-		if(transactionType.equals("Bet")) {
-			transaction=transaction+"-"+money;
-		}
-		else {//transactionType.equals("Deposit") or transactionType.equals("BetWinner")
-			transaction=transaction+"+"+money;
-		}
-		return transaction;
-	}
 }

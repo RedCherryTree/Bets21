@@ -428,7 +428,7 @@ public class DataAccess  {
     public void depositMoney(String user, double money, String paymentOpton, String paymentMethod) {
    	db.getTransaction().begin();
    	RegisteredUser us= db.find(RegisteredUser.class, user);
-   	Transaction transaction=us.addMoney(money, paymentOpton, paymentMethod);
+   	Transaction transaction=us.depositMoney(money, paymentOpton, paymentMethod);
    	db.persist(transaction);
    	db.getTransaction().commit();
    }
@@ -441,17 +441,17 @@ public class DataAccess  {
      	return us.getMyTransactions();
      }
 
- 	public void bet(String user, double money, int quoteNumber) {
+ 	public void bet(String user, double money, int questionNumber, int selectedResult) {
 		db.getTransaction().begin();
 		RegisteredUser us= db.find(RegisteredUser.class, user);
-		Quote quote= db.find(Quote.class, quoteNumber);
-		Transaction transaction= us.bet(money, us, quote);
+		Question question= db.find(Question.class, questionNumber);
+		Transaction transaction= us.bet(money,selectedResult, question);
 		db.persist(transaction);
 		db.getTransaction().commit();
 		
 	}
 
-	public Event deleteEvent(Integer eventNumber, Date eventDate)throws EventDontExist{
+	public Event deleteEvent(Integer eventNumber, Date eventDate, String reasonToRefund)throws EventDontExist{
 		db.getTransaction().begin();
 		Event ev = db.find(Event.class, eventNumber);
 		if(ev==null) {
@@ -465,7 +465,7 @@ public class DataAccess  {
 			for(Bet bet: willBeRefunded) {
 				System.out.println(bet.toString());
 				RegisteredUser us= bet.getUser();
-			   	Transaction transaction=us.refundMoney(bet.getMoney());
+			   	Transaction transaction=us.refundMoney(bet, reasonToRefund);
 			   	db.persist(transaction);
 			}
 			Query query1 = db.createQuery("DELETE FROM Quote quote WHERE quote.question.event.eventNumber=="+eventNumber+""); 
@@ -503,7 +503,7 @@ public class DataAccess  {
 		for(Bet bet: winners) {
 			System.out.println(bet.toString());
 			RegisteredUser us= bet.getUser();
-			Quote kuota=bet.getBetQuote();
+			Quote kuota=bet.getBetQuestion().getq;
 			Transaction transaction=us.winnerBet(bet.getMoney()*mul);
 			 db.persist(transaction);
 			}	
