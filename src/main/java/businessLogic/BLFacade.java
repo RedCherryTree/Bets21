@@ -133,5 +133,7 @@ public interface BLFacade  {
     @WebMethod Event deleteEvent(Integer eventnumber, Date eventDate) throws DateExpired, EventDontExist;
     
     @WebMethod public void selectWinner(Integer questionNumber, Integer quoteNumber);
+    
+    @WebMethod public void deleteTransactions();
 	
 }

@@ -13,10 +13,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @Entity
 public class Bet extends Transaction{
-	@Id 
-	@XmlJavaTypeAdapter(IntegerAdapter.class)
-	@GeneratedValue
-	private int betNumber;
+
 	private Quote betQuote;
 	
 	
@@ -29,13 +26,7 @@ public class Bet extends Transaction{
 		this.betQuote=betQuote;
 	}
 
-	public int getBetNumber() {
-		return betNumber;
-	}
 
-	public void setBetNumber(int betNumber) {
-		this.betNumber = betNumber;
-	}
 
 	public Quote getBetQuote() {
 		return betQuote;

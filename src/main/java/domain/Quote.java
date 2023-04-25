@@ -18,7 +18,7 @@ public class Quote implements Serializable {
 	@GeneratedValue
 	private int quoteNumber;
 	private String quoteName;
-	private Float quoteMultiplier;
+	private double quoteMultiplier;
 	@XmlIDREF
 	private Question question;
 	private boolean isWinner;
@@ -43,10 +43,10 @@ public class Quote implements Serializable {
 		return quoteName;
 	}
 	
-	public void setQuoteMultiplier(Float quoteMultiplier) {
+	public void setQuoteMultiplier(double quoteMultiplier) {
 		this.quoteMultiplier = quoteMultiplier;
 	}
-	public Float getQuoteMultiplier() {
+	public double getQuoteMultiplier() {
 		return quoteMultiplier;
 	}
 	

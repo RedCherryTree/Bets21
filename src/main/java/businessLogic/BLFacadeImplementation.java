@@ -277,5 +277,14 @@ public class BLFacadeImplementation  implements BLFacade {
 	
    		dbManager.close();
     };
+    
+    @WebMethod public void deleteTransactions() {
+   		dbManager.open(false);
+
+   		dbManager.deleteTransactions();;		
+	
+   		dbManager.close();
+    }
+    
 }
 

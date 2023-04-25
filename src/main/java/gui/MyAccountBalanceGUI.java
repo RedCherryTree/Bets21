@@ -70,6 +70,7 @@ public class MyAccountBalanceGUI extends JFrame {
 	public MyAccountBalanceGUI(String user) {
 
 		BLFacade facade = MainGUI.getBusinessLogic();
+//		facade.deleteTransactions();
 		setTitle("My Account Balance");
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -132,45 +133,49 @@ public class MyAccountBalanceGUI extends JFrame {
 				int i=BalanceTable.getSelectedRow();
 				domain.Transaction t=(domain.Transaction)tableModelTransactions.getValueAt(i,2); // obtain t object
 				if(t instanceof Bet) {//Hay que acabar cuando se implemente Bet
+					Bet b=(Bet)t;
 					lblPaymentOption.setVisible(true);
-					lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
+					lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+b.getBetQuote().getQuestion().getEvent().getDescription());
 					
-					lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+t.getMyBet().getBetQuote().getQuestion().getQuestion()); 
+					lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+b.getBetQuote().getQuestion().getQuestion()); 
 					lblPaymentMethod.setVisible(true);
 					
-					lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+t.getMyBet().getBetQuote().getQuoteName()); 
+					lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+b.getBetQuote().getQuoteName()); 
 					lblQuote.setVisible(true);
 				}
 				else {
 					if(t instanceof DepositMoney) {
+						DepositMoney d=(DepositMoney)t;
 						lblPaymentOption.setVisible(true);
-						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption")+": "+t.getPaymentOption());
+						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption")+": "+d.getPaymentOption());
 						
-						lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("UsedPaymentCDOrMail")+": "+t.getPaymentMethod()); 
+						lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("UsedPaymentCDOrMail")+": "+d.getPaymentMethod()); 
 						lblPaymentMethod.setVisible(true);
 						lblQuote.setVisible(false);
 						
 					}
 					else {
 						if(t instanceof RefundMoney) {
-	//						lblPaymentOption.setVisible(true);
-	//						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
+							RefundMoney rf=(RefundMoney)t;
+							lblPaymentOption.setVisible(true);
+							lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+rf.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
 							
-	//						lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+t.getMyBet().getBetQuote().getQuestion().getQuestion()); 
-	//						lblPaymentMethod.setVisible(true);
+							lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+rf.getMyBet().getBetQuote().getQuestion().getQuestion()); 
+							lblPaymentMethod.setVisible(true);
 							
-	//						lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+t.getMyBet().getBetQuote().getQuoteName()); 
-	//						lblQuote.setVisible(true);
+							lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+rf.getMyBet().getBetQuote().getQuoteName()); 
+							lblQuote.setVisible(true);
 						}
 						else {//intanceof betwinner
-	//						lblPaymentOption.setVisible(true);
-	//						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
+							BetWinner bw=(BetWinner)t;
+							lblPaymentOption.setVisible(true);
+							lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+bw.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
 							
-	//						lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+t.getMyBet().getBetQuote().getQuestion().getQuestion()); 
-	//						lblPaymentMethod.setVisible(true);
+							lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+bw.getMyBet().getBetQuote().getQuestion().getQuestion()); 
+							lblPaymentMethod.setVisible(true);
 							
-	//						lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+t.getMyBet().getBetQuote().getQuoteName()); 
-	//						lblQuote.setVisible(true);
+							lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+bw.getMyBet().getBetQuote().getQuoteName()); 
+							lblQuote.setVisible(true);
 						}
 						}
 					}

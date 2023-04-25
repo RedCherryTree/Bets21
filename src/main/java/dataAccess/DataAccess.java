@@ -450,7 +450,20 @@ public class DataAccess  {
 		db.getTransaction().commit();
 		
 	}
-
+ 	public void deleteTransactions() {
+ 		db.getTransaction().begin();
+ 		Query query1 = db.createQuery("DELETE FROM Transaction t"); 
+ 		query1.executeUpdate();
+// 		Query query2 = db.createQuery("DELETE FROM User u"); 
+// 		query2.executeUpdate();
+ 		TypedQuery<RegisteredUser> query = db.createQuery("SELECT u FROM RegisteredUser u",RegisteredUser.class);
+ 		List<RegisteredUser> users= query.getResultList();
+ 		for(RegisteredUser us: users) {
+ 			us.getMyTransactions().clear();
+ 		}
+ 		db.getTransaction().commit();
+ 	}
+ 	
 	public Event deleteEvent(Integer eventNumber, Date eventDate, String reasonToRefund)throws EventDontExist{
 		db.getTransaction().begin();
 		Event ev = db.find(Event.class, eventNumber);
@@ -497,7 +510,7 @@ public class DataAccess  {
 		q.setResult(qt.getQuoteName());
 		double mul = qt.getQuoteMultiplier();
 		
-		TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.question.questionNumber=="+questionNumber+"",Bet.class);		
+		TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.quoteNumber=="+quoteNumber+"",Bet.class);		
 		List<Bet> winners= query.getResultList();
 		System.out.println("Winners of the bet: ");
 		for(Bet bet: winners) {

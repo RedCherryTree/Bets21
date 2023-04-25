@@ -28,7 +28,7 @@ public class DepositMoney extends Transaction  implements Serializable{
 	 */
 	public DepositMoney(String paymentOpton, String paymentMethod,double money, RegisteredUser user) {
 		super(money, user);
-		this.paymentOption=paymentOption;
+		this.paymentOption=paymentOpton;
 		this.paymentMethod=paymentMethod;
 	}
 	public String getPaymentOption() {

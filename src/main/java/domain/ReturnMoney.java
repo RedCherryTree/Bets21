@@ -25,6 +25,7 @@ public abstract class ReturnMoney extends Transaction implements Serializable {
 	
 	public ReturnMoney(Bet myBet) {
 		super(myBet.getMoney(), myBet.getUser());
+		this.myBet=myBet;
 	}
 
 	public Bet getMyBet() {

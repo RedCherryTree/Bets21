@@ -21,6 +21,7 @@ public class BetWinner extends ReturnMoney implements Serializable{
 	
 	public BetWinner(Bet myBet) {
 		super(myBet);
+
 	}
 	
 	public double betReward() {
