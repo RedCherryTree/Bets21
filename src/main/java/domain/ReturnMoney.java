@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlIDREF;
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity 
-public class ReturnMoney extends Transaction implements Serializable {
+public abstract class ReturnMoney extends Transaction implements Serializable {
 	@XmlIDREF
 	@OneToOne//(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	private Bet myBet;
@@ -25,6 +25,10 @@ public class ReturnMoney extends Transaction implements Serializable {
 	
 	public ReturnMoney(Bet myBet) {
 		super(myBet.getMoney(), myBet.getUser());
+	}
+
+	public Bet getMyBet() {
+		return myBet;
 	}
 	
 }

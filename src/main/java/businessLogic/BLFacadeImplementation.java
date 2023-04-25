@@ -261,7 +261,7 @@ public class BLFacadeImplementation  implements BLFacade {
    			throw new DateExpired(ResourceBundle.getBundle("Etiquetas").getString("DateExpired"));
    				
    		
-   		 ev=dbManager.deleteEvent( eventnumber, eventDate);		
+   		 ev=dbManager.deleteEvent( eventnumber, eventDate,"Event has been canceled.");		
 
    		dbManager.close();
    		

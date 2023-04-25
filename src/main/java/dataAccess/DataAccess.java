@@ -441,11 +441,11 @@ public class DataAccess  {
      	return us.getMyTransactions();
      }
 
- 	public void bet(String user, double money, int questionNumber, int selectedResult) {
+ 	public void bet(String user, double money, int quoteNumber) {
 		db.getTransaction().begin();
 		RegisteredUser us= db.find(RegisteredUser.class, user);
-		Question question= db.find(Question.class, questionNumber);
-		Transaction transaction= us.bet(money,selectedResult, question);
+		Quote quote= db.find(Quote.class, quoteNumber);
+		Transaction transaction= us.bet(money, quote);
 		db.persist(transaction);
 		db.getTransaction().commit();
 		
@@ -503,8 +503,7 @@ public class DataAccess  {
 		for(Bet bet: winners) {
 			System.out.println(bet.toString());
 			RegisteredUser us= bet.getUser();
-			Quote kuota=bet.getBetQuestion().getq;
-			Transaction transaction=us.winnerBet(bet.getMoney()*mul);
+			Transaction transaction=us.betWinner(bet);
 			 db.persist(transaction);
 			}	
 		}else {

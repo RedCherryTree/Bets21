@@ -97,27 +97,27 @@ public class RegisteredUser extends User implements Serializable{
 
 	public Transaction depositMoney(double money, String paymentOpton, String paymentMethod) {
 		this.money+= money;
-		Transaction transaction= new DepositMoney( paymentOpton, paymentMethod, money, this);
+		DepositMoney transaction= new DepositMoney( paymentOpton, paymentMethod, money, this);
 		this.myTransactions.add(transaction);
 		return transaction;
 	}
 	
-	public Transaction bet(double money, int selectedResult, Question question ) {
+	public Transaction bet(double money, Quote quote ) {
 		this.money-= money;
-		Transaction bet= new Bet(money, selectedResult,this, question);
+		Bet bet= new Bet(money,this, quote);
 		this.myTransactions.add(bet);
 		return bet;
 	}
 	public Transaction refundMoney(Bet bet, String reasonToRefund) {
 		this.money+= money;
-		Transaction refund= new RefundMoney( bet, reasonToRefund);
+		RefundMoney refund= new RefundMoney( bet, reasonToRefund);
 		this.myTransactions.add(refund);
 		return refund;		
 	}
 	
 	public Transaction betWinner(Bet bet){
-		this.money+= money;
-		Transaction winner= new BetWinner(bet);
+		BetWinner winner= new BetWinner(bet);
+		this.money=winner.betReward();
 		this.myTransactions.add(winner);
 		return winner;	
 	}

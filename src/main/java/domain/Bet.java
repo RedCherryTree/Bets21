@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.ResourceBundle;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,18 +17,16 @@ public class Bet extends Transaction{
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
 	private int betNumber;
-	private Question betQuestion;
+	private Quote betQuote;
 	
-	private int selectedResult;
 	
 	public Bet() {
 		super();
 	}
 	
-	public Bet(double money, int selectedResult, RegisteredUser user, Question betQuestion) {
+	public Bet(double money, RegisteredUser user, Quote betQuote) {
 		super(money, user);
-		this.selectedResult=selectedResult;
-		this.betQuestion=betQuestion;
+		this.betQuote=betQuote;
 	}
 
 	public int getBetNumber() {
@@ -37,24 +37,18 @@ public class Bet extends Transaction{
 		this.betNumber = betNumber;
 	}
 
-	public Question getBetQuestion() {
-		return betQuestion;
+	public Quote getBetQuote() {
+		return betQuote;
 	}
 
-	public void setBetQuestion(Question betQuestion) {
-		this.betQuestion = betQuestion;
+	public void setBetQuoten(Quote betQuote) {
+		this.betQuote = betQuote;
 	}
 
-	public int getSelectedResult() {
-		return selectedResult;
-	}
 
-	public void setSelectedResult(int selectedResult) {
-		this.selectedResult = selectedResult;
-	}
 	
 	@Override
 	public String toString() {
-		return "Money bet= "+super.getMoney();
+		return ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+String.format("%.2f",  super.getMoney())+"€";
 	}
 }

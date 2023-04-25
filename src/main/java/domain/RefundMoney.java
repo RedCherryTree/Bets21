@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,6 +31,7 @@ public class RefundMoney extends ReturnMoney implements Serializable{
 	}
 	
 	public String toString() {
-		return super.toString()+" Your money has been refund. The reason is: "+reasonToRefund;
+		return ResourceBundle.getBundle("Etiquetas").getString("RefundedMoney")+":"+String.format("%.2f", super.getMoney())
+		+"€"+" Your money has been refund. The reason is: "+reasonToRefund;
 	}
 }

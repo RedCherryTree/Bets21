@@ -11,8 +11,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import businessLogic.BLFacade;
-import domain.Question;
-import domain.Transaction;
+import domain.*;
+
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -101,20 +101,19 @@ public class MyAccountBalanceGUI extends JFrame {
 			System.out.println("Transactions "+t);
 
 			row.add(t.getTransactionNumber());
-			if(t.getTransactionType().equals("Bet")) {
-				row.add(ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+":"+String.format("%.2f",  t.getMoney())+"€");
-				
+			if(t instanceof Bet) {
+				row.add(t.toString());				
 			}
 			else {
-				if(t.getTransactionType().equals("Deposit")) {
-					row.add(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney")+":"+String.format("%.2f",  t.getMoney())+"€");
+				if(t instanceof DepositMoney) {
+					row.add(t.toString());
 				}
 				else {
-					if(t.getTransactionType().equals("Refund")) {
-						row.add(ResourceBundle.getBundle("Etiquetas").getString("RefundedMoney")+":"+String.format("%.2f", t.getMoney())+"€");
+					if(t instanceof RefundMoney) {
+						row.add(t.toString());
 					}
-					else {
-						row.add(ResourceBundle.getBundle("Etiquetas").getString("EarnedMoney")+":"+String.format("%.2f", t.getMoney())+"€");
+					else {//instanceof BetWinner
+						row.add(t.toString());
 					}
 				}
 			}
@@ -132,7 +131,7 @@ public class MyAccountBalanceGUI extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int i=BalanceTable.getSelectedRow();
 				domain.Transaction t=(domain.Transaction)tableModelTransactions.getValueAt(i,2); // obtain t object
-				if(t.getTransactionType().equals("Bet")) {//Hay que acabar cuando se implemente Bet
+				if(t instanceof Bet) {//Hay que acabar cuando se implemente Bet
 					lblPaymentOption.setVisible(true);
 					lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
 					
@@ -143,7 +142,7 @@ public class MyAccountBalanceGUI extends JFrame {
 					lblQuote.setVisible(true);
 				}
 				else {
-					if(t.getTransactionType().equals("Deposit")) {
+					if(t instanceof DepositMoney) {
 						lblPaymentOption.setVisible(true);
 						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("PaymentOption")+": "+t.getPaymentOption());
 						
@@ -153,7 +152,7 @@ public class MyAccountBalanceGUI extends JFrame {
 						
 					}
 					else {
-						if(t.getTransactionType().equals("Refund")) {
+						if(t instanceof RefundMoney) {
 	//						lblPaymentOption.setVisible(true);
 	//						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
 							
@@ -163,7 +162,7 @@ public class MyAccountBalanceGUI extends JFrame {
 	//						lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+t.getMyBet().getBetQuote().getQuoteName()); 
 	//						lblQuote.setVisible(true);
 						}
-						else {
+						else {//intanceof betwinner
 	//						lblPaymentOption.setVisible(true);
 	//						lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+t.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
 							

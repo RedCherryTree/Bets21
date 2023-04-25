@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -44,6 +45,6 @@ public class DepositMoney extends Transaction  implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Deposited money= "+super.getMoney()+"$";
+		return ResourceBundle.getBundle("Etiquetas").getString("DepositMoney")+":"+String.format("%.2f",  super.getMoney())+"€";
 	}
 }
