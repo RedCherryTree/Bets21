@@ -135,5 +135,7 @@ public interface BLFacade  {
     @WebMethod public void selectWinner(Integer questionNumber, Integer quoteNumber);
     
     @WebMethod public void deleteTransactions();
+    
+    @WebMethod public void deleteRUsers();
 	
 }

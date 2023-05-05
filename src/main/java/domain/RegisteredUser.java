@@ -20,6 +20,7 @@ public class RegisteredUser extends User implements Serializable{
 	private String country;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	private Vector<Transaction> myTransactions=new Vector<Transaction>();
+	private Vector<RegisteredUser> myFollowers=new Vector<RegisteredUser>();
 	
 	public RegisteredUser(String username,String password) {
 		super(username, password);
@@ -92,6 +93,11 @@ public class RegisteredUser extends User implements Serializable{
 	
 	public Vector<Transaction> getMyTransactions() {
 		return myTransactions;
+	}
+
+
+	public Vector<RegisteredUser> getMyFollowers() {
+		return myFollowers;
 	}
 
 

@@ -478,6 +478,7 @@ public class DataAccess  {
 				System.out.println(bet.toString());
 				RegisteredUser us= bet.getUser();
 			   	Transaction transaction=us.refundMoney(bet, reasonToRefund);
+			   	us.getMyTransactions().remove(bet);
 			   	db.persist(transaction);
 			}
 			Query query1 = db.createQuery("DELETE FROM Quote quote WHERE quote.question.event.eventNumber=="+eventNumber+""); 
@@ -524,6 +525,11 @@ public class DataAccess  {
 	
 		db.getTransaction().commit();
 	}
-	
+	public void deleteRUsers() {
+ 		db.getTransaction().begin();
+ 		Query query1 = db.createQuery("DELETE FROM RegisteredUser u"); 
+ 		query1.executeUpdate();
+ 		db.getTransaction().commit();
+	}
 	
 }
