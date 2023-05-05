@@ -110,7 +110,8 @@ public class RegisteredUser extends User implements Serializable{
 	}
 	public Transaction refundMoney(Bet bet, String reasonToRefund) {
 		this.money+= money;
-		RefundMoney refund= new RefundMoney( bet, reasonToRefund);
+		RefundMoney refund= new RefundMoney(bet.getMoney(), this, reasonToRefund, bet.getBetQuote().getQuestion().getEvent().getDescription(),
+				bet.getBetQuote().getQuestion().getQuestion(), bet.getBetQuote().getQuoteName());
 		this.myTransactions.add(refund);
 		return refund;		
 	}

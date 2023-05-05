@@ -158,12 +158,12 @@ public class MyAccountBalanceGUI extends JFrame {
 						if(t instanceof RefundMoney) {
 							RefundMoney rf=(RefundMoney)t;
 							lblPaymentOption.setVisible(true);
-							lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+rf.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
+							lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+rf.getBetDesc());
 							
-							lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+rf.getMyBet().getBetQuote().getQuestion().getQuestion()); 
+							lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+rf.getBetQuestion()); 
 							lblPaymentMethod.setVisible(true);
 							
-							lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+rf.getMyBet().getBetQuote().getQuoteName()); 
+							lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+rf.getQuoteName()); 
 							lblQuote.setVisible(true);
 						}
 						else {//intanceof betwinner

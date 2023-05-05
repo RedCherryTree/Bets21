@@ -454,12 +454,11 @@ public class DataAccess  {
  		db.getTransaction().begin();
  		Query query1 = db.createQuery("DELETE FROM Transaction t"); 
  		query1.executeUpdate();
-// 		Query query2 = db.createQuery("DELETE FROM User u"); 
-// 		query2.executeUpdate();
  		TypedQuery<RegisteredUser> query = db.createQuery("SELECT u FROM RegisteredUser u",RegisteredUser.class);
  		List<RegisteredUser> users= query.getResultList();
  		for(RegisteredUser us: users) {
  			us.getMyTransactions().clear();
+ 			us.setMoney(0);
  		}
  		db.getTransaction().commit();
  	}
