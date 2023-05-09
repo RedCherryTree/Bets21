@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.*;
+import java.util.Vector;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -11,6 +12,9 @@ public abstract class User {
 	@Id
 	private String username;
 	private String password;
+	
+	private Vector<Message> sentMessages=new Vector<Message>();
+	private Vector<Message> receivedMessages=new Vector<Message>();
 	
 	public User(String username,String password) {
 		this.username=username;
@@ -27,9 +31,6 @@ public abstract class User {
 	public boolean isAdmin() {
 		return this.getClass().getSimpleName().equals("Admin");
 	}
-//	public void setUserType(String userType) {
-//		this.userType=userType;
-//	}
 
 	public String getUserType() {
 		return this.getClass().getSimpleName();
@@ -43,12 +44,27 @@ public abstract class User {
 		this.password = password;
 	}
 
+	public Vector<Message> getSentMessages() {
+		return sentMessages;
+	}
+
+	public Vector<Message> getReceivedMessages() {
+		return receivedMessages;
+	}
+
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password ;
 	}
 
+	public Message sendMessage(User receiver, String subject, String text) {
+		Message message= new Message(this, receiver, subject, text);
+		sentMessages.add(0,message);
+		return message;
+	}
 	
-	
+	public void receiveMessage(Message message) {
+		this.receivedMessages.add(0,message);
+	}
 	
 }

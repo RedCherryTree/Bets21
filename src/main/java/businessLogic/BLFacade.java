@@ -14,6 +14,7 @@ import domain.User;
 import domain.RegisteredUser;
 import domain.Transaction;
 import domain.Event;
+import domain.Message;
 import exceptions.*;
 
 import javax.jws.WebMethod;
@@ -137,5 +138,7 @@ public interface BLFacade  {
     @WebMethod public void deleteTransactions();
     
     @WebMethod public void deleteRUsers();
-	
+    
+    @WebMethod public Message sendMessage(String sen, String rec, String subject, String text);
+
 }

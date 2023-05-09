@@ -15,6 +15,7 @@ import domain.User;
 import domain.RegisteredUser;
 import domain.Transaction;
 import domain.Event;
+import domain.Message;
 import exceptions.*;
 
 /**
@@ -292,6 +293,14 @@ public class BLFacadeImplementation  implements BLFacade {
    		dbManager.deleteRUsers();;		
 	
    		dbManager.close();
+    }
+    @WebMethod public Message sendMessage(String sen, String rec, String subject, String text) {
+   		dbManager.open(false);
+
+   		Message message=dbManager.sendMessage(sen, rec, subject, text);	
+	
+   		dbManager.close();
+   		return message;
     }
 }
 

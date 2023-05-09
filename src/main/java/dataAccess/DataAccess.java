@@ -22,6 +22,7 @@ import configuration.UtilDate;
 import domain.Admin;
 import domain.Bet;
 import domain.Event;
+import domain.Message;
 import domain.Question;
 import domain.Quote;
 import domain.RegisteredUser;
@@ -532,4 +533,22 @@ public class DataAccess  {
  		db.getTransaction().commit();
 	}
 	
+	public Message sendMessage(String sen, String rec, String subject, String text) {
+	   	db.getTransaction().begin();
+	   	User sender= db.find(User.class, sen);
+	   	User receiver= db.find(User.class, rec);
+	   	Message message=sender.sendMessage(receiver, subject, text);
+	   	receiver.receiveMessage(message);
+	   	db.persist(message);
+	   	db.getTransaction().commit();
+	   	return message;
+	}
+	
+	public void readMessage(int mes) {
+		db.getTransaction().begin();
+		Message message=db.find(Message.class, mes);
+		message.setHasBeenRead(true);
+		db.getTransaction().commit();
+		
+	}
 }
