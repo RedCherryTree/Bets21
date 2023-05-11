@@ -287,10 +287,10 @@ public class BLFacadeImplementation  implements BLFacade {
    		dbManager.close();
     }
     
-    @WebMethod public void deleteRUsers() {
+    @WebMethod public void deleteUsers() {
    		dbManager.open(false);
 
-   		dbManager.deleteRUsers();;		
+   		dbManager.deleteUsers();;		
 	
    		dbManager.close();
     }
@@ -301,6 +301,33 @@ public class BLFacadeImplementation  implements BLFacade {
 	
    		dbManager.close();
    		return message;
+    }
+    @WebMethod
+	public User getUser(String username) {
+    	dbManager.open(false);
+    	User user = dbManager.getUser(username);
+    	dbManager.close();
+    	return user;
+    }
+    
+    @WebMethod public Vector<Message> getUserSentMessages(String username){
+    	dbManager.open(false);
+    	Vector<Message> messages = dbManager.getUserSentMessages(username);
+    	dbManager.close();
+    	return messages;
+    }
+    
+    @WebMethod public Vector<Message> getUserReceivedMessages(String username){
+    	dbManager.open(false);
+    	Vector<Message> messages = dbManager.getUserReceivedMessages(username);
+    	dbManager.close();
+    	return messages;
+    }
+    @WebMethod public Vector<Message> getConversation(String receiver, String sender){
+    	dbManager.open(false);
+    	Vector<Message> messages = dbManager.getConversation(receiver, sender);
+    	dbManager.close();
+    	return messages;
     }
 }
 

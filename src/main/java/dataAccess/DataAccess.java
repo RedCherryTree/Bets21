@@ -2,6 +2,7 @@ package dataAccess;
 
 //hello
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -526,9 +527,9 @@ public class DataAccess  {
 	
 		db.getTransaction().commit();
 	}
-	public void deleteRUsers() {
+	public void deleteUsers() {
  		db.getTransaction().begin();
- 		Query query1 = db.createQuery("DELETE FROM RegisteredUser u"); 
+ 		Query query1 = db.createQuery("DELETE FROM User u"); 
  		query1.executeUpdate();
  		db.getTransaction().commit();
 	}
@@ -537,6 +538,10 @@ public class DataAccess  {
 	   	db.getTransaction().begin();
 	   	User sender= db.find(User.class, sen);
 	   	User receiver= db.find(User.class, rec);
+	   	sender.getReceivedMessages();
+	   	sender.getSentMessages();
+	   	receiver.getReceivedMessages();
+	   	receiver.getSentMessages();
 	   	Message message=sender.sendMessage(receiver, subject, text);
 	   	receiver.receiveMessage(message);
 	   	db.persist(message);
@@ -551,4 +556,40 @@ public class DataAccess  {
 		db.getTransaction().commit();
 		
 	}
+
+   
+	public User getUser(String username) {
+     	User us= db.find(User.class, username);
+     	return us;
+    }
+	
+    public Vector<Message> getUserReceivedMessages(String username){
+    	User us= db.find(User.class, username);
+    	for(Message m: us.getReceivedMessages()) {
+    		System.out.println(m.toString());
+    	}
+     	return us.getReceivedMessages();
+    }
+    
+    public Vector<Message> getUserSentMessages(String username){
+    	User us= db.find(User.class, username);
+    	for(Message m: us.getSentMessages()) {
+    		System.out.println(m.toString());
+    	}
+     	return us.getSentMessages();
+    }
+    public Vector<Message> getConversation(String receiver, String sender){
+    	User us= db.find(User.class, receiver);
+    	Vector<Message> myConversation=us.getSentMessages();
+    	myConversation.addAll(us.getReceivedMessages());
+    	Collections.sort(myConversation);
+    	Vector<Message> emaitza= new Vector<Message>();
+    	for(Message m: myConversation) {
+    		if(!emaitza.contains(m) && m.getSender().equals(sender)) {
+    			System.out.println(m.toString());
+    			emaitza.add(m);
+    		}
+    	}
+     	return emaitza;
+    }
 }

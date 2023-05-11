@@ -29,6 +29,7 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
+import javax.swing.JSeparator;
 
 public class UserGUI extends JFrame {
 
@@ -92,6 +93,15 @@ public class UserGUI extends JFrame {
 				findQGUI.setVisible(true);
 			}
 		});
+		
+		JButton btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MailSystem")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MyMessagesGUI messagesGUI= new MyMessagesGUI(user);
+				messagesGUI.setVisible(true);
+			}
+		});
+		jContentPane.add(btnNewButton);
 		jContentPane.add(jButtonQueryQueries);
 		
 		JButton jButtonLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
