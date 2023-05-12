@@ -592,4 +592,39 @@ public class DataAccess  {
     	}
      	return emaitza;
     }
+    
+	public boolean followUser(String username, String followus) {
+		if(this.isRegistered(followus)) {
+			db.getTransaction().begin();
+		 	RegisteredUser user= db.find(RegisteredUser.class, username);
+		 	RegisteredUser follow= db.find(RegisteredUser.class, followus);
+		 	user.followUser(follow);
+		 	System.out.println(user.getUsername());
+			db.getTransaction().commit();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean unfollowUser(String username, int follownum) {
+		
+			db.getTransaction().begin();
+		 	RegisteredUser user= db.find(RegisteredUser.class, username);
+		 	
+		 	user.unfollowUser(follownum);
+			db.getTransaction().commit();
+			return true;
+		
+		
+	}
+	
+	
+	public Vector<RegisteredUser> getFollows(String username){
+		RegisteredUser user= db.find(RegisteredUser.class, username);
+		for(RegisteredUser u: user.getMyFollows())
+			System.out.println(u.toString());
+		return user.getMyFollows();
+	}
 }

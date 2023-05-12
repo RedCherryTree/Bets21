@@ -101,6 +101,15 @@ public class UserGUI extends JFrame {
 				messagesGUI.setVisible(true);
 			}
 		});
+		
+		JButton btnNewButton_1 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DateExpired")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MyFollowsGUI followsGUI= new MyFollowsGUI(user);
+				followsGUI.setVisible(true);
+			}
+		});
+		jContentPane.add(btnNewButton_1);
 		jContentPane.add(btnNewButton);
 		jContentPane.add(jButtonQueryQueries);
 		

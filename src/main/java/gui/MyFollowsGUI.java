@@ -6,9 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import businessLogic.BLFacade;
+import domain.RegisteredUser;
+
 import javax.swing.JScrollPane;
 import java.awt.Rectangle;
 import java.util.ResourceBundle;
+import java.util.Vector;
+import java.util.concurrent.BlockingDeque;
 
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -18,6 +24,9 @@ import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MyFollowsGUI extends JFrame {
 
@@ -33,6 +42,7 @@ public class MyFollowsGUI extends JFrame {
 	private DefaultTableModel tableModelFollows;
 	private JTextField textField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JTable table;
 	
 
 	/**
@@ -42,7 +52,7 @@ public class MyFollowsGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MyFollowsGUI frame = new MyFollowsGUI();
+					MyFollowsGUI frame = new MyFollowsGUI("user");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +64,7 @@ public class MyFollowsGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MyFollowsGUI() {
+	public MyFollowsGUI(String user) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -65,18 +75,24 @@ public class MyFollowsGUI extends JFrame {
 		
 		accountsIFollow = new JScrollPane();
 		accountsIFollow.setBounds(new Rectangle(292, 50, 346, 150));
-		accountsIFollow.setBounds(185, 58, 239, 84);
+		accountsIFollow.setBounds(132, 58, 292, 84);
 		contentPane.add(accountsIFollow);
 		
 		followsTable = new JTable();
 		accountsIFollow.setViewportView(followsTable);
 		tableModelFollows = new DefaultTableModel(null, columnNamesFollows);
-
+		
+		BLFacade facade = MainGUI.getBusinessLogic();
 		followsTable.setModel(tableModelFollows);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(23, 28, 117, 14);
-		contentPane.add(lblNewLabel);
+		table = new JTable();
+		accountsIFollow.setColumnHeaderView(table);
+		
+		refreshTable(myfollows(user, facade));
+		
+		JLabel Username = new JLabel("Username");
+		Username.setBounds(23, 28, 117, 14);
+		contentPane.add(Username);
 		
 		textField = new JTextField();
 		textField.setBounds(148, 27, 109, 20);
@@ -88,26 +104,66 @@ public class MyFollowsGUI extends JFrame {
 		lblNewLabel_1.setBounds(270, 28, 23, 19);
 		contentPane.add(lblNewLabel_1);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("New radio button");
-		buttonGroup.add(rdbtnNewRadioButton);
-		rdbtnNewRadioButton.setBounds(31, 72, 109, 23);
-		contentPane.add(rdbtnNewRadioButton);
+		JButton Unfollow = new JButton("Unfollow");
+		Unfollow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i = table.getSelectedRow();
+				System.out.println(i);
+				facade.unfollowUser(user, i);
+				refreshTable(myfollows(user, facade));
+			}
+		});
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("New radio button");
-		buttonGroup.add(rdbtnNewRadioButton_1);
-		rdbtnNewRadioButton_1.setBounds(31, 104, 109, 23);
-		contentPane.add(rdbtnNewRadioButton_1);
+		Unfollow.setBounds(321, 153, 103, 41);
+		contentPane.add(Unfollow);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(321, 153, 103, 61);
-		contentPane.add(btnNewButton);
+		JButton followUser = new JButton("Follow User");
+		followUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String follow = textField.getText();
+				facade.followUser(user, follow);
+				refreshTable(myfollows(user, facade));
+				
+			}
+		});
+		followUser.setBounds(278, 11, 89, 36);
+		contentPane.add(followUser);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(278, 11, 89, 36);
-		contentPane.add(btnNewButton_1);
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(63, 178, 172, 72);
+		contentPane.add(textPane);
 		
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.setBounds(321, 225, 103, 23);
-		contentPane.add(btnNewButton_2);
+		JButton btnGoBack = new JButton("back");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserGUI userGUI= new UserGUI(user);
+				userGUI.setVisible(true);
+				btnGoBack_actionPerformed(e);
+			}
+		});
+		btnGoBack.setBounds(321, 225, 103, 25);
+		contentPane.add(btnGoBack);
+	}
+	private void btnGoBack_actionPerformed(ActionEvent e) {
+		this.setVisible(false);
+	}
+	private void refreshTable(Vector<RegisteredUser> myfollows) {
+		
+		if(!myfollows.isEmpty()) {
+			System.out.println("mylist lleno"+myfollows.firstElement().getUsername());
+		for(RegisteredUser fl:myfollows) {
+			Vector<Object> row = new Vector<Object>();
+			row.add(fl.getUsername());
+			row.add(fl.getMail());
+			tableModelFollows.addRow(row);
+		}	
+		}
+		else {
+			System.out.println("mylist empty");
+		}
+		}
+
+	private Vector<RegisteredUser> myfollows(String user, BLFacade facade) {
+		return facade.getFollows(user);
 	}
 }

@@ -148,4 +148,10 @@ public interface BLFacade  {
     @WebMethod public Vector<Message> getUserReceivedMessages(String user);
     
     @WebMethod public Vector<Message> getConversation(String receiver, String sender);
+    
+    @WebMethod public boolean followUser(String username, String followus);
+    
+    @WebMethod public Vector<domain.RegisteredUser> getFollows(String username);
+    
+    @WebMethod public boolean unfollowUser(String username, int followus);
 }

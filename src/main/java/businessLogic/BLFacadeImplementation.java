@@ -323,11 +323,36 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     	return messages;
     }
+    
     @WebMethod public Vector<Message> getConversation(String receiver, String sender){
     	dbManager.open(false);
     	Vector<Message> messages = dbManager.getConversation(receiver, sender);
     	dbManager.close();
     	return messages;
     }
+
+	@Override
+	public boolean followUser(String username, String followus) {
+		dbManager.open(false);
+		boolean emaitza =dbManager.followUser(username,followus);
+		dbManager.close();
+		return emaitza;
+	}
+	
+	@Override
+	public boolean unfollowUser(String username, int followus) {
+		dbManager.open(false);
+		boolean emaitza =dbManager.unfollowUser(username,followus);
+		dbManager.close();
+		return emaitza;
+	}
+
+	@Override
+	public Vector<RegisteredUser> getFollows(String username) {
+		dbManager.open(false);
+		Vector<RegisteredUser> user = dbManager.getFollows(username);
+		dbManager.close();
+		return user;
+	}
 }
 
