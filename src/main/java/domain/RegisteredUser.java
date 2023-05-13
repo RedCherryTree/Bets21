@@ -207,6 +207,16 @@ public class RegisteredUser extends User implements Serializable{
 		this.myTransactions.add(bet);
 		return bet;
 	}
+	
+	public Transaction bet(double money, Vector<Quote> quotes ) {
+		this.money-= money;
+		this.totalBetMoney+=money;
+		this.totalNumberOfBets+=1;
+		MultipleQuoteBet bet= new MultipleQuoteBet(money,this, quotes);
+		this.myTransactions.add(bet);
+		return bet;
+	}
+	
 	public Transaction refundMoney(Bet bet, String reasonToRefund) {
 		this.money+= bet.getMoney();
 		this.totalBetMoney-=bet.getMoney();

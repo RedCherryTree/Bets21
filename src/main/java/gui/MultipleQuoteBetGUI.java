@@ -43,7 +43,7 @@ import java.awt.Font;
 import javax.swing.JSpinner;
 import java.awt.SystemColor;
 
-public class MultipleBetGUI extends JFrame {
+public class MultipleQuoteBetGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -60,16 +60,19 @@ public class MultipleBetGUI extends JFrame {
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 	private JScrollPane scrollPaneQueries = new JScrollPane();
 	private JScrollPane scrollPaneQuotes = new JScrollPane();
+	private JScrollPane scrollPaneMyQuotes = new JScrollPane();
 	
 	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
 
 	private JTable tableEvents= new JTable();
 	private JTable tableQueries = new JTable();
 	private JTable tableQuotes= new JTable();
+	private JTable tableMyQuotes= new JTable();
 
 	private DefaultTableModel tableModelEvents;
 	private DefaultTableModel tableModelQueries;
 	private DefaultTableModel tableModelQuotes;
+	private DefaultTableModel tableModelMyQuotes;
 	private DefaultTableModel tableModelMultiple;
 
 	
@@ -96,7 +99,6 @@ public class MultipleBetGUI extends JFrame {
 	private JButton btnAdd;
 
 	private JLabel lblErrorLabel;
-	private final JPanel panel = new JPanel();
 
 	private JLabel lblMinimumBet;
 
@@ -122,9 +124,17 @@ public class MultipleBetGUI extends JFrame {
 	private JLabel lblNewLabel_1;
 
 	private JLabel lblHasFinished;
+	private JLabel lblBetQuote;
+
+	private JLabel lblQuotes2;
+
+	private JButton btnRemoveQuote;
+
+	private JButton btnBet;
+	private JLabel lblError;
 	
 
-	public MultipleBetGUI(String user)
+	public MultipleQuoteBetGUI(String user)
 	{
 		try
 		{
@@ -136,25 +146,30 @@ public class MultipleBetGUI extends JFrame {
 		}
 	}
 
+	private double mult=1.0;
+	private double minBet=0;
+	private JLabel lblTotalMultiplier;
+	private JLabel lblFinalMinimumBet;
 	
 	private void jbInit(String user) throws Exception
 	{
 
+		
 		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(700, 500));
+		this.setSize(new Dimension(758, 532));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
 
-		jLabelEventDate.setBounds(new Rectangle(40, 11, 140, 14));
+		jLabelEventDate.setBounds(new Rectangle(67, 11, 140, 14));
 		jLabelQueries.setForeground(SystemColor.menuText);
-		jLabelQueries.setBounds(294, 121, 406, 14);
-		jLabelEvents.setBounds(294, 10, 259, 16);
+		jLabelQueries.setBounds(386, 121, 406, 14);
+		jLabelEvents.setBounds(388, 10, 121, 16);
 
 		this.getContentPane().add(jLabelEventDate, null);
 		this.getContentPane().add(jLabelQueries);
 		this.getContentPane().add(jLabelEvents);
 
 
-		jCalendar1.setBounds(new Rectangle(40, 30, 225, 135));
+		jCalendar1.setBounds(new Rectangle(65, 30, 225, 135));
 
 		BLFacade facade = MainGUI.getBusinessLogic();
 		datesWithEventsCurrentMonth=facade.getEventsMonth(jCalendar1.getDate());
@@ -242,8 +257,8 @@ public class MultipleBetGUI extends JFrame {
 
 		this.getContentPane().add(jCalendar1, null);
 		
-		scrollPaneEvents.setBounds(new Rectangle(294, 30, 346, 80));
-		scrollPaneQueries.setBounds(new Rectangle(294, 139, 321, 80));
+		scrollPaneEvents.setBounds(new Rectangle(388, 30, 346, 80));
+		scrollPaneQueries.setBounds(new Rectangle(388, 137, 346, 80));
 
 		tableQueries.addMouseListener(new MouseAdapter() {
 			@Override
@@ -354,16 +369,14 @@ public class MultipleBetGUI extends JFrame {
 		this.getContentPane().add(scrollPaneQueries, null);
 		
 
-		scrollPaneQuotes.setBounds(294, 247, 280, 80);
+		scrollPaneQuotes.setBounds(386, 241, 348, 88);
 		
 		getContentPane().add(scrollPaneQuotes);
 		
 		tableQuotes = new JTable();
-		tableQuotes = new JTable();
 		scrollPaneQuotes.setViewportView(tableQuotes);
 		tableModelQuotes = new DefaultTableModel(null, columnNamesQuotes);
 		tableQuotes.setModel(tableModelQuotes);
-		panel.setBounds(40, 336, 598, 125);
 		
 		tableQuotes.addMouseListener(new MouseAdapter() {
 			@Override
@@ -383,113 +396,13 @@ public class MultipleBetGUI extends JFrame {
 				lblMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+":        x"+quote.getQuoteMultiplier());
 				
 				btnAdd.setEnabled(true);
-				spinnerBet.setEnabled(true);
-				spinnerBet.setValue(question.getBetMinimum());
-			}
-		});
-		
-		getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		lblMinimumBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice")+": ");
-		lblMinimumBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMinimumBet.setBounds(184, 80, 122, 14);
-		panel.add(lblMinimumBet);
-		
-		lblQuestion = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
-		lblQuestion.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblQuestion.setBounds(183, 35, 306, 14);
-		panel.add(lblQuestion);
-//		lblQuestion.setVisible(false);
-		
-		lblQuote = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": ");
-		lblQuote.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblQuote.setBounds(184, 55, 217, 14);
-		panel.add(lblQuote);
-		
-		lblMoneyBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+":");
-		lblMoneyBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMoneyBet.setBounds(352, 35, 79, 14);
-		panel.add(lblMoneyBet);
-		
-	    btnAdd = new JButton(ResourceBundle.getBundle("Etiquetas").getString("AddBet")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-2$
-	    btnAdd.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    		int iques=tableQueries.getSelectedRow();
-				domain.Question question=(domain.Question)tableModelQueries.getValueAt(iques,2);
-				int quot=tableQuotes.getSelectedRow();
-				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
-	    		double betMon= (int)spinnerBet.getValue();
-	    		if(betMon>facade.getUserMoney(user)) {
-	    			lblErrors.setVisible(true);
-	    			lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("NotEnouhgMoney")+"!");
-	    		}
-	    		else {
-	    			if(betMon<question.getBetMinimum()) {
-	    				lblErrors.setVisible(true);
-	    				lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("HigherBet")+"!");
-	    			}
-	    			else {
-	    				
-	    				int ev=tableEvents.getSelectedRow();
-	    				domain.Event event=(domain.Event)tableModelEvents.getValueAt(ev,2);
-	    				
-	    				
-	    				Vector<Object> row = new Vector<Object>();
-	    			
-						row.add(event.getEventNumber());
-						row.add(event);
-						row.add(question.getQuestion());
-						row.add(question);
-						row.add(quote.getQuoteName());
-						row.add(quote);
-						row.add(betMon); //cantidad apostada
-						
-						tableModelMultiple.addRow(row);	  
-	    				close_actionPerformed(e);
-	    			}
-	    		}
-	    	}
-	    });
-	    btnAdd.setFont(new Font("Tahoma", Font.BOLD, 20));
-	    btnAdd.setBounds(467, 10, 122, 48);
-		panel.add(btnAdd);
-		btnAdd.setEnabled(false);
-		
-		lblEvent = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Event")+": ");
-		lblEvent.setBounds(173, 12, 306, 12);
-		panel.add(lblEvent);
-		lblEvent.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
-		spinnerBet = new JSpinner();
-		spinnerBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		spinnerBet.setBounds(380, 52, 53, 20);
-		panel.add(spinnerBet);
-		spinnerBet.setEnabled(false);
-		
-		lblMultiplier = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+": ");
-		lblMultiplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMultiplier.setBounds(352, 80, 138, 14);
-		panel.add(lblMultiplier);
-		lblNewLabel.setBounds(446, 56, 21, 14);
-		
-		panel.add(lblNewLabel);
-		btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
-		btnGoBack.setBounds(467, 94, 121, 25);
-		panel.add(btnGoBack);
-		btnGoBack.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnGoBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				UserGUI userGUI= new UserGUI(user);
-				userGUI.setVisible(true);
-				close_actionPerformed(e);
 			}
 		});
 //		lblQuote.setVisible(false);
 		
 		lblCurrentMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CurrentMoney")+": "+(double)Math.round(facade.getUserMoney(user))+"€");
 		lblCurrentMoney.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblCurrentMoney.setBounds(480, 11, 158, 12);
+		lblCurrentMoney.setBounds(576, 5, 158, 25);
 		getContentPane().add(lblCurrentMoney);
 		
 		lblErrors = new JLabel();
@@ -499,7 +412,7 @@ public class MultipleBetGUI extends JFrame {
 		
 		lblHasFinished = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("HasFinished"));
 		lblHasFinished.setForeground(Color.RED);
-		lblHasFinished.setBounds(401, 114, 321, 14);
+		lblHasFinished.setBounds(473, 121, 259, 14);
 		getContentPane().add(lblHasFinished);
 		lblHasFinished.setVisible(false);	
 		lblErrors.setVisible(false);
@@ -519,8 +432,203 @@ public class MultipleBetGUI extends JFrame {
 			
 			
 		});
-
-
+		scrollPaneMyQuotes.setBounds(29, 241, 297, 88);
+		
+		getContentPane().add(scrollPaneMyQuotes);
+		tableMyQuotes = new JTable();
+		tableMyQuotes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int quot=tableQuotes.getSelectedRow();
+				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
+				
+				lblEvent.setText(ResourceBundle.getBundle("Etiquetas").getString("Event")+": "+ quote.getQuestion().getEvent().getDescription());
+				int iques=tableQueries.getSelectedRow();
+				
+				lblQuestion.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+quote.getQuestion().getQuestion());
+				lblMinimumBet.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice")+": "+quote.getQuestion().getBetMinimum());
+				
+				lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+quote.getQuoteName());
+				lblMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("Multiplier")+":        x"+quote.getQuoteMultiplier());
+				
+				btnRemoveQuote.setEnabled(true);
+			}
+		});
+		scrollPaneMyQuotes.setViewportView(tableMyQuotes);
+		tableModelMyQuotes = new DefaultTableModel(null, columnNamesQuotes);
+		tableMyQuotes.setModel(tableModelMyQuotes);
+		btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
+		btnGoBack.setBounds(576, 444, 140, 25);
+		getContentPane().add(btnGoBack);
+		btnGoBack.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+	    btnAdd = new JButton(ResourceBundle.getBundle("Etiquetas").getString("AddQuote"));
+	    btnAdd.setBounds(371, 367, 138, 63);
+	    getContentPane().add(btnAdd);
+	    btnAdd.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+				int quot=tableQuotes.getSelectedRow();
+				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
+				Vector<Vector> vector= tableModelMyQuotes.getDataVector();
+				boolean alreadyIs=alreadyExistQuote(vector, quote);
+				if(!alreadyIs) {
+					lblError.setVisible(false);
+					Vector<Object> row = new Vector<Object>();
+					
+					row.add(quote.getQuoteNumber());
+					row.add(quote.getQuoteName());
+					row.add(quote.getQuoteMultiplier());
+					row.add(quote);
+					tableModelMyQuotes.addRow(row);	 
+					
+					minBet+=quote.getQuestion().getBetMinimum();
+					mult=mult*quote.getQuoteMultiplier();
+					spinnerBet.setValue(minBet);
+					lblTotalMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("TotalMultiplier")+": x"+mult);
+					lblFinalMinimumBet.setText(ResourceBundle.getBundle("Etiquetas").getString("FinalMinimumBet")+": "+minBet+"€");
+					
+					if(vector.size()>1) {
+						btnBet.setEnabled(true);
+					}
+				}
+				else {
+					lblError.setVisible(true);
+				}
+	    	}
+	    });
+	    btnAdd.setFont(new Font("Tahoma", Font.BOLD, 16));
+	    btnAdd.setEnabled(false);
+	    
+	    lblQuestion = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": ");
+	    lblQuestion.setBounds(29, 382, 306, 14);
+	    getContentPane().add(lblQuestion);
+	    lblQuestion.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	    
+	    spinnerBet = new JSpinner();
+	    spinnerBet.setBounds(273, 407, 53, 20);
+	    getContentPane().add(spinnerBet);
+	    spinnerBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	    spinnerBet.setEnabled(false);
+	    lblNewLabel.setBounds(340, 407, 21, 14);
+	    getContentPane().add(lblNewLabel);
+	    
+	    lblMoneyBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MoneyBet")+":");
+	    lblMoneyBet.setBounds(184, 407, 79, 14);
+	    getContentPane().add(lblMoneyBet);
+	    lblMoneyBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	    
+	    lblMultiplier = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("QuoteMultiplier")+": "+"x"+mult);
+	    lblMultiplier.setBounds(29, 432, 142, 14);
+	    getContentPane().add(lblMultiplier);
+	    lblMultiplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	    //		lblQuestion.setVisible(false);
+	    		
+	    		lblQuote = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": ");
+	    		lblQuote.setBounds(29, 407, 217, 14);
+	    		getContentPane().add(lblQuote);
+	    		lblQuote.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	    		
+	    		lblMinimumBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice")+": "+minBet+"€");
+	    		lblMinimumBet.setBounds(29, 455, 140, 14);
+	    		getContentPane().add(lblMinimumBet);
+	    		lblMinimumBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	    		
+	    		lblEvent = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Event")+": ");
+	    		lblEvent.setBounds(29, 359, 306, 12);
+	    		getContentPane().add(lblEvent);
+	    		lblEvent.setFont(new Font("Tahoma", Font.BOLD, 14));
+	    		
+	    		btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
+	    		btnBet.addActionListener(new ActionListener() {
+	    			public void actionPerformed(ActionEvent e) {
+	    	    		int iques=tableQueries.getSelectedRow();
+	    				domain.Question question=(domain.Question)tableModelQueries.getValueAt(iques,2);
+	    				int quot=tableQuotes.getSelectedRow();
+	    				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
+	    	    		double betMon= (int)spinnerBet.getValue();
+	    	    		if(betMon>facade.getUserMoney(user)) {
+	    	    			lblErrors.setVisible(true);
+	    	    			lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("NotEnouhgMoney")+"!");
+	    	    		}
+	    	    		else {
+	    	    			if(betMon<question.getBetMinimum()) {
+	    	    				lblErrors.setVisible(true);
+	    	    				lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("HigherBet")+"!");
+	    	    			}
+	    	    			else {
+	    	    				
+	    	    				int ev=tableEvents.getSelectedRow();
+	    	    				domain.Event event=(domain.Event)tableModelEvents.getValueAt(ev,2);
+	    	    				
+	    	    				
+	    	    				Vector<Object> row = new Vector<Object>();
+	    	    			
+	    						row.add(event.getEventNumber());
+	    						row.add(event);
+	    						row.add(question.getQuestion());
+	    						row.add(question);
+	    						row.add(quote.getQuoteName());
+	    						row.add(quote);
+	    						row.add(betMon); //cantidad apostada
+	    						
+	    						tableModelMultiple.addRow(row);	  
+	    	    				close_actionPerformed(e);
+	    	    			}
+	    	    		}
+	    			}
+	    			
+	    		});
+	    		btnBet.setFont(new Font("Tahoma", Font.BOLD, 16));
+	    		btnBet.setBounds(576, 363, 140, 70);
+	    		btnBet.setEnabled(false);
+	    		getContentPane().add(btnBet);
+	    		
+	    		btnRemoveQuote = new JButton(ResourceBundle.getBundle("Etiquetas").getString("RemoveQuote"));
+	    		btnRemoveQuote.setFont(new Font("Tahoma", Font.BOLD, 11));
+	    		btnRemoveQuote.setBounds(371, 441, 138, 23);
+	    		btnRemoveQuote.setEnabled(false);
+	    		getContentPane().add(btnRemoveQuote);
+	    		
+	    		lblQuotes2 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote"));
+	    		lblQuotes2.setBounds(386, 228, 46, 14);
+	    		getContentPane().add(lblQuotes2);
+	    		
+	    		lblBetQuote = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BetQuote")); //$NON-NLS-1$ //$NON-NLS-2$
+	    		lblBetQuote.setBounds(29, 228, 122, 14);
+	    		getContentPane().add(lblBetQuote);
+	    		
+	    		lblError = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("AlreadyContainsQuote")); //$NON-NLS-1$ //$NON-NLS-2$
+	    		lblError.setForeground(Color.RED);
+	    		lblError.setBounds(29, 331, 286, 14);
+	    		lblError.setVisible(false);
+	    		getContentPane().add(lblError);
+	    		
+	    		lblTotalMultiplier = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("TotalMultiplier")+": x"+mult); //$NON-NLS-1$ //$NON-NLS-2$
+	    		lblTotalMultiplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	    		lblTotalMultiplier.setBounds(184, 432, 142, 14);
+	    		getContentPane().add(lblTotalMultiplier);
+	    		
+	    		lblFinalMinimumBet = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("FinalMinimumBet")+": "+minBet+"€"); //$NON-NLS-1$ //$NON-NLS-2$
+	    		lblFinalMinimumBet.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	    		lblFinalMinimumBet.setBounds(184, 455, 142, 14);
+	    		getContentPane().add(lblFinalMinimumBet);
+		
+	    		btnGoBack.addActionListener(new ActionListener() {
+	    			public void actionPerformed(ActionEvent e) {
+	    				UserGUI userGUI= new UserGUI(user);
+	    				userGUI.setVisible(true);
+	    				close_actionPerformed(e);
+			}
+		});
+		
+	}
+	public static boolean alreadyExistQuote(Vector<Vector> vector, Quote q) {
+		for(Vector v: vector) {
+			if(((Quote)v.get(3)).getQuestion().getQuestionNumber()==q.getQuestion().getQuestionNumber()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWithEventsCurrentMonth) {

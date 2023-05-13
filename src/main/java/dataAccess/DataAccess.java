@@ -452,6 +452,15 @@ public class DataAccess  {
 		db.getTransaction().commit();
 		
 	}
+ 	
+ 	public void multipleQuoteBet(String user, double money, Vector<Quote> quotes) {
+		db.getTransaction().begin();
+		RegisteredUser us= db.find(RegisteredUser.class, user);
+		Transaction transaction= us.bet(money, quotes);
+		db.persist(transaction);
+		db.getTransaction().commit();	
+	}
+ 	
  	public void deleteTransactions() {
  		db.getTransaction().begin();
  		Query query1 = db.createQuery("DELETE FROM Transaction t"); 

@@ -70,5 +70,9 @@ public class Transaction implements Serializable{
 	public void setUser(RegisteredUser user) {
 		this.user = user;
 	}
+	@Override
+	public String toString() {
+		return "Transaction [transactionNumber=" + transactionNumber + ", money=" + money + ", user=" + user + ",";
+	}
 	
 }

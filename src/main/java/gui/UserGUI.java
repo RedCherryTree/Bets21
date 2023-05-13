@@ -109,11 +109,22 @@ public class UserGUI extends JFrame {
 				followsGUI.setVisible(true);
 			}
 		});
-		jContentPane.add(btnNewButton_1);
-		jContentPane.add(btnNewButton);
-		jContentPane.add(jButtonQueryQueries);
+		
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setResizeWeight(0.52);
+		jContentPane.add(splitPane);
 		
 		JButton jButtonLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
+		splitPane.setLeftComponent(jButtonLogin);
+		
+		JButton btnNewButton_2 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MultipleQuoteBet")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MultipleQuoteBetGUI multipleQuoteBetGUI= new MultipleQuoteBetGUI(user);
+				multipleQuoteBetGUI.setVisible(true);
+			}
+		});
+		splitPane.setRightComponent(btnNewButton_2);
 		jButtonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BetGUI betGUI= new BetGUI(user);
@@ -121,7 +132,9 @@ public class UserGUI extends JFrame {
 				close_actionPerformed(e); 
 			}
 		});
-		jContentPane.add(jButtonLogin);
+		jContentPane.add(btnNewButton_1);
+		jContentPane.add(btnNewButton);
+		jContentPane.add(jButtonQueryQueries);
 		
 		JButton jButtonHistory = new JButton(ResourceBundle.getBundle("Etiquetas").getString("History"));
 		jButtonHistory.addActionListener(new ActionListener() {
