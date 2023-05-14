@@ -27,7 +27,6 @@ public class Bet extends Transaction{
 	}
 
 
-
 	public Quote getBetQuote() {
 		return betQuote;
 	}

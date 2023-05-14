@@ -2,9 +2,16 @@ package domain;
 
 import java.util.Vector;
 
+import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@SuppressWarnings("serial")
+@XmlAccessorType(XmlAccessType.FIELD)
+@Entity 
 public class MultipleQuoteBet extends Transaction{
 	private Vector<Quote> betQuotes= new Vector<Quote>();
-	
+	private boolean hasEnded;
 	
 	public MultipleQuoteBet() {
 		super();
@@ -13,6 +20,7 @@ public class MultipleQuoteBet extends Transaction{
 	public MultipleQuoteBet(double money, RegisteredUser user, Vector<Quote> betQuotes) {
 		super(money, user);
 		this.betQuotes=betQuotes;
+		this.hasEnded=false;
 	}
 	
 	
@@ -24,12 +32,22 @@ public class MultipleQuoteBet extends Transaction{
 		this.betQuotes = betQuotes;
 	}
 
+
+	public boolean isHasEnded() {
+		return hasEnded;
+	}
+
+	public void setHasEnded(boolean hasEnded) {
+		this.hasEnded = hasEnded;
+	}
+
 	public boolean hasBeenDecided() {
 		for(Quote q: betQuotes) {
 			if(!q.getQuestion().isHasFinished()) {
 				return false;
 			}
 		}
+		hasEnded=true;
 		return true;
 	}
 	
@@ -43,9 +61,9 @@ public class MultipleQuoteBet extends Transaction{
 	}
 	
 	public double calculateFinalMultiplier() {
-		double multiplier= 1;;
+		double multiplier= 1;
 		for(Quote q: betQuotes) {
-			multiplier=multiplier*q.getQuoteMultiplier();
+			multiplier=multiplier*q.getQuoteMultiplier()+1;
 		}
 		return multiplier;
 	}
@@ -61,6 +79,7 @@ public class MultipleQuoteBet extends Transaction{
 		}
 		return minimumBet;
 	}
+	
 	@Override
 	public String toString() {
 		return super.toString()+" Has been decided= "+this.hasBeenDecided()+"]";

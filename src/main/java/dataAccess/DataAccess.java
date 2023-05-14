@@ -24,6 +24,7 @@ import domain.Admin;
 import domain.Bet;
 import domain.Event;
 import domain.Message;
+import domain.MultipleQuoteBet;
 import domain.Question;
 import domain.Quote;
 import domain.RegisteredUser;
@@ -440,6 +441,9 @@ public class DataAccess  {
      }
      public Vector<Transaction> getUserTransactions(String user){
     	RegisteredUser us= db.find(RegisteredUser.class, user);
+    	for(Transaction t:us.getMyTransactions()) {
+    		System.out.println(t.toString());
+    	}
      	return us.getMyTransactions();
      }
 
@@ -516,20 +520,31 @@ public class DataAccess  {
 				}else {
 					qt.setWinner(true);	
 				}
-		}
-		q.setHasFinished(true);
-		q.setResult(qt.getQuoteName());
-		double mul = qt.getQuoteMultiplier();
-		
-		TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.quoteNumber=="+quoteNumber+"",Bet.class);		
-		List<Bet> winners= query.getResultList();
-		System.out.println("Winners of the bet: ");
-		for(Bet bet: winners) {
-			System.out.println(bet.toString());
-			RegisteredUser us= bet.getUser();
-			Transaction transaction=us.betWinner(bet);
-			 db.persist(transaction);
+			}
+			q.setHasFinished(true);
+			q.setResult(qt.getQuoteName());
+			TypedQuery<MultipleQuoteBet> query1 = db.createQuery("SELECT mqb FROM MultipleQuoteBet mqb WHERE mqb.hasEnded=="+false+"",MultipleQuoteBet.class);		
+			List<MultipleQuoteBet> mqbWinners= query1.getResultList();
+			for(MultipleQuoteBet mqb: mqbWinners) {
+				if(mqb.hasBeenDecided() && mqb.hasWon()) {
+					RegisteredUser us= mqb.getUser();
+					Transaction transaction=us.mqBetWinner(mqb);
+					db.persist(transaction);
+				}
+			}
+			
+			double mul = qt.getQuoteMultiplier();	
+			TypedQuery<Bet> query2 = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.quoteNumber=="+quoteNumber+"",Bet.class);		
+			List<Bet> bWinners= query2.getResultList();
+			System.out.println("Winners of the regular bet: ");
+			for(Bet bet: bWinners) {
+				System.out.println(bet.toString());
+				RegisteredUser us= bet.getUser();
+				Transaction transaction=us.betWinner(bet);
+				db.persist(transaction);
 			}	
+		
+
 		}else {
 			System.out.println("The result of this question has already been decided");
 		}	

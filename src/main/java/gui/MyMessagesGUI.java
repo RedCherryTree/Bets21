@@ -43,8 +43,6 @@ public class MyMessagesGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("Subject"), 
 
 	};
-	
-	private JTextField textField;
 
 	private JLabel lblReceivedMessages;
 
@@ -54,13 +52,7 @@ public class MyMessagesGUI extends JFrame {
 
 	private JButton btnSentMessages;
 
-	private JButton btnSearch;
-
-	private JLabel lblSearchConversations;
-
 	private JButton btnRefresh;
-
-	private JLabel lblEror;
 
 
 	/**
@@ -150,7 +142,7 @@ public class MyMessagesGUI extends JFrame {
 				}
 			}
 		});
-		btnSentMessages.setBounds(385, 186, 130, 29);
+		btnSentMessages.setBounds(30, 186, 130, 29);
 		contentPane.add(btnSentMessages);
 		
 		lblReceivedMessages = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Received"));
@@ -167,49 +159,13 @@ public class MyMessagesGUI extends JFrame {
 		});
 		btnWriteMessage.setFont(btnWriteMessage.getFont().deriveFont(btnWriteMessage.getFont().getStyle() | Font.BOLD));
 
-		btnWriteMessage.setBounds(245, 186, 130, 69);
+		btnWriteMessage.setBounds(188, 186, 130, 69);
 		contentPane.add(btnWriteMessage);
 		
 		lblNotReadMessages = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("NotReadQuantity"));
 		lblNotReadMessages.setFont(lblNotReadMessages.getFont().deriveFont(lblNotReadMessages.getFont().getStyle() | Font.BOLD));
 		lblNotReadMessages.setBounds(268, 11, 247, 14);
 		contentPane.add(lblNotReadMessages);
-		
-		lblSearchConversations = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("LookForConversation"));
-		lblSearchConversations.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblSearchConversations.setBounds(10, 186, 200, 14);
-		contentPane.add(lblSearchConversations);
-		
-		textField = new JTextField();
-		textField.setBounds(10, 208, 122, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		btnSearch = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Search"));
-		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tableModelMessages.getDataVector().clear();
-				receivedMessagesTable.updateUI();
-				String receiver= textField.getText();
-				if(facade.isRegistered(receiver)) {
-					lblEror.setVisible(false);
-					for(Message m: facade.getConversation(us, textField.getText())) {
-						Vector<Object> row = new Vector<Object>();
-						row.add(m.getReceiver());
-						row.add(m.getSender());
-						row.add(m.getSubject());
-						row.add(m);
-						tableModelMessages.addRow(row);
-					}
-				}
-				else {
-					lblEror.setVisible(true);
-				}
-			}
-		});
-		btnSearch.setBounds(142, 208, 74, 20);
-		contentPane.add(btnSearch);
 		
 		btnRefresh = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Refresh"));
 		btnRefresh.addActionListener(new ActionListener() {
@@ -229,15 +185,8 @@ public class MyMessagesGUI extends JFrame {
 			}
 		});
 		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnRefresh.setBounds(385, 226, 130, 29);
+		btnRefresh.setBounds(349, 186, 130, 29);
 		contentPane.add(btnRefresh);
-		
-		lblEror = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("UserNotFound"));
-		lblEror.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblEror.setForeground(Color.RED);
-		lblEror.setVisible(false);
-		lblEror.setBounds(10, 233, 122, 14);
-		contentPane.add(lblEror);
 	}
 //	private static void printNotRead(JScrollPane receivedMessagesSPanel, JTable receivedMessagesTable, DefaultTableModel tableModelMessages,
 //			Vector<Message> myMessages) {

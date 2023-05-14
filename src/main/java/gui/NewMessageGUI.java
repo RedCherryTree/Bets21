@@ -75,7 +75,8 @@ public class NewMessageGUI extends JFrame {
 		btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Send"));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(facade.isRegistered(user)) {
+				String receiver=textPaneMessage.getText();
+				if(facade.isRegistered(receiver)) {
 					if(textPaneMessage.getText().equals("")) {
 						lblError.setVisible(true);
 						lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("MessageEmpty"));

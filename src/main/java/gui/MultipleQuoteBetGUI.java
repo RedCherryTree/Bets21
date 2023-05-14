@@ -426,12 +426,6 @@ public class MultipleQuoteBetGUI extends JFrame {
 		tableQuotes.getColumnModel().getColumn(2).setPreferredWidth(175);
 		tableQuotes.getColumnModel().removeColumn(tableQuotes.getColumnModel().getColumn(3));
 		
-		tableQuotes.addMouseListener(new MouseAdapter() {
-			int i=tableQuotes.getSelectedRow();
-//			Quote q=(Quote)tableModelQuotes.getValueAt(i,3); 
-			
-			
-		});
 		scrollPaneMyQuotes.setBounds(29, 241, 297, 88);
 		
 		getContentPane().add(scrollPaneMyQuotes);
@@ -456,7 +450,13 @@ public class MultipleQuoteBetGUI extends JFrame {
 		});
 		scrollPaneMyQuotes.setViewportView(tableMyQuotes);
 		tableModelMyQuotes = new DefaultTableModel(null, columnNamesQuotes);
+		tableModelMyQuotes.setColumnCount(4);
 		tableMyQuotes.setModel(tableModelMyQuotes);
+		tableMyQuotes.getColumnModel().getColumn(0).setPreferredWidth(175);
+		tableMyQuotes.getColumnModel().getColumn(1).setPreferredWidth(175);
+		tableMyQuotes.getColumnModel().getColumn(2).setPreferredWidth(175);
+		tableMyQuotes.getColumnModel().removeColumn(tableMyQuotes.getColumnModel().getColumn(3));
+		
 		btnGoBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("GoBack"));
 		btnGoBack.setBounds(576, 444, 140, 25);
 		getContentPane().add(btnGoBack);
@@ -489,6 +489,7 @@ public class MultipleQuoteBetGUI extends JFrame {
 					
 					if(vector.size()>1) {
 						btnBet.setEnabled(true);
+						spinnerBet.setEnabled(true);
 					}
 				}
 				else {
@@ -541,37 +542,25 @@ public class MultipleQuoteBetGUI extends JFrame {
 	    		btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
 	    		btnBet.addActionListener(new ActionListener() {
 	    			public void actionPerformed(ActionEvent e) {
-	    	    		int iques=tableQueries.getSelectedRow();
-	    				domain.Question question=(domain.Question)tableModelQueries.getValueAt(iques,2);
-	    				int quot=tableQuotes.getSelectedRow();
-	    				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
+	    				Vector<Vector> vector= tableModelMyQuotes.getDataVector();
+	    				Vector<Quote> myQuotes= new Vector<Quote>();
+	    				for(Vector v: vector) {
+	    					myQuotes.add((Quote)v.get(3));
+	    				}
 	    	    		double betMon= (int)spinnerBet.getValue();
 	    	    		if(betMon>facade.getUserMoney(user)) {
 	    	    			lblErrors.setVisible(true);
 	    	    			lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("NotEnouhgMoney")+"!");
 	    	    		}
 	    	    		else {
-	    	    			if(betMon<question.getBetMinimum()) {
+	    	    			if(betMon<minBet) {
 	    	    				lblErrors.setVisible(true);
 	    	    				lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("HigherBet")+"!");
 	    	    			}
 	    	    			else {
-	    	    				
-	    	    				int ev=tableEvents.getSelectedRow();
-	    	    				domain.Event event=(domain.Event)tableModelEvents.getValueAt(ev,2);
-	    	    				
-	    	    				
-	    	    				Vector<Object> row = new Vector<Object>();
-	    	    			
-	    						row.add(event.getEventNumber());
-	    						row.add(event);
-	    						row.add(question.getQuestion());
-	    						row.add(question);
-	    						row.add(quote.getQuoteName());
-	    						row.add(quote);
-	    						row.add(betMon); //cantidad apostada
-	    						
-	    						tableModelMultiple.addRow(row);	  
+	    	    				facade.multipleQuoteBet(user, betMon, myQuotes);
+	    	    				PurchaseGUI purchaseGUI= new PurchaseGUI(user);
+	    	    				purchaseGUI.setVisible(true);
 	    	    				close_actionPerformed(e);
 	    	    			}
 	    	    		}

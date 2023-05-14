@@ -252,6 +252,13 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     }
     
+    @WebMethod 
+    public void multipleQuoteBet(String user, double money, Vector<Quote> quotes) {
+    	dbManager.open(false);
+    	dbManager.multipleQuoteBet(user, money, quotes);
+    	dbManager.close();
+    }
+    
     @WebMethod
     public Event deleteEvent(Integer eventnumber, Date eventDate) throws DateExpired, EventDontExist{
    	   

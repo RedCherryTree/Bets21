@@ -11,11 +11,6 @@ import javax.persistence.OneToMany;
 @Entity
 public class RegisteredUser extends User implements Serializable{
 	private double money;
-	private double moneyWon;
-	private double totalBetMoney;
-	private double moneyDeposit;
-	private int numberOfBetWon;
-	private int totalNumberOfBets;
 	
 	private String mail;
 	private String DNI;
@@ -111,54 +106,6 @@ public class RegisteredUser extends User implements Serializable{
 	}
 	
 
-	public double getMoneyWon() {
-		return moneyWon;
-	}
-
-
-	public void setMoneyWon(double moneyWon) {
-		this.moneyWon = moneyWon;
-	}
-
-
-	public double getTotalBetMoney() {
-		return totalBetMoney;
-	}
-
-
-	public void setTotalBetMoney(double totalBetMoney) {
-		this.totalBetMoney = totalBetMoney;
-	}
-
-
-	public double getMoneyDeposit() {
-		return moneyDeposit;
-	}
-
-
-	public void setMoneyDeposit(double moneyDeposit) {
-		this.moneyDeposit = moneyDeposit;
-	}
-
-
-	public int getNumberOfBetWon() {
-		return numberOfBetWon;
-	}
-
-
-	public void setNumberOfBetWon(int numberOfBetWon) {
-		this.numberOfBetWon = numberOfBetWon;
-	}
-
-
-	public int getTotalNumberOfBets() {
-		return totalNumberOfBets;
-	}
-
-
-	public void setTotalNumberOfBets(int totalNumberOfBets) {
-		this.totalNumberOfBets = totalNumberOfBets;
-	}
 
 
 	public Vector<RegisteredUser> getMyFollows() {
@@ -183,17 +130,9 @@ public class RegisteredUser extends User implements Serializable{
 	}
 
 
-	public double calculateWinPercentage() {
-		return numberOfBetWon/totalNumberOfBets;
-	}
-	
-	public double calculateWonMoneyPercentage() {
-		return moneyWon/totalBetMoney;
-	}
 
 	public Transaction depositMoney(double money, String paymentOpton, String paymentMethod) {
 		this.money+= money;
-		this.moneyDeposit+=money;
 		DepositMoney transaction= new DepositMoney( paymentOpton, paymentMethod, money, this);
 		this.myTransactions.add(transaction);
 		return transaction;
@@ -201,8 +140,6 @@ public class RegisteredUser extends User implements Serializable{
 	
 	public Transaction bet(double money, Quote quote ) {
 		this.money-= money;
-		this.totalBetMoney+=money;
-		this.totalNumberOfBets+=1;
 		Bet bet= new Bet(money,this, quote);
 		this.myTransactions.add(bet);
 		return bet;
@@ -210,8 +147,6 @@ public class RegisteredUser extends User implements Serializable{
 	
 	public Transaction bet(double money, Vector<Quote> quotes ) {
 		this.money-= money;
-		this.totalBetMoney+=money;
-		this.totalNumberOfBets+=1;
 		MultipleQuoteBet bet= new MultipleQuoteBet(money,this, quotes);
 		this.myTransactions.add(bet);
 		return bet;
@@ -219,8 +154,6 @@ public class RegisteredUser extends User implements Serializable{
 	
 	public Transaction refundMoney(Bet bet, String reasonToRefund) {
 		this.money+= bet.getMoney();
-		this.totalBetMoney-=bet.getMoney();
-		this.totalNumberOfBets-=1;
 		RefundMoney refund= new RefundMoney(bet.getMoney(), this, reasonToRefund, bet.getBetQuote().getQuestion().getEvent().getDescription(),
 				bet.getBetQuote().getQuestion().getQuestion(), bet.getBetQuote().getQuoteName());
 		this.myTransactions.add(refund);
@@ -230,12 +163,16 @@ public class RegisteredUser extends User implements Serializable{
 	public Transaction betWinner(Bet bet){
 		BetWinner winner= new BetWinner(bet);
 		this.money+=winner.betReward();
-		this.moneyWon+=winner.betReward();
-		this.numberOfBetWon+=1;
 		this.myTransactions.add(winner);
 		return winner;	
 	}
 	
+	public Transaction mqBetWinner(MultipleQuoteBet bet){
+		MultipleQuoteBetWinner winner= new MultipleQuoteBetWinner(bet);
+		this.money+=winner.betReward();
+		this.myTransactions.add(winner);
+		return winner;	
+	}
 	public boolean followUser(RegisteredUser user) {
 		if (!this.myFollows.contains(user) ) {
 			return this.myFollows.add(user);
