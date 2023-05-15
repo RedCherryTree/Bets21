@@ -15,7 +15,7 @@ import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
 
-public class FindQuestionsGUI extends JFrame {
+public class SuggestRemovalGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private final JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
@@ -49,8 +49,9 @@ public class FindQuestionsGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("QueryN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Query")
 	};
+	private final JButton btnOpenTicket = new JButton(ResourceBundle.getBundle("Etiquetas").getString("OpenTicket")); //$NON-NLS-1$ //$NON-NLS-2$
 
-	public FindQuestionsGUI()
+	public SuggestRemovalGUI()
 	{
 		try
 		{
@@ -68,7 +69,7 @@ public class FindQuestionsGUI extends JFrame {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(700, 500));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries"));
+		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("SuggestRemoval"));
 
 		jLabelEventDate.setBounds(new Rectangle(40, 15, 140, 25));
 		jLabelQueries.setBounds(138, 248, 406, 14);
@@ -78,7 +79,7 @@ public class FindQuestionsGUI extends JFrame {
 		this.getContentPane().add(jLabelQueries);
 		this.getContentPane().add(jLabelEvents);
 
-		jButtonClose.setBounds(new Rectangle(274, 419, 130, 30));
+		jButtonClose.setBounds(new Rectangle(414, 420, 130, 30));
 
 		jButtonClose.addActionListener(new ActionListener()
 		{
@@ -223,6 +224,9 @@ public class FindQuestionsGUI extends JFrame {
 
 		this.getContentPane().add(scrollPaneEvents, null);
 		this.getContentPane().add(scrollPaneQueries, null);
+		btnOpenTicket.setBounds(138, 420, 110, 30);
+		
+		getContentPane().add(btnOpenTicket);
 
 	}
 

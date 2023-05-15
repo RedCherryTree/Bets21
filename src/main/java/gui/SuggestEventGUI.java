@@ -31,7 +31,7 @@ import configuration.UtilDate;
 import domain.Event;
 import exceptions.*;
 
-public class CreateEventGUI extends JFrame {
+public class SuggestEventGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	//COPIA DE CREATEQUESTION
@@ -61,7 +61,7 @@ public class CreateEventGUI extends JFrame {
 
 
 
-	public CreateEventGUI(Vector<domain.Event> v) {
+	public SuggestEventGUI(Vector<domain.Event> v) {
 		try {
 			jbInit(v);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class CreateEventGUI extends JFrame {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
+		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("SuggestEvent"));
 
 		jComboBoxEvents.setModel(modelEvents);
 		jComboBoxEvents.setBounds(new Rectangle(275, 47, 250, 20));
