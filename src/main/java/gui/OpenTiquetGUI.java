@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import businessLogic.BLFacade;
+
 import java.awt.BorderLayout;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
@@ -24,6 +27,7 @@ public class OpenTiquetGUI extends JFrame {
 	private JButton btnSuggestEvent;
 	private JButton btnOpenTiquet;
 	private JButton btnSuggestRemoval;
+	private JTextPane textPane;
 
 	/**
 	 * Launch the application.
@@ -45,16 +49,17 @@ public class OpenTiquetGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public OpenTiquetGUI(String user) {
+		BLFacade facade = MainGUI.getBusinessLogic();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 457, 333);
+		setBounds(100, 100, 529, 333);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(6, 64, 425, 154);
+		textPane = new JTextPane();
+		textPane.setBounds(6, 64, 500, 154);
 		contentPane.add(textPane);
 		
 		lblInfo = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("TicketInfo")+".");
@@ -72,15 +77,16 @@ public class OpenTiquetGUI extends JFrame {
 					lblError.setVisible(true);
 				}
 				else {
-					
+					facade.openTicket(text, user);
+					jButtonClose_actionPerformed(e);
 				}
 			}
 		});
-		btnOpenTiquet.setBounds(149, 246, 140, 39);
+		btnOpenTiquet.setBounds(198, 246, 120, 39);
 		contentPane.add(btnOpenTiquet);
 		
 		btnSuggestRemoval = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SuggestRemoval"));
-		btnSuggestRemoval.setFont(new Font("Tahoma", Font.BOLD, 8));
+		btnSuggestRemoval.setFont(new Font("Tahoma", Font.BOLD, 9));
 		btnSuggestRemoval.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String text=textPane.getText();
@@ -88,15 +94,17 @@ public class OpenTiquetGUI extends JFrame {
 					lblError.setVisible(true);
 				}
 				else {
-					
+					SuggestRemovalGUI suggestRemovalGUI= new SuggestRemovalGUI(user, text);
+					suggestRemovalGUI.setVisible(true);
+					jButtonClose_actionPerformed(e);
 				}
 			}
 		});
-		btnSuggestRemoval.setBounds(299, 246, 132, 39);
+		btnSuggestRemoval.setBounds(328, 247, 178, 39);
 		contentPane.add(btnSuggestRemoval);
 		
 		btnSuggestEvent = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SuggestEvent"));
-		btnSuggestEvent.setFont(new Font("Tahoma", Font.BOLD, 9));
+		btnSuggestEvent.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnSuggestEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String text=textPane.getText();
@@ -104,11 +112,13 @@ public class OpenTiquetGUI extends JFrame {
 					lblError.setVisible(true);
 				}
 				else {
-					
+					SuggestEventGUI suggestEventGUI= new SuggestEventGUI(null, text, user);
+					suggestEventGUI.setVisible(true);
+					jButtonClose_actionPerformed(e);
 				}
 			}
 		});
-		btnSuggestEvent.setBounds(10, 246, 129, 39);
+		btnSuggestEvent.setBounds(10, 246, 178, 39);
 		contentPane.add(btnSuggestEvent);
 		
 		lblError = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField"));
@@ -120,7 +130,10 @@ public class OpenTiquetGUI extends JFrame {
 		
 		lblUsername = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username")+":"+ user);
 		lblUsername.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblUsername.setBounds(271, 11, 170, 14);
+		lblUsername.setBounds(336, 11, 170, 14);
 		contentPane.add(lblUsername);
+	}
+	private void jButtonClose_actionPerformed(ActionEvent e) {
+		this.setVisible(false);
 	}
 }

@@ -577,6 +577,29 @@ public class MultipleQuoteBetGUI extends JFrame {
 	    		btnRemoveQuote.setBounds(371, 441, 138, 23);
 	    		btnRemoveQuote.setEnabled(false);
 	    		getContentPane().add(btnRemoveQuote);
+	    		btnRemoveQuote = new JButton(ResourceBundle.getBundle("Etiquetas").getString("RemoveQuote"));
+	    		btnRemoveQuote.addActionListener(new ActionListener() {
+	    			public void actionPerformed(ActionEvent e) {
+	    				int kuota=tableQuotes.getSelectedRow();
+	    				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(kuota,3);
+	    				Vector<Vector> vector= tableModelMyQuotes.getDataVector();
+	    				lblError.setVisible(false);
+	    				tableModelMyQuotes.removeRow(kuota);	 			
+	    				minBet-=quote.getQuestion().getBetMinimum();
+	    				mult=mult/quote.getQuoteMultiplier();
+	    				spinnerBet.setValue(minBet);
+	    				lblTotalMultiplier.setText(ResourceBundle.getBundle("Etiquetas").getString("TotalMultiplier")+": x"+mult);
+	    				lblFinalMinimumBet.setText(ResourceBundle.getBundle("Etiquetas").getString("FinalMinimumBet")+": "+minBet+"€");	    				
+	    				if(vector.size()>1) {
+	    						btnBet.setEnabled(true);
+	    						spinnerBet.setEnabled(true);
+	    				} else {
+	    					btnBet.setEnabled(false);
+    						spinnerBet.setEnabled(false);
+	    				}
+	    			}
+	    		});
+	    		
 	    		
 	    		lblQuotes2 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote"));
 	    		lblQuotes2.setBounds(386, 228, 46, 14);

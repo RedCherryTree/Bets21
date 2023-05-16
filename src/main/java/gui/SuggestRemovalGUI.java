@@ -49,13 +49,14 @@ public class SuggestRemovalGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("QueryN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Query")
 	};
-	private final JButton btnOpenTicket = new JButton(ResourceBundle.getBundle("Etiquetas").getString("OpenTicket")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final JButton btnOpenTicket = new JButton(ResourceBundle.getBundle("Etiquetas").getString("OpenTicket")); 
+	private final JLabel lblError = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EmptyField")); //$NON-NLS-1$ //$NON-NLS-2$
 
-	public SuggestRemovalGUI()
+	public SuggestRemovalGUI(String user, String description)
 	{
 		try
 		{
-			jbInit();
+			jbInit( user, description);
 		}
 		catch(Exception e)
 		{
@@ -64,7 +65,7 @@ public class SuggestRemovalGUI extends JFrame {
 	}
 
 	
-	private void jbInit() throws Exception
+	private void jbInit(String user, String description) throws Exception
 	{
 
 		this.getContentPane().setLayout(null);
@@ -79,7 +80,7 @@ public class SuggestRemovalGUI extends JFrame {
 		this.getContentPane().add(jLabelQueries);
 		this.getContentPane().add(jLabelEvents);
 
-		jButtonClose.setBounds(new Rectangle(414, 420, 130, 30));
+		jButtonClose.setBounds(new Rectangle(414, 401, 130, 30));
 
 		jButtonClose.addActionListener(new ActionListener()
 		{
@@ -224,9 +225,26 @@ public class SuggestRemovalGUI extends JFrame {
 
 		this.getContentPane().add(scrollPaneEvents, null);
 		this.getContentPane().add(scrollPaneQueries, null);
-		btnOpenTicket.setBounds(138, 420, 110, 30);
+		btnOpenTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				try {
+					int i=tableEvents.getSelectedRow();
+					domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); 
+					facade.openTicket(description,user, ev);
+					jButton2_actionPerformed(e);
+//				}
+//				catch(Exception e1){
+//					lblError.setVisible(true);
+//				}
+			}
+		});
+		btnOpenTicket.setBounds(138, 401, 130, 30);
 		
 		getContentPane().add(btnOpenTicket);
+		lblError.setForeground(Color.RED);
+		lblError.setBounds(295, 203, 235, 14);
+		lblError.setVisible(false);
+		getContentPane().add(lblError);
 
 	}
 

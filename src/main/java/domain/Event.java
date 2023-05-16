@@ -54,6 +54,7 @@ public class Event implements Serializable {
 		return eventNumber;
 	}
 
+	
 	public void setEventNumber(Integer eventNumber) {
 		this.eventNumber = eventNumber;
 	}

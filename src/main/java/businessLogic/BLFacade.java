@@ -2,16 +2,14 @@ package businessLogic;
 
 import java.util.Vector;
 import java.util.Date;
-
-
-
-
+import java.util.List;
 
 //import domain.Booking;
 import domain.Question;
 import domain.Quote;
 import domain.User;
 import domain.RegisteredUser;
+import domain.Ticket;
 import domain.Transaction;
 import domain.Event;
 import domain.Message;
@@ -156,4 +154,11 @@ public interface BLFacade  {
     @WebMethod public Vector<domain.RegisteredUser> getFollows(String username);
     
     @WebMethod public boolean unfollowUser(String username, int followus);
+    
+    @WebMethod  void openTicket(String description, String username);
+	@WebMethod public void openTicket(String description, String username, String eventDescription, Date eventDate);
+	@WebMethod public void openTicket(String description, String username, Event event) ;
+	
+	@WebMethod
+	public Vector<Ticket> getNewTickets();
 }

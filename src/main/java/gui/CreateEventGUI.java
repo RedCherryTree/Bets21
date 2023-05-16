@@ -244,7 +244,6 @@ public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWit
 		try {
 			jLabelError.setText("");
 			jLabelMsg.setText("");
-			jTextFieldCreateEvent.setText("");
 			// Displays an exception if the query field is empty
 			String description = jTextFieldCreateEvent.getText();
 
@@ -263,6 +262,7 @@ public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWit
  		} catch (EventAlreadyExist e1) {
 			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
 		}
+		jTextFieldCreateEvent.setText("");
 	}
 
 	private void jButtonClose_actionPerformed(ActionEvent e) {

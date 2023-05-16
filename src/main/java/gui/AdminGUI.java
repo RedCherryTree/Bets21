@@ -19,6 +19,7 @@ public class AdminGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JButton btnMails;
+	private JButton btnCustomerService;
 
 	/**
 	 * Launch the application.
@@ -119,6 +120,16 @@ public class AdminGUI extends JFrame {
 		});
 		btnMails.setBounds(10, 194, 200, 42);
 		contentPane.add(btnMails);
+		
+		btnCustomerService = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CustomerService"));
+		btnCustomerService.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ClientServiceGUI clientServiceGUI= new ClientServiceGUI(user);
+				clientServiceGUI.setVisible(true);
+			}
+		});
+		btnCustomerService.setBounds(220, 194, 204, 42);
+		contentPane.add(btnCustomerService);
 		
 
 		

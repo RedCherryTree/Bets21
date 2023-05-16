@@ -52,7 +52,7 @@ public class SuggestEventGUI extends JFrame {
  
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 
-	private JButton jButtonCreateEvent = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
+	private JButton jButtonOpenTicket = new JButton(ResourceBundle.getBundle("Etiquetas").getString("OpenTicket"));
 	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	private JLabel jLabelMsg = new JLabel();
 	private JLabel jLabelError = new JLabel();
@@ -61,15 +61,15 @@ public class SuggestEventGUI extends JFrame {
 
 
 
-	public SuggestEventGUI(Vector<domain.Event> v) {
+	public SuggestEventGUI(Vector<domain.Event> v, String description, String user) {
 		try {
-			jbInit(v);
+			jbInit(v, description, user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v) throws Exception {
+	private void jbInit(Vector<domain.Event> v, String description, String user) throws Exception {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
@@ -84,12 +84,12 @@ public class SuggestEventGUI extends JFrame {
 		jCalendar.setBounds(new Rectangle(40, 50, 225, 150));
 		scrollPaneEvents.setBounds(new Rectangle(25, 44, 346, 116));
 
-		jButtonCreateEvent.setBounds(new Rectangle(100, 275, 130, 30));
-		jButtonCreateEvent.setEnabled(true);
+		jButtonOpenTicket.setBounds(new Rectangle(100, 275, 130, 30));
+		jButtonOpenTicket.setEnabled(true);
 
-		jButtonCreateEvent.addActionListener(new ActionListener() {
+		jButtonOpenTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonCreate_actionPerformed(e);
+				jButtonCreate_actionPerformed(e,description, user);
 			}
 		});
 		jButtonClose.setBounds(new Rectangle(275, 275, 130, 30));
@@ -105,7 +105,7 @@ public class SuggestEventGUI extends JFrame {
 		this.getContentPane().add(jLabelMsg, null);
 
 		this.getContentPane().add(jButtonClose, null);
-		this.getContentPane().add(jButtonCreateEvent, null);
+		this.getContentPane().add(jButtonOpenTicket, null);
 		this.getContentPane().add(jTextFieldCreateEvent, null);
 		this.getContentPane().add(jLabelEvent, null);
 		this.getContentPane().add(jLabelListOfEvents, null);
@@ -181,7 +181,7 @@ public class SuggestEventGUI extends JFrame {
 							modelEvents.addElement(ev);
 						jComboBoxEvents.repaint();
 
-						jButtonCreateEvent.setEnabled(true);
+						jButtonOpenTicket.setEnabled(true);
 
 					} catch (Exception e1) {
 
@@ -240,29 +240,30 @@ public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWit
 	 	
 	}
 
-	private void jButtonCreate_actionPerformed(ActionEvent e) {
-		try {
+	private void jButtonCreate_actionPerformed(ActionEvent e, String description, String user) {
+//		try {
 			jLabelError.setText("");
 			jLabelMsg.setText("");
-			jTextFieldCreateEvent.setText("");
 			// Displays an exception if the query field is empty
-			String description = jTextFieldCreateEvent.getText();
-
-			if (description.length() > 0) {
+			String eventDescription = jTextFieldCreateEvent.getText();
+			Date eventDate= UtilDate.trim(jCalendar.getDate());
+			if (eventDescription.length() > 0) {
 				// Obtain the business logic from a StartWindow class (local or remote)
 				BLFacade facade = MainGUI.getBusinessLogic();
 				
-				facade.createEvent(description, UtilDate.trim(jCalendar.getDate()));
+				facade.openTicket(description, user, eventDescription, eventDate);;
 
-				jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("EventCreated"));
+				jButtonClose_actionPerformed(e);
 			
-			} else
+			} else {
 				jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEvent"));
-		} catch (DateExpired e1) {
-			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("DateExpired"));
- 		} catch (EventAlreadyExist e1) {
-			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
-		}
+			}
+			
+//		} catch (DateExpired e1) {
+//			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("DateExpired"));
+// 		} catch (EventAlreadyExist e1) {
+//			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
+//		}
 	}
 
 	private void jButtonClose_actionPerformed(ActionEvent e) {

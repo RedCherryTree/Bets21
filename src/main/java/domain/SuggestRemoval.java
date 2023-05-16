@@ -1,8 +1,14 @@
 package domain;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
-public class SuggestRemoval extends Tiquet {
+@SuppressWarnings("serial")
+@XmlAccessorType(XmlAccessType.FIELD)
+@Entity 
+public class SuggestRemoval extends Ticket {
 	private Event event;
 	
 	public SuggestRemoval() {

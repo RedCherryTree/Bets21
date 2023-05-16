@@ -2,7 +2,13 @@ package domain;
 
 import java.util.Date;
 
-public class SuggestEvent extends Tiquet {
+import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+@SuppressWarnings("serial")
+@XmlAccessorType(XmlAccessType.FIELD)
+@Entity 
+public class SuggestEvent extends Ticket {
 	private String eventDescription;
 	private Date eventDate;
 	

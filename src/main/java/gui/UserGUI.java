@@ -34,6 +34,18 @@ import javax.swing.JSeparator;
 public class UserGUI extends JFrame {
 
 	private JPanel contentPane;
+	private JButton btnCustomerService;
+	private JButton jButtonHistory;
+	private JButton jButtonMoney;
+	private JSplitPane splitPaneDown;
+	private JButton btnMailSystem;
+	private JButton btnMultipleCuoteBet;
+	private JButton jBet;
+	private JSplitPane splitPane;
+	private JButton jButtonQueryQueries;
+	private JLabel jLabelUsername;
+	private JLabel jLabelMoney;
+	private JSplitPane splitPaneUp;
 
 	/**
 	 * Launch the application.
@@ -69,24 +81,26 @@ public class UserGUI extends JFrame {
 		
 		
 		
-		JLabel jLabelUsername = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username")+": "+user);
+		jLabelUsername = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username")+": "+user);
 		jLabelUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelUsername.setForeground(Color.BLACK);
 		jLabelUsername.setFont(new Font("Dialog", Font.BOLD, 13));
 		
 		BLFacade facade = MainGUI.getBusinessLogic();
-		JLabel jLabelMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Money")+": "+(double)Math.round(facade.getUserMoney(user))+" €");
+		
+		jLabelMoney = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Money")+": "+(double)Math.round(facade.getUserMoney(user))+" €");
 		jLabelMoney.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelMoney.setForeground(Color.BLACK);
 		jLabelMoney.setFont(new Font("Dialog", Font.BOLD, 13));
-		JSplitPane splitPaneUp = new JSplitPane();
+		
+		splitPaneUp = new JSplitPane();
 		splitPaneUp.setResizeWeight(0.52);
 		splitPaneUp.setLeftComponent(jLabelUsername);
 		splitPaneUp.setRightComponent(jLabelMoney);
 		jContentPane.add(splitPaneUp);
 		
 		
-		JButton jButtonQueryQueries = new JButton(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries"));
+		jButtonQueryQueries = new JButton(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries"));
 		jButtonQueryQueries.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FindQuestionsGUI findQGUI= new FindQuestionsGUI();
@@ -94,15 +108,43 @@ public class UserGUI extends JFrame {
 			}
 		});
 		
-		JButton btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MailSystem")); //$NON-NLS-1$ //$NON-NLS-2$
-		btnNewButton.addActionListener(new ActionListener() {
+		splitPane = new JSplitPane();
+		splitPane.setResizeWeight(0.52);
+		jContentPane.add(splitPane);
+		
+		jBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
+		splitPane.setLeftComponent(jBet);
+		
+		btnMultipleCuoteBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MultipleQuoteBet"));
+		btnMultipleCuoteBet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MultipleQuoteBetGUI multipleQuoteBetGUI= new MultipleQuoteBetGUI(user);
+				multipleQuoteBetGUI.setVisible(true);
+			}
+		});
+		splitPane.setRightComponent(btnMultipleCuoteBet);
+		jBet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BetGUI betGUI= new BetGUI(user);
+				betGUI.setVisible(true);
+				close_actionPerformed(e); 
+			}
+		});
+		
+		JSplitPane splitPane_1 = new JSplitPane();
+		jContentPane.add(splitPane_1);
+		
+		JButton btnNewButton_1 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DateExpired")); //$NON-NLS-1$ //$NON-NLS-2$
+		splitPane_1.setLeftComponent(btnNewButton_1);
+		
+		btnMailSystem = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MailSystem"));
+		splitPane_1.setRightComponent(btnMailSystem);
+		btnMailSystem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MyMessagesGUI messagesGUI= new MyMessagesGUI(user);
 				messagesGUI.setVisible(true);
 			}
 		});
-		
-		JButton btnNewButton_1 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DateExpired")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MyFollowsGUI followsGUI= new MyFollowsGUI(user);
@@ -110,40 +152,24 @@ public class UserGUI extends JFrame {
 			}
 		});
 		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.52);
-		jContentPane.add(splitPane);
-		
-		JButton jButtonLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
-		splitPane.setLeftComponent(jButtonLogin);
-		
-		JButton btnNewButton_2 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MultipleQuoteBet")); //$NON-NLS-1$ //$NON-NLS-2$
-		btnNewButton_2.addActionListener(new ActionListener() {
+		btnCustomerService = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CustomerService"));
+		btnCustomerService.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MultipleQuoteBetGUI multipleQuoteBetGUI= new MultipleQuoteBetGUI(user);
-				multipleQuoteBetGUI.setVisible(true);
+				OpenTiquetGUI clientService=new OpenTiquetGUI(user);
+				clientService.setVisible(true);
 			}
 		});
-		splitPane.setRightComponent(btnNewButton_2);
-		jButtonLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BetGUI betGUI= new BetGUI(user);
-				betGUI.setVisible(true);
-				close_actionPerformed(e); 
-			}
-		});
-		jContentPane.add(btnNewButton_1);
-		jContentPane.add(btnNewButton);
+		jContentPane.add(btnCustomerService);
 		jContentPane.add(jButtonQueryQueries);
 		
-		JButton jButtonHistory = new JButton(ResourceBundle.getBundle("Etiquetas").getString("History"));
+		jButtonHistory = new JButton(ResourceBundle.getBundle("Etiquetas").getString("History"));
 		jButtonHistory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MyAccountBalanceGUI myBalanceGUI= new MyAccountBalanceGUI(user);
 				myBalanceGUI.setVisible(true);
 			}
 		});
-		JButton jButtonMoney = new JButton(ResourceBundle.getBundle("Etiquetas").getString("AddMoney"));
+		jButtonMoney = new JButton(ResourceBundle.getBundle("Etiquetas").getString("AddMoney"));
 		jButtonMoney.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DepositMoneyGUI depositGUI= new DepositMoneyGUI(user);
@@ -151,7 +177,7 @@ public class UserGUI extends JFrame {
 				close_actionPerformed(e);
 			}
 		});
-		JSplitPane splitPaneDown = new JSplitPane();
+		splitPaneDown = new JSplitPane();
 		splitPaneDown.setLeftComponent(jButtonHistory);
 		splitPaneDown.setRightComponent(jButtonMoney);
 		splitPaneDown.setResizeWeight(0.52);
