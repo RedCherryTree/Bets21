@@ -389,7 +389,26 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.close();
 		return tickets;
 	}
-
-		
+	
+	@WebMethod
+	public void manageTicket(int ticketNumber,String adminName) {
+		dbManager.open(false);
+		dbManager.manageTicket(ticketNumber, adminName);
+		dbManager.close();
+	}
+	
+	@WebMethod
+	public Vector<Ticket> getManagingTickets(String adminName){
+		dbManager.open(false);
+		Vector<Ticket> tickets=dbManager.getManagingTickets(adminName);
+		dbManager.close();
+		return tickets;
+	}
+	
+	@WebMethod public void setTicketConcluded(int ticketNumber, String adminName) {
+		dbManager.open(false);
+		dbManager.setTicketConcluded(ticketNumber, adminName);
+		dbManager.close();
+	}
 }
 

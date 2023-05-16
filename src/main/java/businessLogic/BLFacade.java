@@ -161,4 +161,12 @@ public interface BLFacade  {
 	
 	@WebMethod
 	public Vector<Ticket> getNewTickets();
+	
+	@WebMethod
+	public void manageTicket(int ticketNumber,String adminName);
+	
+	@WebMethod
+	public Vector<Ticket> getManagingTickets(String adminName);
+	
+	@WebMethod public void setTicketConcluded(int ticketNumber, String adminName);
 }

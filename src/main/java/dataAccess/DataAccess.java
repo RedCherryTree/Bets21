@@ -688,4 +688,29 @@ public class DataAccess  {
 		}
 		return tickts2;
 	}
+	
+	public void manageTicket(int ticketNumber,String adminName) {
+		db.getTransaction().begin();
+		Ticket ticket=db.find(Ticket.class, ticketNumber);
+		Admin admin=db.find(Admin.class, adminName);
+		admin.getAssignedTickets().add(ticket);
+		ticket.setEgoera(Ticket.getEGOERA_TRATATZEN());
+		db.getTransaction().commit();
+	}
+	
+	public Vector<Ticket> getManagingTickets(String adminName){
+		db.getTransaction().begin();
+		Admin admin=db.find(Admin.class, adminName);
+		db.getTransaction().commit();
+		return admin.getAssignedTickets();
+	}
+	
+	public void setTicketConcluded(int ticketNumber, String adminName) {
+		db.getTransaction().begin();
+		Ticket ticket=db.find(Ticket.class, ticketNumber);
+		Admin admin=db.find(Admin.class, adminName);
+		admin.getAssignedTickets().remove(ticket);
+		ticket.setEgoera(Ticket.getEGOERA_ITXITA());
+		db.getTransaction().commit();
+	}
 }

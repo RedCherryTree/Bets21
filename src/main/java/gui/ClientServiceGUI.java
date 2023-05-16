@@ -17,6 +17,9 @@ import domain.Message;
 import domain.SuggestEvent;
 import domain.SuggestRemoval;
 import domain.Ticket;
+import exceptions.DateExpired;
+import exceptions.EventAlreadyExist;
+import exceptions.EventDontExist;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -165,6 +168,10 @@ public class ClientServiceGUI extends JFrame {
 		btnReadMessage = new JButton(ResourceBundle.getBundle("Etiquetas").getString("ReadDescription"));
 		btnReadMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int i=tableTickets.getSelectedRow();
+				domain.Ticket ticket=(domain.Ticket)tableModelTicket.getValueAt(i,3);
+				ReadTicketGUI readTicketGUI= new ReadTicketGUI(admin, ticket.getDescription());
+				readTicketGUI.setVisible(true);
 			}
 		});
 		btnReadMessage.setBounds(276, 192, 114, 51);
@@ -172,6 +179,15 @@ public class ClientServiceGUI extends JFrame {
 		btnReadMessage.setEnabled(false);
 		
 		btnManageTicket = new JButton(ResourceBundle.getBundle("Etiquetas").getString("ManageTicket"));
+		btnManageTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int i=tableTickets.getSelectedRow();
+				domain.Ticket ticket=(domain.Ticket)tableModelTicket.getValueAt(i,3);
+				facade.manageTicket(ticket.getTiquetNumber(), admin);
+				tableModelTicket.getDataVector().remove(i);
+				tableTickets.updateUI();
+			}
+		});
 		btnManageTicket.setBounds(400, 192, 114, 51);
 		contentPane.add(btnManageTicket);
 		btnManageTicket.setEnabled(false);
@@ -179,7 +195,18 @@ public class ClientServiceGUI extends JFrame {
 		btnManagingTickets = new JButton(ResourceBundle.getBundle("Etiquetas").getString("ManagingTickets")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnManagingTickets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lblInfo.setText(admin);
+				lblInfo.setText(ResourceBundle.getBundle("Etiquetas").getString("ManagingTickets"));
+				tableModelTicket.getDataVector().clear();
+				tableTickets.updateUI();
+				Vector<Ticket> tickets= facade.getManagingTickets(admin);
+				for(Ticket t: tickets) {
+					Vector<Object> row = new Vector<Object>();
+					row.add(t.getTiquetNumber());
+					row.add(t.getUser().getUsername());
+					row.add(t.getDescription());
+					row.add(t);
+					tableModelTicket.addRow(row);
+				} 
 			}
 		});
 		btnManagingTickets.setBounds(332, 5, 182, 23);
@@ -189,6 +216,10 @@ public class ClientServiceGUI extends JFrame {
 		btnWriteToClient.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnWriteToClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int i=tableTickets.getSelectedRow();
+				domain.Ticket ticket=(domain.Ticket)tableModelTicket.getValueAt(i,3);
+				NewMessageGUI newMessageGUI=new NewMessageGUI(admin, ticket.getUser().getUsername());
+				newMessageGUI.setVisible(true);
 			}
 		});
 		btnWriteToClient.setBounds(191, 5, 131, 23);
@@ -203,6 +234,34 @@ public class ClientServiceGUI extends JFrame {
 		btnAcceptProposal = new JButton(ResourceBundle.getBundle("Etiquetas").getString("AcceptProposal")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnAcceptProposal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int i=tableTickets.getSelectedRow();
+				domain.Ticket ticket=(domain.Ticket)tableModelTicket.getValueAt(i,3);
+				if(ticket instanceof SuggestRemoval) {
+					try {
+						facade.deleteEvent(((SuggestRemoval) ticket).getEvent().getEventNumber(), ((SuggestRemoval) ticket).getEvent().getEventDate());
+						facade.sendMessage(admin, ticket.getUser().getUsername(), "Your petition has been accepted", 
+								ticket.getTiquetNumber()+". Ticket, suggesting us to remove an event has decided to be accepted.");
+					} catch (DateExpired e1) {
+						//  Auto-generated catch block
+						e1.printStackTrace();
+					} catch (EventDontExist e1) {
+						//  Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else {//ticket instanceof SuggestEvent
+					try {
+						facade.createEvent(((SuggestEvent) ticket).getEventDescription(), ((SuggestEvent) ticket).getEventDate());
+						facade.sendMessage(admin, ticket.getUser().getUsername(), "Your petition has been accepted", 
+								ticket.getTiquetNumber()+". Ticket, suggesting us to add an event has decided to be accepted.");
+					} catch (DateExpired | EventAlreadyExist e1) {
+						// Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				facade.setTicketConcluded(ticket.getTiquetNumber(), admin);
+				tableModelTicket.getDataVector().remove(i);
+				tableTickets.updateUI();
 			}
 		});
 		btnAcceptProposal.setBounds(276, 254, 114, 29);
@@ -212,6 +271,19 @@ public class ClientServiceGUI extends JFrame {
 		btnDenyProposal = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DenyProposal")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnDenyProposal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int i=tableTickets.getSelectedRow();
+				domain.Ticket ticket=(domain.Ticket)tableModelTicket.getValueAt(i,3);
+				if(ticket instanceof SuggestRemoval) {
+					facade.sendMessage(admin, ticket.getUser().getUsername(), "Your petition has been rejected", 
+							ticket.getTiquetNumber()+". Ticket, suggesting us to remove an event has decided to be rejected.");
+				}
+				else {//ticket instanceof SuggestEvent
+					facade.sendMessage(admin, ticket.getUser().getUsername(), "Your petition has been rejected", 
+							ticket.getTiquetNumber()+". Ticket, suggesting us to add an event has decided to be rejected.");
+				}
+				facade.setTicketConcluded(ticket.getTiquetNumber(), admin);
+				tableModelTicket.getDataVector().remove(i);
+				tableTickets.updateUI();
 			}
 		});
 		btnDenyProposal.setBounds(400, 254, 114, 29);
@@ -224,19 +296,19 @@ public class ClientServiceGUI extends JFrame {
 		contentPane.add(lblInfo);
 		
 		lblTicketType = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("TicketType")+": "); //$NON-NLS-1$ //$NON-NLS-2$
-		lblTicketType.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTicketType.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblTicketType.setBounds(20, 209, 217, 25);
 		contentPane.add(lblTicketType);
 		
 		lblEvent = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Event")+": "); //$NON-NLS-1$ //$NON-NLS-2$
-		lblEvent.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblEvent.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblEvent.setBounds(20, 245, 217, 23);
 		lblEvent.setVisible(false);
 		contentPane.add(lblEvent);
 		lblEvent.setVisible(false);
 		
 		lblDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate")+": "); //$NON-NLS-1$ //$NON-NLS-2$
-		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblDate.setBounds(20, 286, 211, 14);
 		lblDate.setVisible(false);
 		contentPane.add(lblDate);
@@ -245,6 +317,11 @@ public class ClientServiceGUI extends JFrame {
 		btnFinishTicket.setFont(btnFinishTicket.getFont().deriveFont(btnFinishTicket.getFont().getStyle() | Font.BOLD));
 		btnFinishTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int i=tableTickets.getSelectedRow();
+				domain.Ticket ticket=(domain.Ticket)tableModelTicket.getValueAt(i,3);
+				facade.setTicketConcluded(ticket.getTiquetNumber(), admin);
+				tableModelTicket.getDataVector().remove(i);
+				tableTickets.updateUI();
 			}
 		});
 		btnFinishTicket.setBounds(276, 294, 238, 48);

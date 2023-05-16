@@ -10,4 +10,14 @@ public class Admin extends User {
 	public Admin(String username,String password) {
 		super(username, password);
 	}
+
+	public Vector<Ticket> getAssignedTickets() {
+		return assignedTickets;
+	}
+
+	public void setAssignedTickets(Vector<Ticket> assignedTickets) {
+		this.assignedTickets = assignedTickets;
+	}
+	
+	
 }
