@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Date;
 
-public class SuggestEvent extends Ticket {
+public class SuggestEvent extends Tiquet {
 	private String eventDescription;
 	private Date eventDate;
 	

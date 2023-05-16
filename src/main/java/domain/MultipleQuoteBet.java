@@ -84,25 +84,4 @@ public class MultipleQuoteBet extends Transaction{
 	public String toString() {
 		return super.toString()+" Has been decided= "+this.hasBeenDecided()+"]";
 	}
-	
-	public boolean isInEvent(Event e) {
-		boolean ret=false;
-		for(Quote q:this.betQuotes) {
-			if(e==q.getQuestion().getEvent()) {
-				ret=true;
-			}
-		}
-		return ret;
-	}
-	public int posInBet(Event e) {
-		boolean found=false;
-		int i=0;
-		while(!found || i<this.betQuotes.size()) {
-			if(e==this.getBetQuotes().get(i).getQuestion().getEvent()) {
-				found=true;
-			}
-			i++;
-		}
-		return i;
-	}
 }

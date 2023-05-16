@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Date;
 
-public class SuggestRemoval extends Ticket {
+public class SuggestRemoval extends Tiquet {
 	private Event event;
 	
 	public SuggestRemoval() {

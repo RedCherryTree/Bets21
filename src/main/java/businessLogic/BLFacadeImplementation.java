@@ -1,7 +1,6 @@
 package businessLogic;
 //hola
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -14,7 +13,6 @@ import domain.Question;
 import domain.Quote;
 import domain.User;
 import domain.RegisteredUser;
-import domain.Ticket;
 import domain.Transaction;
 import domain.Event;
 import domain.Message;
@@ -363,33 +361,5 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.close();
 		return user;
 	}
-	@WebMethod
-	public void openTicket(String description, String username) {
-		dbManager.open(false);
-		dbManager.openTicket(description, username);
-		dbManager.close();
-	}
-	@WebMethod
-	public void openTicket(String description, String username, String eventDescription, Date eventDate) {
-		dbManager.open(false);
-		dbManager.openTicket(description, username, eventDescription, eventDate);
-		dbManager.close();
-	}
-	@WebMethod
-	public void openTicket(String description, String username, Event event) {
-		dbManager.open(false);
-		dbManager.openTicket(description, username, event);
-		dbManager.close();
-	}
-	
-	@WebMethod
-	public Vector<Ticket> getNewTickets() {
-		dbManager.open(false);
-		Vector<Ticket> tickets=(Vector<Ticket>) dbManager.getNewTickets();
-		dbManager.close();
-		return tickets;
-	}
-
-		
 }
 

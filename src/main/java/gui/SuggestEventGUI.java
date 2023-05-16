@@ -52,7 +52,7 @@ public class SuggestEventGUI extends JFrame {
  
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 
-	private JButton jButtonOpenTicket = new JButton(ResourceBundle.getBundle("Etiquetas").getString("OpenTicket"));
+	private JButton jButtonCreateEvent = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	private JLabel jLabelMsg = new JLabel();
 	private JLabel jLabelError = new JLabel();
@@ -84,10 +84,10 @@ public class SuggestEventGUI extends JFrame {
 		jCalendar.setBounds(new Rectangle(40, 50, 225, 150));
 		scrollPaneEvents.setBounds(new Rectangle(25, 44, 346, 116));
 
-		jButtonOpenTicket.setBounds(new Rectangle(100, 275, 130, 30));
-		jButtonOpenTicket.setEnabled(true);
+		jButtonCreateEvent.setBounds(new Rectangle(100, 275, 130, 30));
+		jButtonCreateEvent.setEnabled(true);
 
-		jButtonOpenTicket.addActionListener(new ActionListener() {
+		jButtonCreateEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jButtonCreate_actionPerformed(e);
 			}
@@ -105,7 +105,7 @@ public class SuggestEventGUI extends JFrame {
 		this.getContentPane().add(jLabelMsg, null);
 
 		this.getContentPane().add(jButtonClose, null);
-		this.getContentPane().add(jButtonOpenTicket, null);
+		this.getContentPane().add(jButtonCreateEvent, null);
 		this.getContentPane().add(jTextFieldCreateEvent, null);
 		this.getContentPane().add(jLabelEvent, null);
 		this.getContentPane().add(jLabelListOfEvents, null);
@@ -181,7 +181,7 @@ public class SuggestEventGUI extends JFrame {
 							modelEvents.addElement(ev);
 						jComboBoxEvents.repaint();
 
-						jButtonOpenTicket.setEnabled(true);
+						jButtonCreateEvent.setEnabled(true);
 
 					} catch (Exception e1) {
 

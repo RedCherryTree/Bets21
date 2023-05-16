@@ -1,7 +1,6 @@
 package domain;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Vector;
 
 import javax.persistence.CascadeType;
@@ -25,8 +24,6 @@ public class RegisteredUser extends User implements Serializable{
 	
 	private Vector<RegisteredUser> myFollows=new Vector<RegisteredUser>();
 	private Vector<RegisteredUser> myFollowers=new Vector<RegisteredUser>();
-	
-	private Vector<Ticket> myTickets= new Vector<Ticket>();
 	
 	public RegisteredUser(String username,String password) {
 		super(username, password);
@@ -102,21 +99,12 @@ public class RegisteredUser extends User implements Serializable{
 	}
 
 
-	public Vector<Ticket> getMyTickets() {
-		return myTickets;
-	}
-
-
-	public void setMyTickets(Vector<Ticket> myTickets) {
-		this.myTickets = myTickets;
-	}
-
-
 	public Vector<RegisteredUser> getMyFollowers() {
 		if(myFollowers==null)
 			myFollowers= new Vector<RegisteredUser>();
 		return myFollowers;
 	}
+	
 
 
 
@@ -196,32 +184,6 @@ public class RegisteredUser extends User implements Serializable{
 	
 	public boolean unfollowUser(int i) {
 		return myFollows.remove(i) != null;
-	}
-	
-	public Ticket openTicket(String description) {
-		Ticket ticket= new Ticket(description, this);
-		myTickets.add(ticket);
-		return ticket;
-	}
-	
-	public Ticket openTicket(String description, String eventDescription, Date eventDate) {
-		Ticket ticket= new SuggestEvent(description, this, eventDescription, eventDate);
-		myTickets.add(ticket);
-		return ticket;
-	}
-	
-	public Ticket openTicket(String description, Event event) {
-		Ticket ticket= new SuggestRemoval(description, this, event);
-		myTickets.add(ticket);
-		return ticket;
-	}
-	
-	public Transaction refundMultiple(Quote q, MultipleQuoteBet mulBet, String reasonToRefund) {
-		this.money+= mulBet.getMoney();
-		RefundMoney refund= new RefundMoney(mulBet.getMoney(), this, reasonToRefund, q.getQuestion().getEvent().getDescription(),
-				q.getQuestion().getQuestion(), q.getQuoteName());
-		this.myTransactions.add(refund);
-		return refund;		
 	}
 	
 	@Override
