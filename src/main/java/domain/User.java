@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 @Entity
 @XmlSeeAlso ({RegisteredUser.class, Admin.class})
-public abstract class User {
+public abstract class User  implements Serializable{
 	@Id
 	private String username;
 	private String password;
@@ -54,7 +54,7 @@ public abstract class User {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password ;
+		return "User [username=" + username;
 	}
 
 	public Message sendMessage(User receiver, String subject, String text) {
@@ -66,5 +66,6 @@ public abstract class User {
 	public void receiveMessage(Message message) {
 		this.receivedMessages.add(0,message);
 	}
+	
 	
 }

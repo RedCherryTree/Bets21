@@ -102,22 +102,7 @@ public class MyAccountBalanceGUI extends JFrame {
 			System.out.println("Transactions "+t);
 
 			row.add(t.getTransactionNumber());
-			if(t instanceof Bet) {
-				row.add(t.toString());				
-			}
-			else {
-				if(t instanceof DepositMoney) {
-					row.add(t.toString());
-				}
-				else {
-					if(t instanceof RefundMoney) {
-						row.add(t.toString());
-					}
-					else {//instanceof BetWinner
-						row.add(t.toString());
-					}
-				}
-			}
+			row.add(t.toString());				
 			row.add(t); // t object added in order to obtain it with tableModelEvents.getValueAt(i,2)
 			tableModelTransactions.addRow(row);		
 		}
@@ -167,21 +152,42 @@ public class MyAccountBalanceGUI extends JFrame {
 							lblQuote.setVisible(true);
 						}
 						else {//intanceof betwinner
-							BetWinner bw=(BetWinner)t;
-							lblPaymentOption.setVisible(true);
-							lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+bw.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
-							
-							lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "+bw.getMyBet().getBetQuote().getQuestion().getQuestion()); 
-							lblPaymentMethod.setVisible(true);
-							
-							lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+bw.getMyBet().getBetQuote().getQuoteName()); 
-							lblQuote.setVisible(true);
+							if(t instanceof BetWinner) {
+								BetWinner bw=(BetWinner)t;
+								lblPaymentOption.setVisible(true);
+								lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "
+								+bw.getMyBet().getBetQuote().getQuestion().getEvent().getDescription());
+								
+								lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("Queries")+": "
+								+bw.getMyBet().getBetQuote().getQuestion().getQuestion()); 
+								
+								lblPaymentMethod.setVisible(true);
+								
+								lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("Quote")+": "+bw.getMyBet().getBetQuote().getQuoteName()); 
+								lblQuote.setVisible(true);
+							}
+							else {
+								if(t instanceof MultipleQuoteBet) {
+									MultipleQuoteBet mqb= (MultipleQuoteBet)t;
+									lblPaymentMethod.setVisible(true);
+									lblQuote.setVisible(true);
+									lblPaymentOption.setVisible(true);
+									lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("BetEnded")+": "+mqb.hasBeenDecided());
+									lblPaymentMethod.setText(ResourceBundle.getBundle("Etiquetas").getString("TotalMultiplier")+": x"+mqb.calculateFinalMultiplier());
+									lblQuote.setText(ResourceBundle.getBundle("Etiquetas").getString("PossiblePrize")+": "+mqb.calculatePrize()+"€");
+								}
+								else {
+									if(t instanceof MultipleQuoteBetWinner) {
+										MultipleQuoteBetWinner mqb= (MultipleQuoteBetWinner)t;
+									}
+							}
 						}
+
 						}
 					}
 				}
 			
-		});
+			}});
 		
 		DetailsPanel = new JPanel();
 		DetailsPanel.setBounds(10, 176, 414, 85);

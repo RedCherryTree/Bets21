@@ -69,7 +69,7 @@ public class CreateQuestionGUI extends JFrame {
 		jCalendar.setBounds(new Rectangle(40, 50, 225, 150));
 		scrollPaneEvents.setBounds(new Rectangle(25, 44, 346, 116));
 
-		jButtonCreate.setBounds(new Rectangle(100, 275, 130, 30));
+		jButtonCreate.setBounds(new Rectangle(25, 275, 130, 30));
 		jButtonCreate.setEnabled(false);
 
 		jButtonCreate.addActionListener(new ActionListener() {
@@ -77,7 +77,7 @@ public class CreateQuestionGUI extends JFrame {
 				jButtonCreate_actionPerformed(e);
 			}
 		});
-		jButtonClose.setBounds(new Rectangle(275, 275, 130, 30));
+		jButtonClose.setBounds(new Rectangle(413, 275, 130, 30));
 		jButtonClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jButtonClose_actionPerformed(e);
@@ -88,7 +88,7 @@ public class CreateQuestionGUI extends JFrame {
 		jLabelMsg.setForeground(Color.red);
 		// jLabelMsg.setSize(new Dimension(305, 20));
 
-		jLabelError.setBounds(new Rectangle(175, 240, 305, 20));
+		jLabelError.setBounds(new Rectangle(179, 242, 305, 20));
 		jLabelError.setForeground(Color.red);
 
 		this.getContentPane().add(jLabelMsg, null);
@@ -116,6 +116,15 @@ public class CreateQuestionGUI extends JFrame {
 		jLabelEventDate.setBounds(new Rectangle(40, 15, 140, 25));
 		jLabelEventDate.setBounds(40, 16, 140, 25);
 		getContentPane().add(jLabelEventDate);
+		
+		JButton DuplicateButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DuplicateQuery"));
+		DuplicateButton.setEnabled(false);
+		DuplicateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		DuplicateButton.setBounds(225, 275, 130, 30);
+		getContentPane().add(DuplicateButton);
 
 		
 		// Code for JCalendar
