@@ -9,14 +9,15 @@ import javax.swing.border.EmptyBorder;
 
 import businessLogic.BLFacade;
 import domain.User;
-
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.SystemColor;
-import java.awt.Color;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -118,10 +119,12 @@ public class NewMessageGUI extends JFrame {
 		
 		textPaneSubject = new JTextPane();
 		textPaneSubject.setBounds(10, 152, 425, 38);
+		textPaneSubject.setBorder(new LineBorder(Color.BLACK, 1));
 		contentPane.add(textPaneSubject);
 		
 		textPaneMessage = new JTextPane();
 		textPaneMessage.setBounds(10, 223, 425, 274);
+		textPaneMessage.setBorder(new LineBorder(Color.BLACK, 1));
 		contentPane.add(textPaneMessage);
 		
 		lblError = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ReceiverNotFound"));
