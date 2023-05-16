@@ -79,7 +79,7 @@ public class SuggestRemovalGUI extends JFrame {
 		this.getContentPane().add(jLabelQueries);
 		this.getContentPane().add(jLabelEvents);
 
-		jButtonClose.setBounds(new Rectangle(414, 420, 130, 30));
+		jButtonClose.setBounds(new Rectangle(414, 401, 130, 30));
 
 		jButtonClose.addActionListener(new ActionListener()
 		{
@@ -224,7 +224,12 @@ public class SuggestRemovalGUI extends JFrame {
 
 		this.getContentPane().add(scrollPaneEvents, null);
 		this.getContentPane().add(scrollPaneQueries, null);
-		btnOpenTicket.setBounds(138, 420, 110, 30);
+		btnOpenTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnOpenTicket.setBounds(138, 401, 130, 30);
 		
 		getContentPane().add(btnOpenTicket);
 

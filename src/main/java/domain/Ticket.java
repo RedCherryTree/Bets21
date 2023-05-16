@@ -13,34 +13,27 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity 
-public class Tiquet implements Serializable{
+public class Ticket implements Serializable{
 	@Id 
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
 	private Integer tiquetNumber;
 	
 	private String egoera;
-	private final String EGOERA_BERRIA="berria";
-	private final String EGOERA_TRATATZEN="tratatzen";
-	private final String EGOERA_ITXITA="itxita";
+	private final static String EGOERA_BERRIA="berria";
+	private final static String EGOERA_TRATATZEN="tratatzen";
+	private final static String EGOERA_ITXITA="itxita";
 	
 	private String description;
 	@XmlIDREF
 	private RegisteredUser user;
 	
-	public Tiquet() {
+	public Ticket() {
 		super();
 	}
-	/**
-	 * Deposit money transaction builder
-	 * 
-	 * @param transactionType
-	 * @param paymentOpton
-	 * @param paymentMethod
-	 * @param money
-	 * @param user
-	 */
-	public Tiquet(String description, RegisteredUser user) {
+
+	
+	public Ticket(String description, RegisteredUser user) {
 		this();
 		this.egoera=EGOERA_BERRIA;
 		this.user=user;
@@ -70,13 +63,13 @@ public class Tiquet implements Serializable{
 	public void setUser(RegisteredUser user) {
 		this.user = user;
 	}
-	public String getEGOERA_BERRIA() {
+	public static String getEGOERA_BERRIA() {
 		return EGOERA_BERRIA;
 	}
-	public String getEGOERA_TRATATZEN() {
+	public static String getEGOERA_TRATATZEN() {
 		return EGOERA_TRATATZEN;
 	}
-	public String getEGOERA_ITXITA() {
+	public static String getEGOERA_ITXITA() {
 		return EGOERA_ITXITA;
 	}
 	

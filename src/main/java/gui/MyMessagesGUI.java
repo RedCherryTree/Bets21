@@ -38,8 +38,8 @@ public class MyMessagesGUI extends JFrame {
 	private DefaultTableModel tableModelMessages;
 	
 	private String[] columnNamesReceivedMessages = new String[] {
-			ResourceBundle.getBundle("Etiquetas").getString("Receiver"), 
-			ResourceBundle.getBundle("Etiquetas").getString("Sender"), 
+			ResourceBundle.getBundle("Etiquetas").getString("Client"), 
+			ResourceBundle.getBundle("Etiquetas").getString("Description"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Subject"), 
 
 	};
@@ -125,7 +125,7 @@ public class MyMessagesGUI extends JFrame {
 		});
 		
 		btnSentMessages = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SentMessages"));
-		btnSentMessages.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnSentMessages.setFont(btnSentMessages.getFont().deriveFont(btnSentMessages.getFont().getStyle() | Font.BOLD));
 		btnSentMessages.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblReceivedMessages.setText(ResourceBundle.getBundle("Etiquetas").getString("SentMessages"));
@@ -142,7 +142,7 @@ public class MyMessagesGUI extends JFrame {
 				}
 			}
 		});
-		btnSentMessages.setBounds(30, 186, 130, 29);
+		btnSentMessages.setBounds(30, 186, 130, 69);
 		contentPane.add(btnSentMessages);
 		
 		lblReceivedMessages = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Received"));
@@ -184,8 +184,8 @@ public class MyMessagesGUI extends JFrame {
 				}
 			}
 		});
-		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnRefresh.setBounds(349, 186, 130, 29);
+		btnRefresh.setFont(btnRefresh.getFont().deriveFont(btnRefresh.getFont().getStyle() | Font.BOLD));
+		btnRefresh.setBounds(349, 186, 130, 69);
 		contentPane.add(btnRefresh);
 	}
 //	private static void printNotRead(JScrollPane receivedMessagesSPanel, JTable receivedMessagesTable, DefaultTableModel tableModelMessages,

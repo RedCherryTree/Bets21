@@ -28,6 +28,7 @@ import domain.MultipleQuoteBet;
 import domain.Question;
 import domain.Quote;
 import domain.RegisteredUser;
+import domain.Ticket;
 import domain.Transaction;
 import domain.User;
 import exceptions.EventAlreadyExist;
@@ -650,5 +651,35 @@ public class DataAccess  {
 		for(RegisteredUser u: user.getMyFollows())
 			System.out.println(u.toString());
 		return user.getMyFollows();
+	}
+	
+	public void openTicket(String description, String username) {
+		db.getTransaction().begin();
+	 	RegisteredUser user= db.find(RegisteredUser.class, username);
+	 	Ticket ticket=user.openTicket(description);
+	 	db.persist(ticket);
+		db.getTransaction().commit();
+	}
+	
+	public void openTicket(String description, String username, String eventDescription, Date eventDate) {
+		db.getTransaction().begin();
+	 	RegisteredUser user= db.find(RegisteredUser.class, username);
+	 	Ticket ticket=user.openTicket(description, eventDescription, eventDate);
+	 	db.persist(ticket);
+		db.getTransaction().commit();
+	}
+	
+	public void openTicket(String description, String username, Event event) {
+		db.getTransaction().begin();
+	 	RegisteredUser user= db.find(RegisteredUser.class, username);
+	 	Ticket ticket=user.openTicket(description, event);
+	 	db.persist(ticket);
+		db.getTransaction().commit();
+	}
+	
+	public Vector<Ticket> getNewTickets() {
+		TypedQuery<Ticket> query = db.createQuery("SELECT ticket FROM Ticket ticket WHERE ticket.egoera=="+Ticket.getEGOERA_BERRIA()+"",Ticket.class);
+		List<Ticket> tickets= query.getResultList();
+		return (Vector<Ticket>) tickets;
 	}
 }
