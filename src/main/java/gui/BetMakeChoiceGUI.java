@@ -30,7 +30,7 @@ import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
 
-public class UserGUI extends JFrame {
+public class BetMakeChoiceGUI extends JFrame {
 
 	private JPanel contentPane;
 
@@ -42,7 +42,7 @@ public class UserGUI extends JFrame {
 			public void run() {
 				try {
 					
-					UserGUI frame = new UserGUI("XX");
+					BetMakeChoiceGUI frame = new BetMakeChoiceGUI("XX");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +54,7 @@ public class UserGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UserGUI(String user) {
+	public BetMakeChoiceGUI(String user) {
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 		setBounds(100, 100, 573, 417);
 		contentPane = new JPanel();
@@ -85,11 +85,11 @@ public class UserGUI extends JFrame {
 		jContentPane.add(splitPaneUp);
 		
 		
-		JButton jButtonQueryQueries = new JButton(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries"));
+		JButton jButtonQueryQueries = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MultipleBet"));
 		jButtonQueryQueries.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FindQuestionsGUI findQGUI= new FindQuestionsGUI();
-				findQGUI.setVisible(true);
+				MultipleBetGUI mBetGUI= new MultipleBetGUI(user);
+				mBetGUI.setVisible(true);
 			}
 		});
 		jContentPane.add(jButtonQueryQueries);
@@ -97,43 +97,12 @@ public class UserGUI extends JFrame {
 		JButton jButtonLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
 		jButtonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BetMakeChoiceGUI betGUI= new BetMakeChoiceGUI(user);
+				BetGUI betGUI= new BetGUI(user);
 				betGUI.setVisible(true);
 				close_actionPerformed(e); 
 			}
 		});
-		
-		JButton btnFollow = new JButton(ResourceBundle.getBundle("Etiquetas").getString("UserGUI.btnFollow.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		btnFollow.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MyFollowsGUI myfollowsgui = new MyFollowsGUI(user);
-				myfollowsgui.setVisible(true);
-				close_actionPerformed(e);
-			}
-		});
-		jContentPane.add(btnFollow);
 		jContentPane.add(jButtonLogin);
-		
-		JButton jButtonHistory = new JButton(ResourceBundle.getBundle("Etiquetas").getString("History"));
-		jButtonHistory.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MyAccountBalanceGUI myBalanceGUI= new MyAccountBalanceGUI(user);
-				myBalanceGUI.setVisible(true);
-			}
-		});
-		JButton jButtonMoney = new JButton(ResourceBundle.getBundle("Etiquetas").getString("AddMoney"));
-		jButtonMoney.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DepositMoneyGUI depositGUI= new DepositMoneyGUI(user);
-				depositGUI.setVisible(true);
-				close_actionPerformed(e);
-			}
-		});
-		JSplitPane splitPaneDown = new JSplitPane();
-		splitPaneDown.setLeftComponent(jButtonHistory);
-		splitPaneDown.setRightComponent(jButtonMoney);
-		splitPaneDown.setResizeWeight(0.52);
-		jContentPane.add(splitPaneDown);
 		
 	}
 	private void close_actionPerformed(ActionEvent e) {

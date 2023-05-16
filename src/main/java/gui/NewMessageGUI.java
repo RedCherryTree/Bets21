@@ -40,7 +40,7 @@ public class NewMessageGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NewMessageGUI frame = new NewMessageGUI(null,null);
+					NewMessageGUI frame = new NewMessageGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,10 +52,12 @@ public class NewMessageGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NewMessageGUI(String user, String receiver) {
+	public NewMessageGUI(String user) {
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Message")); //$NON-NLS-1$ //$NON-NLS-2$
 		BLFacade facade = MainGUI.getBusinessLogic();
-		setBounds(100, 100, 461, 547);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 462);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -75,8 +77,7 @@ public class NewMessageGUI extends JFrame {
 		btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Send"));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String receiver=textPaneMessage.getText();
-				if(facade.isRegistered(receiver)) {
+				if(facade.isRegistered(user)) {
 					if(textPaneMessage.getText().equals("")) {
 						lblError.setVisible(true);
 						lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("MessageEmpty"));
@@ -91,15 +92,15 @@ public class NewMessageGUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBackground(new Color(0, 153, 255));
-		btnNewButton.setForeground(Color.LIGHT_GRAY);
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnNewButton.setBackground(SystemColor.textHighlight);
+		btnNewButton.setForeground(SystemColor.infoText);
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(273, 58, 151, 58);
 		contentPane.add(btnNewButton);
 		
 		lblUser = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username")+": "+user);
-		lblUser.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
-		lblUser.setBounds(10, 11, 251, 22);
+		lblUser.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblUser.setBounds(10, 11, 186, 14);
 		contentPane.add(lblUser);
 		
 		lblText = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Message"));
@@ -110,18 +111,14 @@ public class NewMessageGUI extends JFrame {
 		textFieldReceiver = new JTextField();
 		textFieldReceiver.setBounds(10, 79, 186, 31);
 		contentPane.add(textFieldReceiver);
-		if(receiver!="") {
-			textFieldReceiver.setText(receiver);
-			textFieldReceiver.setEditable(false);
-		}
 		textFieldReceiver.setColumns(10);
 		
 		textPaneSubject = new JTextPane();
-		textPaneSubject.setBounds(10, 152, 425, 38);
+		textPaneSubject.setBounds(10, 152, 414, 38);
 		contentPane.add(textPaneSubject);
 		
 		textPaneMessage = new JTextPane();
-		textPaneMessage.setBounds(10, 223, 425, 274);
+		textPaneMessage.setBounds(10, 223, 414, 189);
 		contentPane.add(textPaneMessage);
 		
 		lblError = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ReceiverNotFound"));
