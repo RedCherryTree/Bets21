@@ -244,7 +244,7 @@ public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWit
 		try {
 			jLabelError.setText("");
 			jLabelMsg.setText("");
-
+			jTextFieldCreateEvent.setText("");
 			// Displays an exception if the query field is empty
 			String description = jTextFieldCreateEvent.getText();
 

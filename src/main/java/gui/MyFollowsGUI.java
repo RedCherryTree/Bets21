@@ -27,9 +27,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class MyFollowsGUI extends JFrame {
 
@@ -45,7 +42,7 @@ public class MyFollowsGUI extends JFrame {
 	private DefaultTableModel tableModelFollows;
 	private JTextField textField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-
+	private JTable table;
 	
 
 	/**
@@ -85,42 +82,11 @@ public class MyFollowsGUI extends JFrame {
 		accountsIFollow.setViewportView(followsTable);
 		tableModelFollows = new DefaultTableModel(null, columnNamesFollows);
 		
-		JButton Unfollow = new JButton("Unfollow");
-		Unfollow.setEnabled(false);
-		
 		BLFacade facade = MainGUI.getBusinessLogic();
 		followsTable.setModel(tableModelFollows);
-		followsTable.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Unfollow.setEnabled(true);
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		
+		table = new JTable();
+		accountsIFollow.setColumnHeaderView(table);
 		
 		refreshTable(myfollows(user, facade));
 		
@@ -138,23 +104,13 @@ public class MyFollowsGUI extends JFrame {
 		lblNewLabel_1.setBounds(270, 28, 23, 19);
 		contentPane.add(lblNewLabel_1);
 		
-		
-		
+		JButton Unfollow = new JButton("Unfollow");
 		Unfollow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
-				if(followsTable.getSelectedRow()!=-1) {
-					int i = followsTable.getSelectedRow();
-					facade.unfollowUser(user, i);
-					int j = tableModelFollows.getRowCount();
-					while(tableModelFollows.getRowCount()!=0) {
-						tableModelFollows.removeRow(0);
-					}
-					refreshTable(myfollows(user, facade));
-				}
-				else {
-					Unfollow.setEnabled(false);
-				}
+				int i = table.getSelectedRow();
+				System.out.println(i);
+				facade.unfollowUser(user, i);
+				refreshTable(myfollows(user, facade));
 			}
 		});
 		
@@ -166,12 +122,6 @@ public class MyFollowsGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String follow = textField.getText();
 				facade.followUser(user, follow);
-				
-				int j = tableModelFollows.getRowCount();
-				System.out.println(j);
-				while(tableModelFollows.getRowCount()!=0) {
-					tableModelFollows.removeRow(0);
-				}
 				refreshTable(myfollows(user, facade));
 				
 			}
@@ -200,6 +150,7 @@ public class MyFollowsGUI extends JFrame {
 	private void refreshTable(Vector<RegisteredUser> myfollows) {
 		
 		if(!myfollows.isEmpty()) {
+			System.out.println("mylist lleno"+myfollows.firstElement().getUsername());
 		for(RegisteredUser fl:myfollows) {
 			Vector<Object> row = new Vector<Object>();
 			row.add(fl.getUsername());
@@ -207,7 +158,9 @@ public class MyFollowsGUI extends JFrame {
 			tableModelFollows.addRow(row);
 		}	
 		}
-		
+		else {
+			System.out.println("mylist empty");
+		}
 		}
 
 	private Vector<RegisteredUser> myfollows(String user, BLFacade facade) {

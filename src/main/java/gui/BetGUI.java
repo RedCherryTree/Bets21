@@ -419,9 +419,7 @@ public class BetGUI extends JFrame {
 				int quot=tableQuotes.getSelectedRow();
 				domain.Quote quote=(domain.Quote)tableModelQuotes.getValueAt(quot,3);
 	    		double betMon= (int)spinnerBet.getValue();
-	    		for(domain.RegisteredUser us : facade.getFollowers(user) ) {
-	    			String user = us.getUsername();
-	    			if(betMon>facade.getUserMoney(user)) {
+	    		if(betMon>facade.getUserMoney(user)) {
 	    			lblErrors.setVisible(true);
 	    			lblErrors.setText(ResourceBundle.getBundle("Etiquetas").getString("NotEnouhgMoney")+"!");
 	    		}
@@ -438,7 +436,6 @@ public class BetGUI extends JFrame {
 	    				close_actionPerformed(e);
 	    			}
 	    		}
-	    	}
 	    	}
 	    });
 	    btnBet.setFont(new Font("Tahoma", Font.BOLD, 20));

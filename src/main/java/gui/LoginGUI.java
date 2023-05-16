@@ -90,7 +90,7 @@ public class LoginGUI extends JFrame {
 				if(b) {
 					btnRegister_actionPerformed(e);
 					if(facade.isAdmin(user)) {
-                     AdminGUI admin= new AdminGUI();
+                     AdminGUI admin= new AdminGUI(user);
                      admin.setVisible(true);
                      btnRegister_actionPerformed(e);
 					}

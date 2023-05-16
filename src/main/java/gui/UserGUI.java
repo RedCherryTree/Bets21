@@ -29,6 +29,7 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
+import javax.swing.JSeparator;
 
 public class UserGUI extends JFrame {
 
@@ -92,27 +93,48 @@ public class UserGUI extends JFrame {
 				findQGUI.setVisible(true);
 			}
 		});
-		jContentPane.add(jButtonQueryQueries);
+		
+		JButton btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MailSystem")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MyMessagesGUI messagesGUI= new MyMessagesGUI(user);
+				messagesGUI.setVisible(true);
+			}
+		});
+		
+		JButton btnNewButton_1 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DateExpired")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MyFollowsGUI followsGUI= new MyFollowsGUI(user);
+				followsGUI.setVisible(true);
+			}
+		});
+		
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setResizeWeight(0.52);
+		jContentPane.add(splitPane);
 		
 		JButton jButtonLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Bet"));
+		splitPane.setLeftComponent(jButtonLogin);
+		
+		JButton btnNewButton_2 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MultipleQuoteBet")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MultipleQuoteBetGUI multipleQuoteBetGUI= new MultipleQuoteBetGUI(user);
+				multipleQuoteBetGUI.setVisible(true);
+			}
+		});
+		splitPane.setRightComponent(btnNewButton_2);
 		jButtonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BetMakeChoiceGUI betGUI= new BetMakeChoiceGUI(user);
+				BetGUI betGUI= new BetGUI(user);
 				betGUI.setVisible(true);
 				close_actionPerformed(e); 
 			}
 		});
-		
-		JButton btnFollow = new JButton(ResourceBundle.getBundle("Etiquetas").getString("UserGUI.btnFollow.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		btnFollow.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MyFollowsGUI myfollowsgui = new MyFollowsGUI(user);
-				myfollowsgui.setVisible(true);
-				close_actionPerformed(e);
-			}
-		});
-		jContentPane.add(btnFollow);
-		jContentPane.add(jButtonLogin);
+		jContentPane.add(btnNewButton_1);
+		jContentPane.add(btnNewButton);
+		jContentPane.add(jButtonQueryQueries);
 		
 		JButton jButtonHistory = new JButton(ResourceBundle.getBundle("Etiquetas").getString("History"));
 		jButtonHistory.addActionListener(new ActionListener() {
