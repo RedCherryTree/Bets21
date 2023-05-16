@@ -1,7 +1,6 @@
 package domain;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Vector;
 
 import javax.persistence.CascadeType;
@@ -12,7 +11,6 @@ import javax.persistence.OneToMany;
 @Entity
 public class RegisteredUser extends User implements Serializable{
 	private double money;
-	
 	private String mail;
 	private String DNI;
 	private String birthday;
@@ -22,11 +20,8 @@ public class RegisteredUser extends User implements Serializable{
 	private String country;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	private Vector<Transaction> myTransactions=new Vector<Transaction>();
-	
-	private Vector<RegisteredUser> myFollows=new Vector<RegisteredUser>();
 	private Vector<RegisteredUser> myFollowers=new Vector<RegisteredUser>();
-	
-	private Vector<Ticket> myTickets= new Vector<Ticket>();
+	private Vector<RegisteredUser> myFollows=new Vector<RegisteredUser>();
 	
 	public RegisteredUser(String username,String password) {
 		super(username, password);
@@ -102,45 +97,6 @@ public class RegisteredUser extends User implements Serializable{
 	}
 
 
-	public Vector<Ticket> getMyTickets() {
-		return myTickets;
-	}
-
-
-	public void setMyTickets(Vector<Ticket> myTickets) {
-		this.myTickets = myTickets;
-	}
-
-
-	public Vector<RegisteredUser> getMyFollowers() {
-		if(myFollowers==null)
-			myFollowers= new Vector<RegisteredUser>();
-		return myFollowers;
-	}
-
-
-
-	public Vector<RegisteredUser> getMyFollows() {
-		if(myFollows==null)
-			myFollows= new Vector<RegisteredUser>();
-		return myFollows;
-	}
-
-
-	public void setMyFollows(Vector<RegisteredUser> myFollows) {
-		this.myFollows = myFollows;
-	}
-
-
-	public void setMyTransactions(Vector<Transaction> myTransactions) {
-		this.myTransactions = myTransactions;
-	}
-
-
-	public void setMyFollowers(Vector<RegisteredUser> myFollowers) {
-		this.myFollowers = myFollowers;
-	}
-
 
 
 	public Transaction depositMoney(double money, String paymentOpton, String paymentMethod) {
@@ -156,16 +112,8 @@ public class RegisteredUser extends User implements Serializable{
 		this.myTransactions.add(bet);
 		return bet;
 	}
-	
-	public Transaction bet(double money, Vector<Quote> quotes ) {
-		this.money-= money;
-		MultipleQuoteBet bet= new MultipleQuoteBet(money,this, quotes);
-		this.myTransactions.add(bet);
-		return bet;
-	}
-	
 	public Transaction refundMoney(Bet bet, String reasonToRefund) {
-		this.money+= bet.getMoney();
+		this.money+= money;
 		RefundMoney refund= new RefundMoney(bet.getMoney(), this, reasonToRefund, bet.getBetQuote().getQuestion().getEvent().getDescription(),
 				bet.getBetQuote().getQuestion().getQuestion(), bet.getBetQuote().getQuoteName());
 		this.myTransactions.add(refund);
@@ -174,19 +122,38 @@ public class RegisteredUser extends User implements Serializable{
 	
 	public Transaction betWinner(Bet bet){
 		BetWinner winner= new BetWinner(bet);
-		this.money+=winner.betReward();
+		this.money=winner.betReward();
 		this.myTransactions.add(winner);
 		return winner;	
+	}
+	public Transaction MultipleBet(MultipleBet mb) {
+		this.money-= mb.getTotalMoney();
+		MultipleBet mbet= new MultipleBet(mb);
+		this.myTransactions.add(mbet);
+		return mbet;
 	}
 	
-	public Transaction mqBetWinner(MultipleQuoteBet bet){
-		MultipleQuoteBetWinner winner= new MultipleQuoteBetWinner(bet);
-		this.money+=winner.betReward();
-		this.myTransactions.add(winner);
-		return winner;	
+	public Vector<RegisteredUser> getMyFollows() {
+		System.out.println(myFollows);
+		return myFollows;
+	}
+	
+	public Vector<RegisteredUser> getMyFollowers() {
+		System.out.println(myFollowers);
+		return myFollowers;
+	}
+	
+	public RegisteredUser unfollowUser(int i) {
+		return myFollows.remove(i);
+	}
+	
+	public boolean addFollower(RegisteredUser user) {
+		
+			return this.myFollowers.add(user);
+		
 	}
 	public boolean followUser(RegisteredUser user) {
-		if (!this.myFollows.contains(user) ) {
+		if (!this.myFollows.contains(user)&& !this.equals(user) ) {
 			return this.myFollows.add(user);
 		}
 		else {
@@ -194,38 +161,7 @@ public class RegisteredUser extends User implements Serializable{
 		}
 	}
 	
-	public boolean unfollowUser(int i) {
-		return myFollows.remove(i) != null;
-	}
-	
-	public Ticket openTicket(String description) {
-		Ticket ticket= new Ticket(description, this);
-		myTickets.add(ticket);
-		return ticket;
-	}
-	
-	public Ticket openTicket(String description, String eventDescription, Date eventDate) {
-		Ticket ticket= new SuggestEvent(description, this, eventDescription, eventDate);
-		myTickets.add(ticket);
-		return ticket;
-	}
-	
-	public Ticket openTicket(String description, Event event) {
-		Ticket ticket= new SuggestRemoval(description, this, event);
-		myTickets.add(ticket);
-		return ticket;
-	}
-	
-	public Transaction refundMultiple(Quote q, MultipleQuoteBet mulBet, String reasonToRefund) {
-		this.money+= mulBet.getMoney();
-		RefundMoney refund= new RefundMoney(mulBet.getMoney(), this, reasonToRefund, q.getQuestion().getEvent().getDescription(),
-				q.getQuestion().getQuestion(), q.getQuoteName());
-		this.myTransactions.add(refund);
-		return refund;		
-	}
-	
-	@Override
-	public String toString() {
-		return super.toString()+", Mail= "+this.mail+"]";
+	public boolean unfollow(RegisteredUser user) {
+		return myFollowers.remove(user);
 	}
 }

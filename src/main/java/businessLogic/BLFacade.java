@@ -2,17 +2,20 @@ package businessLogic;
 
 import java.util.Vector;
 import java.util.Date;
-import java.util.List;
+
+
+
+
 
 //import domain.Booking;
 import domain.Question;
 import domain.Quote;
 import domain.User;
 import domain.RegisteredUser;
-import domain.Ticket;
 import domain.Transaction;
 import domain.Event;
 import domain.Message;
+import domain.MultipleBet;
 import exceptions.*;
 
 import javax.jws.WebMethod;
@@ -128,8 +131,6 @@ public interface BLFacade  {
 	@WebMethod public Vector<Transaction> getUserTransactions(String user);
 	 
 	@WebMethod public void bet(String user, double money, int quoteNumber);
-	
-	@WebMethod public void multipleQuoteBet(String user, double money, Vector<Quote> quotes);
 	 
     @WebMethod Event deleteEvent(Integer eventnumber, Date eventDate) throws DateExpired, EventDontExist;
     
@@ -137,17 +138,11 @@ public interface BLFacade  {
     
     @WebMethod public void deleteTransactions();
     
-    @WebMethod public void deleteUsers();
+    @WebMethod public void deleteRUsers();
     
     @WebMethod public Message sendMessage(String sen, String rec, String subject, String text);
-
-    @WebMethod User getUser(String username);
     
-    @WebMethod public Vector<Message> getUserSentMessages(String user);
-    
-    @WebMethod public Vector<Message> getUserReceivedMessages(String user);
-    
-    @WebMethod public Vector<Message> getConversation(String receiver, String sender);
+    @WebMethod public void mulBet(MultipleBet b);
     
     @WebMethod public boolean followUser(String username, String followus);
     
@@ -155,10 +150,9 @@ public interface BLFacade  {
     
     @WebMethod public boolean unfollowUser(String username, int followus);
     
-    @WebMethod  void openTicket(String description, String username);
-	@WebMethod public void openTicket(String description, String username, String eventDescription, Date eventDate);
-	@WebMethod public void openTicket(String description, String username, Event event) ;
-	
-	@WebMethod
-	public Vector<Ticket> getNewTickets();
+    
+    @WebMethod public Vector<domain.RegisteredUser> getFollowers(String username);
+    
+
+
 }

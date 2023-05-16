@@ -1,14 +1,12 @@
 package domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @Entity
-public class Message implements Comparable<Message>, Serializable{
+public class Message implements Comparable<Message>{
 	@Id
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
@@ -87,12 +85,5 @@ public class Message implements Comparable<Message>, Serializable{
 	public int compareTo(Message o) {
 		return this.messageNumber-o.getMessageNumber();
 	}
-
-	@Override
-	public String toString() {
-		return "Message [messageNumber=" + messageNumber + ", sender=" + sender + ", receiver=" + receiver
-				+ ", subject=" + subject + ", text=" + text + ", hasBeenRead=" + hasBeenRead + "]";
-	}
-	
 	
 }
