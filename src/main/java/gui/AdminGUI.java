@@ -18,7 +18,6 @@ import java.awt.event.ActionEvent;
 public class AdminGUI extends JFrame {
 
 	private JPanel contentPane;
-	private JButton btnMails;
 
 	/**
 	 * Launch the application.
@@ -27,7 +26,7 @@ public class AdminGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminGUI frame = new AdminGUI(null);
+					AdminGUI frame = new AdminGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,14 +38,14 @@ public class AdminGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdminGUI(String user) {
+	public AdminGUI() {
 		try {
-			jbInit(user);
+			jbInit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	private void jbInit(String user) throws Exception{
+	private void jbInit() throws Exception{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -88,6 +87,18 @@ public class AdminGUI extends JFrame {
 		EventButton.setBounds(10, 133, 200, 50);
 		contentPane.add(EventButton);
 		
+		
+		JButton CloseButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("LogOut")); //$NON-NLS-1$ //$NON-NLS-2$
+		CloseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jButtonClose_actionPerformed(e);
+			}
+
+			
+		});
+		CloseButton.setBounds(142, 218, 147, 32);
+		contentPane.add(CloseButton);
+		
 		JButton SetResultButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SetResult")); //$NON-NLS-1$ //$NON-NLS-2$
 		SetResultButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -110,17 +121,11 @@ public class AdminGUI extends JFrame {
 		DeleteEventButton.setBounds(220, 133, 204, 50);
 		contentPane.add(DeleteEventButton);
 		
-		btnMails = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MailSystem"));
-		btnMails.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MyMessagesGUI myMessagesGUI=new MyMessagesGUI(user); 
-				myMessagesGUI.setVisible(true);
-			}
-		});
-		btnMails.setBounds(10, 194, 200, 42);
-		contentPane.add(btnMails);
-		
 
+		
+	}
+	public void jButtonClose_actionPerformed(ActionEvent e) {
+		this.setVisible(false);
 		
 	}
 }

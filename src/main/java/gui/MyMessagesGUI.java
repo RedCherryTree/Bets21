@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
 import java.util.ResourceBundle;
@@ -26,8 +25,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JSeparator;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MyMessagesGUI extends JFrame {
 
@@ -35,14 +32,15 @@ public class MyMessagesGUI extends JFrame {
 	
 	private JScrollPane receivedMessagesSPanel = new JScrollPane();
 	private JTable receivedMessagesTable= new JTable();
-	private DefaultTableModel tableModelMessages;
 	
 	private String[] columnNamesReceivedMessages = new String[] {
-			ResourceBundle.getBundle("Etiquetas").getString("Client"), 
-			ResourceBundle.getBundle("Etiquetas").getString("Description"), 
+			ResourceBundle.getBundle("Etiquetas").getString("Receiver"), 
+			ResourceBundle.getBundle("Etiquetas").getString("Sender"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Subject"), 
 
 	};
+	private DefaultTableModel tableModelMessages;
+	private JTextField textField;
 
 	private JLabel lblReceivedMessages;
 
@@ -51,6 +49,12 @@ public class MyMessagesGUI extends JFrame {
 	private JButton btnWriteMessage;
 
 	private JButton btnSentMessages;
+
+	private JButton btnReply;
+
+	private JButton btnSearch;
+
+	private JLabel lblSearchConversations;
 
 	private JButton btnRefresh;
 
@@ -74,10 +78,10 @@ public class MyMessagesGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MyMessagesGUI(String us) {
-
+	public MyMessagesGUI(User user) {
 		BLFacade facade = MainGUI.getBusinessLogic();
-		User user=facade.getUser(us);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 541, 305);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -86,7 +90,6 @@ public class MyMessagesGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		receivedMessagesSPanel = new JScrollPane();
-
 		receivedMessagesSPanel.setBounds(new Rectangle(292, 50, 346, 150));
 		receivedMessagesSPanel.setBounds(10, 52, 505, 123);
 		contentPane.add(receivedMessagesSPanel);
@@ -103,46 +106,33 @@ public class MyMessagesGUI extends JFrame {
 		receivedMessagesTable.getColumnModel().getColumn(2).setPreferredWidth(250);
 		receivedMessagesTable.getColumnModel().removeColumn(receivedMessagesTable.getColumnModel().getColumn(3));
 		
-		Vector<Message> myMessages= facade.getUserReceivedMessages(us);
+		Vector<Message> myMessages= user.getReceivedMessages();
 		for(Message m: myMessages) {
 			Vector<Object> row = new Vector<Object>();
 			row.add(m.getReceiver());
 			row.add(m.getSender());
 			row.add(m.getSubject());
 			row.add(m);
-			tableModelMessages.addRow(row);
 		}
 		
-		receivedMessagesTable.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int i=receivedMessagesTable.getSelectedRow();
-				domain.Message m=(domain.Message)tableModelMessages.getValueAt(i,3); 
-				System.out.println(m.toString());
-				ReadMessageGUI readMessageGUI= new ReadMessageGUI(m);
-				readMessageGUI.setVisible(true);
-			}
-		});
-		
 		btnSentMessages = new JButton(ResourceBundle.getBundle("Etiquetas").getString("SentMessages"));
-		btnSentMessages.setFont(btnSentMessages.getFont().deriveFont(btnSentMessages.getFont().getStyle() | Font.BOLD));
+		btnSentMessages.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnSentMessages.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblReceivedMessages.setText(ResourceBundle.getBundle("Etiquetas").getString("SentMessages"));
 				tableModelMessages.getDataVector().clear();
 				receivedMessagesTable.updateUI();
-				Vector<Message> myMessages= facade.getUserSentMessages(us);
+				Vector<Message> myMessages= user.getSentMessages();
 				for(Message m: myMessages) {
 					Vector<Object> row = new Vector<Object>();
 					row.add(m.getReceiver());
 					row.add(m.getSender());
 					row.add(m.getSubject());
 					row.add(m);
-					tableModelMessages.addRow(row);
 				}
 			}
 		});
-		btnSentMessages.setBounds(30, 186, 130, 69);
+		btnSentMessages.setBounds(245, 186, 130, 29);
 		contentPane.add(btnSentMessages);
 		
 		lblReceivedMessages = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Received"));
@@ -151,21 +141,43 @@ public class MyMessagesGUI extends JFrame {
 		contentPane.add(lblReceivedMessages);
 		
 		btnWriteMessage = new JButton(ResourceBundle.getBundle("Etiquetas").getString("WriteMessage"));
+		btnWriteMessage.setFont(btnWriteMessage.getFont().deriveFont(btnWriteMessage.getFont().getStyle() | Font.BOLD));
 		btnWriteMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewMessageGUI messageGUI= new NewMessageGUI(user.getUsername(), "");
-				messageGUI.setVisible(true);
+				
 			}
 		});
-		btnWriteMessage.setFont(btnWriteMessage.getFont().deriveFont(btnWriteMessage.getFont().getStyle() | Font.BOLD));
-
-		btnWriteMessage.setBounds(188, 186, 130, 69);
+		btnWriteMessage.setBounds(385, 186, 130, 64);
 		contentPane.add(btnWriteMessage);
 		
 		lblNotReadMessages = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("NotReadQuantity"));
 		lblNotReadMessages.setFont(lblNotReadMessages.getFont().deriveFont(lblNotReadMessages.getFont().getStyle() | Font.BOLD));
-		lblNotReadMessages.setBounds(268, 11, 247, 14);
+		lblNotReadMessages.setBounds(234, 11, 190, 14);
 		contentPane.add(lblNotReadMessages);
+		
+		btnReply = new JButton(ResourceBundle.getBundle("Etiquetas").getString("ReplyMessage"));
+		btnReply.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnReply.setBounds(245, 221, 130, 29);
+		contentPane.add(btnReply);
+		
+		lblSearchConversations = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("LookForConversation"));
+		lblSearchConversations.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblSearchConversations.setBounds(10, 186, 200, 14);
+		contentPane.add(lblSearchConversations);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 208, 122, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		btnSearch = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Search"));
+		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnSearch.setBounds(142, 208, 74, 20);
+		contentPane.add(btnSearch);
 		
 		btnRefresh = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Refresh"));
 		btnRefresh.addActionListener(new ActionListener() {
@@ -180,20 +192,11 @@ public class MyMessagesGUI extends JFrame {
 					row.add(m.getSender());
 					row.add(m.getSubject());
 					row.add(m);
-					tableModelMessages.addRow(row);
 				}
 			}
 		});
-		btnRefresh.setFont(btnRefresh.getFont().deriveFont(btnRefresh.getFont().getStyle() | Font.BOLD));
-		btnRefresh.setBounds(349, 186, 130, 69);
+		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnRefresh.setBounds(142, 230, 74, 20);
 		contentPane.add(btnRefresh);
 	}
-//	private static void printNotRead(JScrollPane receivedMessagesSPanel, JTable receivedMessagesTable, DefaultTableModel tableModelMessages,
-//			Vector<Message> myMessages) {
-//		for(int i=0; i<myMessages.size();i++) {
-//			if(!myMessages.get(i).isHasBeenRead()) {
-//				receivedMessagesSPanel.setBackground(Color.CYAN);
-//			}
-//		}
-//	}
 }

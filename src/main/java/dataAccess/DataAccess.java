@@ -2,7 +2,6 @@ package dataAccess;
 
 //hello
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +23,9 @@ import domain.Admin;
 import domain.Bet;
 import domain.Event;
 import domain.Message;
-import domain.MultipleQuoteBet;
 import domain.Question;
 import domain.Quote;
 import domain.RegisteredUser;
-import domain.Ticket;
 import domain.Transaction;
 import domain.User;
 import exceptions.EventAlreadyExist;
@@ -442,9 +439,6 @@ public class DataAccess  {
      }
      public Vector<Transaction> getUserTransactions(String user){
     	RegisteredUser us= db.find(RegisteredUser.class, user);
-    	for(Transaction t:us.getMyTransactions()) {
-    		System.out.println(t.toString());
-    	}
      	return us.getMyTransactions();
      }
 
@@ -457,15 +451,6 @@ public class DataAccess  {
 		db.getTransaction().commit();
 		
 	}
- 	
- 	public void multipleQuoteBet(String user, double money, Vector<Quote> quotes) {
-		db.getTransaction().begin();
-		RegisteredUser us= db.find(RegisteredUser.class, user);
-		Transaction transaction= us.bet(money, quotes);
-		db.persist(transaction);
-		db.getTransaction().commit();	
-	}
- 	
  	public void deleteTransactions() {
  		db.getTransaction().begin();
  		Query query1 = db.createQuery("DELETE FROM Transaction t"); 
@@ -521,40 +506,29 @@ public class DataAccess  {
 				}else {
 					qt.setWinner(true);	
 				}
-			}
-			q.setHasFinished(true);
-			q.setResult(qt.getQuoteName());
-			TypedQuery<MultipleQuoteBet> query1 = db.createQuery("SELECT mqb FROM MultipleQuoteBet mqb WHERE mqb.hasEnded=="+false+"",MultipleQuoteBet.class);		
-			List<MultipleQuoteBet> mqbWinners= query1.getResultList();
-			for(MultipleQuoteBet mqb: mqbWinners) {
-				if(mqb.hasBeenDecided() && mqb.hasWon()) {
-					RegisteredUser us= mqb.getUser();
-					Transaction transaction=us.mqBetWinner(mqb);
-					db.persist(transaction);
-				}
-			}
-			
-			double mul = qt.getQuoteMultiplier();	
-			TypedQuery<Bet> query2 = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.quoteNumber=="+quoteNumber+"",Bet.class);		
-			List<Bet> bWinners= query2.getResultList();
-			System.out.println("Winners of the regular bet: ");
-			for(Bet bet: bWinners) {
-				System.out.println(bet.toString());
-				RegisteredUser us= bet.getUser();
-				Transaction transaction=us.betWinner(bet);
-				db.persist(transaction);
-			}	
+		}
+		q.setHasFinished(true);
+		q.setResult(qt.getQuoteName());
+		double mul = qt.getQuoteMultiplier();
 		
-
+		TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.betQuote.quoteNumber=="+quoteNumber+"",Bet.class);		
+		List<Bet> winners= query.getResultList();
+		System.out.println("Winners of the bet: ");
+		for(Bet bet: winners) {
+			System.out.println(bet.toString());
+			RegisteredUser us= bet.getUser();
+			Transaction transaction=us.betWinner(bet);
+			 db.persist(transaction);
+			}	
 		}else {
 			System.out.println("The result of this question has already been decided");
 		}	
 	
 		db.getTransaction().commit();
 	}
-	public void deleteUsers() {
+	public void deleteRUsers() {
  		db.getTransaction().begin();
- 		Query query1 = db.createQuery("DELETE FROM User u"); 
+ 		Query query1 = db.createQuery("DELETE FROM RegisteredUser u"); 
  		query1.executeUpdate();
  		db.getTransaction().commit();
 	}
@@ -563,10 +537,6 @@ public class DataAccess  {
 	   	db.getTransaction().begin();
 	   	User sender= db.find(User.class, sen);
 	   	User receiver= db.find(User.class, rec);
-	   	sender.getReceivedMessages();
-	   	sender.getSentMessages();
-	   	receiver.getReceivedMessages();
-	   	receiver.getSentMessages();
 	   	Message message=sender.sendMessage(receiver, subject, text);
 	   	receiver.receiveMessage(message);
 	   	db.persist(message);
@@ -581,50 +551,45 @@ public class DataAccess  {
 		db.getTransaction().commit();
 		
 	}
-
-   
-	public User getUser(String username) {
-     	User us= db.find(User.class, username);
-     	return us;
-    }
 	
-    public Vector<Message> getUserReceivedMessages(String username){
-    	User us= db.find(User.class, username);
-    	for(Message m: us.getReceivedMessages()) {
-    		System.out.println(m.toString());
-    	}
-     	return us.getReceivedMessages();
-    }
-    
-    public Vector<Message> getUserSentMessages(String username){
-    	User us= db.find(User.class, username);
-    	for(Message m: us.getSentMessages()) {
-    		System.out.println(m.toString());
-    	}
-     	return us.getSentMessages();
-    }
-    public Vector<Message> getConversation(String receiver, String sender){
-    	User us= db.find(User.class, receiver);
-    	Vector<Message> myConversation=us.getSentMessages();
-    	myConversation.addAll(us.getReceivedMessages());
-    	Collections.sort(myConversation);
-    	Vector<Message> emaitza= new Vector<Message>();
-    	for(Message m: myConversation) {
-    		if(!emaitza.contains(m) && m.getSender().equals(sender)) {
-    			System.out.println(m.toString());
-    			emaitza.add(m);
-    		}
-    	}
-     	return emaitza;
-    }
-    
+	public void mulBet(String user, double money, double mulQuoteValue, int transactionNumber) {
+		db.getTransaction().begin();
+		RegisteredUser us= db.find(RegisteredUser.class, user);
+		Quote quote= db.find(Quote.class, quoteNumber);
+		Transaction transaction= us.bet(money, quote);
+		db.persist(transaction);
+		db.getTransaction().commit();
+		
+	}
+	public Vector<RegisteredUser> getFollows(String username){
+		RegisteredUser user= db.find(RegisteredUser.class, username);
+		return user.getMyFollows();
+	}
+	public boolean unfollowUser(String username, int follownum) {
+		
+		db.getTransaction().begin();
+	 	RegisteredUser user= db.find(RegisteredUser.class, username);
+	 	
+	 	RegisteredUser follow = user.unfollowUser(follownum);
+	 	follow.unfollow(user);
+	 	db.persist(user); 
+	 	db.persist(follow);
+		db.getTransaction().commit();
+		return true;
+	
+	
+}
 	public boolean followUser(String username, String followus) {
 		if(this.isRegistered(followus)) {
 			db.getTransaction().begin();
 		 	RegisteredUser user= db.find(RegisteredUser.class, username);
 		 	RegisteredUser follow= db.find(RegisteredUser.class, followus);
-		 	user.followUser(follow);
-		 	System.out.println(user.getUsername());
+		 	if(user.followUser(follow)) {
+			 	follow.addFollower(user);
+			 	db.persist(user); 
+			 	db.persist(follow);
+		 	}
+		 	
 			db.getTransaction().commit();
 			return true;
 		}
@@ -633,53 +598,15 @@ public class DataAccess  {
 		}
 	}
 	
-	public boolean unfollowUser(String username, int follownum) {
-		
-			db.getTransaction().begin();
-		 	RegisteredUser user= db.find(RegisteredUser.class, username);
-		 	
-		 	user.unfollowUser(follownum);
-			db.getTransaction().commit();
-			return true;
-		
-		
-	}
 	
 	
-	public Vector<RegisteredUser> getFollows(String username){
+	
+	
+	public Vector<RegisteredUser> getFollowers(String username){
 		RegisteredUser user= db.find(RegisteredUser.class, username);
-		for(RegisteredUser u: user.getMyFollows())
-			System.out.println(u.toString());
-		return user.getMyFollows();
-	}
+		return user.getMyFollowers();
 	
-	public void openTicket(String description, String username) {
-		db.getTransaction().begin();
-	 	RegisteredUser user= db.find(RegisteredUser.class, username);
-	 	Ticket ticket=user.openTicket(description);
-	 	db.persist(ticket);
-		db.getTransaction().commit();
 	}
+		
 	
-	public void openTicket(String description, String username, String eventDescription, Date eventDate) {
-		db.getTransaction().begin();
-	 	RegisteredUser user= db.find(RegisteredUser.class, username);
-	 	Ticket ticket=user.openTicket(description, eventDescription, eventDate);
-	 	db.persist(ticket);
-		db.getTransaction().commit();
-	}
-	
-	public void openTicket(String description, String username, Event event) {
-		db.getTransaction().begin();
-	 	RegisteredUser user= db.find(RegisteredUser.class, username);
-	 	Ticket ticket=user.openTicket(description, event);
-	 	db.persist(ticket);
-		db.getTransaction().commit();
-	}
-	
-	public Vector<Ticket> getNewTickets() {
-		TypedQuery<Ticket> query = db.createQuery("SELECT ticket FROM Ticket ticket WHERE ticket.egoera=="+Ticket.getEGOERA_BERRIA()+"",Ticket.class);
-		List<Ticket> tickets= query.getResultList();
-		return (Vector<Ticket>) tickets;
-	}
 }

@@ -1,7 +1,6 @@
 package businessLogic;
 //hola
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -14,10 +13,11 @@ import domain.Question;
 import domain.Quote;
 import domain.User;
 import domain.RegisteredUser;
-import domain.Ticket;
 import domain.Transaction;
+import domain.Bet;
 import domain.Event;
 import domain.Message;
+import domain.MultipleBet;
 import exceptions.*;
 
 /**
@@ -254,13 +254,6 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     }
     
-    @WebMethod 
-    public void multipleQuoteBet(String user, double money, Vector<Quote> quotes) {
-    	dbManager.open(false);
-    	dbManager.multipleQuoteBet(user, money, quotes);
-    	dbManager.close();
-    }
-    
     @WebMethod
     public Event deleteEvent(Integer eventnumber, Date eventDate) throws DateExpired, EventDontExist{
    	   
@@ -296,10 +289,10 @@ public class BLFacadeImplementation  implements BLFacade {
    		dbManager.close();
     }
     
-    @WebMethod public void deleteUsers() {
+    @WebMethod public void deleteRUsers() {
    		dbManager.open(false);
 
-   		dbManager.deleteUsers();;		
+   		dbManager.deleteRUsers();;		
 	
    		dbManager.close();
     }
@@ -311,85 +304,43 @@ public class BLFacadeImplementation  implements BLFacade {
    		dbManager.close();
    		return message;
     }
-    @WebMethod
-	public User getUser(String username) {
-    	dbManager.open(false);
-    	User user = dbManager.getUser(username);
+    @WebMethod public void mulBet(MultipleBet mb) {
+    	dbManager.open(false);	
+    	dbManager.mulBet(mb.getUser(), mb.getTotalMoney(), mb.getTotalQuote(), mb.getTransactionNumber());
     	dbManager.close();
-    	return user;
     }
     
-    @WebMethod public Vector<Message> getUserSentMessages(String username){
-    	dbManager.open(false);
-    	Vector<Message> messages = dbManager.getUserSentMessages(username);
-    	dbManager.close();
-    	return messages;
-    }
-    
-    @WebMethod public Vector<Message> getUserReceivedMessages(String username){
-    	dbManager.open(false);
-    	Vector<Message> messages = dbManager.getUserReceivedMessages(username);
-    	dbManager.close();
-    	return messages;
-    }
-    
-    @WebMethod public Vector<Message> getConversation(String receiver, String sender){
-    	dbManager.open(false);
-    	Vector<Message> messages = dbManager.getConversation(receiver, sender);
-    	dbManager.close();
-    	return messages;
-    }
-
-	@Override
-	public boolean followUser(String username, String followus) {
-		dbManager.open(false);
-		boolean emaitza =dbManager.followUser(username,followus);
-		dbManager.close();
-		return emaitza;
-	}
-	
-	@Override
-	public boolean unfollowUser(String username, int followus) {
-		dbManager.open(false);
-		boolean emaitza =dbManager.unfollowUser(username,followus);
-		dbManager.close();
-		return emaitza;
-	}
-
-	@Override
+    @Override
 	public Vector<RegisteredUser> getFollows(String username) {
 		dbManager.open(false);
 		Vector<RegisteredUser> user = dbManager.getFollows(username);
 		dbManager.close();
 		return user;
 	}
-	@WebMethod
-	public void openTicket(String description, String username) {
+    
+    @Override
+	public boolean unfollowUser(String username, int followus) {
 		dbManager.open(false);
-		dbManager.openTicket(description, username);
+		boolean emaitza =dbManager.unfollowUser(username,followus);
 		dbManager.close();
+		return emaitza;
 	}
-	@WebMethod
-	public void openTicket(String description, String username, String eventDescription, Date eventDate) {
+    
+    @Override
+	public boolean followUser(String username, String followus) {
 		dbManager.open(false);
-		dbManager.openTicket(description, username, eventDescription, eventDate);
+		boolean emaitza =dbManager.followUser(username,followus);
 		dbManager.close();
+		return emaitza;
 	}
-	@WebMethod
-	public void openTicket(String description, String username, Event event) {
+    
+    @Override
+	public Vector<RegisteredUser> getFollowers(String username) {
 		dbManager.open(false);
-		dbManager.openTicket(description, username, event);
+		Vector<RegisteredUser> user = dbManager.getFollowers(username);
 		dbManager.close();
+		return user;
 	}
-	
-	@WebMethod
-	public Vector<Ticket> getNewTickets() {
-		dbManager.open(false);
-		Vector<Ticket> tickets=(Vector<Ticket>) dbManager.getNewTickets();
-		dbManager.close();
-		return tickets;
-	}
-
-		
+   
 }
 
