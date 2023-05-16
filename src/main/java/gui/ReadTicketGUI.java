@@ -52,6 +52,8 @@ public class ReadTicketGUI extends JFrame {
 		textPane = new JTextPane();
 		textPane.setBorder(new LineBorder(Color.BLACK, 1));
 		textPane.setBounds(10, 45, 414, 205);
+		textPane.setText(desciption);
+		textPane.setEnabled(false);
 		contentPane.add(textPane);
 	}
 }

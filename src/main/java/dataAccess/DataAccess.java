@@ -701,8 +701,12 @@ public class DataAccess  {
 	public Vector<Ticket> getManagingTickets(String adminName){
 		db.getTransaction().begin();
 		Admin admin=db.find(Admin.class, adminName);
+		Vector<Ticket> tickets=admin.getAssignedTickets();
+		for(Ticket t: tickets) {
+			System.out.print(t.toString());
+		}
 		db.getTransaction().commit();
-		return admin.getAssignedTickets();
+		return tickets;
 	}
 	
 	public void setTicketConcluded(int ticketNumber, String adminName) {

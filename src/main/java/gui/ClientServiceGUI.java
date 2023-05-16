@@ -122,20 +122,30 @@ public class ClientServiceGUI extends JFrame {
 				int i=tableTickets.getSelectedRow();
 				domain.Ticket ticket=(domain.Ticket)tableModelTicket.getValueAt(i,3);
 				
+				btnReadMessage.setEnabled(true);
 				btnAcceptProposal.setEnabled(false);
 				btnDenyProposal.setEnabled(false);
-				btnManageTicket.setEnabled(true);
+				btnManageTicket.setEnabled(false);
+				btnWriteToClient.setEnabled(false);
+				btnFinishTicket.setEnabled(false);
 				lblClient.setText(ResourceBundle.getBundle("Etiquetas").getString("Client")+": "+ticket.getUser().getUsername());
 				if(!ticket.getEgoera().equals(Ticket.getEGOERA_TRATATZEN())){
-					btnReadMessage.setEnabled(true);
-				}
-				if(ticket instanceof Ticket) {
-					lblTicketType.setText(ResourceBundle.getBundle("Etiquetas").getString("TicketType")+": "
-				    +ResourceBundle.getBundle("Etiquetas").getString("SimpleTicket"));
-					System.out.println("Paella");
+					btnManageTicket.setEnabled(true);
 				}
 				else {
-					System.out.println("Chorizo");
+					if(!(ticket instanceof SuggestRemoval||ticket instanceof SuggestRemoval)){
+						btnAcceptProposal.setEnabled(true);
+						btnDenyProposal.setEnabled(true);
+					}
+					btnWriteToClient.setEnabled(true);
+					btnFinishTicket.setEnabled(true);
+				}
+				
+				if(!(ticket instanceof SuggestRemoval||ticket instanceof SuggestRemoval)) {
+					lblTicketType.setText(ResourceBundle.getBundle("Etiquetas").getString("TicketType")+": "
+				    +ResourceBundle.getBundle("Etiquetas").getString("SimpleTicket"));
+				}
+				else {
 					String eventDesc="";
 					String eventDate="";
 					if(ticket.getEgoera().equals(Ticket.getEGOERA_TRATATZEN())) {
@@ -174,7 +184,7 @@ public class ClientServiceGUI extends JFrame {
 				readTicketGUI.setVisible(true);
 			}
 		});
-		btnReadMessage.setBounds(276, 192, 114, 51);
+		btnReadMessage.setBounds(247, 192, 131, 51);
 		contentPane.add(btnReadMessage);
 		btnReadMessage.setEnabled(false);
 		
@@ -188,7 +198,7 @@ public class ClientServiceGUI extends JFrame {
 				tableTickets.updateUI();
 			}
 		});
-		btnManageTicket.setBounds(400, 192, 114, 51);
+		btnManageTicket.setBounds(388, 192, 126, 51);
 		contentPane.add(btnManageTicket);
 		btnManageTicket.setEnabled(false);
 		
@@ -264,7 +274,7 @@ public class ClientServiceGUI extends JFrame {
 				tableTickets.updateUI();
 			}
 		});
-		btnAcceptProposal.setBounds(276, 254, 114, 29);
+		btnAcceptProposal.setBounds(247, 254, 131, 29);
 		contentPane.add(btnAcceptProposal);
 		btnAcceptProposal.setEnabled(false);
 		
@@ -286,7 +296,7 @@ public class ClientServiceGUI extends JFrame {
 				tableTickets.updateUI();
 			}
 		});
-		btnDenyProposal.setBounds(400, 254, 114, 29);
+		btnDenyProposal.setBounds(388, 254, 126, 29);
 		contentPane.add(btnDenyProposal);
 		btnDenyProposal.setEnabled(false);
 		
@@ -324,7 +334,7 @@ public class ClientServiceGUI extends JFrame {
 				tableTickets.updateUI();
 			}
 		});
-		btnFinishTicket.setBounds(276, 294, 238, 48);
+		btnFinishTicket.setBounds(247, 294, 267, 48);
 		contentPane.add(btnFinishTicket);
 		lblDate.setVisible(false);
 		btnFinishTicket.setEnabled(false);
