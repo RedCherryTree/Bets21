@@ -135,6 +135,7 @@ public class DataAccess  {
 			}
 			Admin admin= new Admin("admin", "123");
 			RegisteredUser user= new RegisteredUser("user","123");
+			user.setMail("user@gmail.com");
 			db.persist(admin);
 			db.persist(user);
 			
@@ -455,6 +456,12 @@ public class DataAccess  {
 		RegisteredUser us= db.find(RegisteredUser.class, user);
 		Quote quote= db.find(Quote.class, quoteNumber);
 		Transaction transaction= us.bet(money, quote);
+		Vector<RegisteredUser>followers=us.getMyFollowers();
+		for(RegisteredUser rUs: followers) {
+			Transaction tFollowers=rUs.bet(money, quote);
+			System.out.println(tFollowers.toString());
+			db.persist(tFollowers);
+		}
 		db.persist(transaction);
 		db.getTransaction().commit();
 		
@@ -625,7 +632,8 @@ public class DataAccess  {
 			db.getTransaction().begin();
 		 	RegisteredUser user= db.find(RegisteredUser.class, username);
 		 	RegisteredUser follow= db.find(RegisteredUser.class, followus);
-		 	user.followUser(follow);
+		 	user.getMyFollows().add(follow);
+		 	follow.getMyFollowers().add(user);
 		 	System.out.println(user.getUsername());
 			db.getTransaction().commit();
 			return true;
@@ -638,8 +646,7 @@ public class DataAccess  {
 	public boolean unfollowUser(String username, int follownum) {
 		
 			db.getTransaction().begin();
-		 	RegisteredUser user= db.find(RegisteredUser.class, username);
-		 	
+		 	RegisteredUser user= db.find(RegisteredUser.class, username);	 	
 		 	user.unfollowUser(follownum);
 			db.getTransaction().commit();
 			return true;

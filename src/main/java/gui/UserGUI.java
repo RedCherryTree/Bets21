@@ -134,7 +134,7 @@ public class UserGUI extends JFrame {
 		JSplitPane splitPane_1 = new JSplitPane();
 		jContentPane.add(splitPane_1);
 		
-		JButton btnNewButton_1 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DateExpired")); //$NON-NLS-1$ //$NON-NLS-2$
+		JButton btnNewButton_1 = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MyFollows")); //$NON-NLS-1$ //$NON-NLS-2$
 		splitPane_1.setLeftComponent(btnNewButton_1);
 		
 		btnMailSystem = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MailSystem"));

@@ -27,6 +27,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MyFollowsGUI extends JFrame {
 
@@ -42,7 +45,7 @@ public class MyFollowsGUI extends JFrame {
 	private DefaultTableModel tableModelFollows;
 	private JTextField textField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTable table;
+	private JButton unfollow;
 	
 
 	/**
@@ -65,7 +68,6 @@ public class MyFollowsGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public MyFollowsGUI(String user) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,18 +77,21 @@ public class MyFollowsGUI extends JFrame {
 		
 		accountsIFollow = new JScrollPane();
 		accountsIFollow.setBounds(new Rectangle(292, 50, 346, 150));
-		accountsIFollow.setBounds(132, 58, 292, 84);
+		accountsIFollow.setBounds(10, 110, 414, 140);
 		contentPane.add(accountsIFollow);
 		
 		followsTable = new JTable();
+		followsTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				unfollow.setEnabled(true);
+			}
+		});
 		accountsIFollow.setViewportView(followsTable);
 		tableModelFollows = new DefaultTableModel(null, columnNamesFollows);
 		
 		BLFacade facade = MainGUI.getBusinessLogic();
 		followsTable.setModel(tableModelFollows);
-		
-		table = new JTable();
-		accountsIFollow.setColumnHeaderView(table);
 		
 		refreshTable(myfollows(user, facade));
 		
@@ -104,20 +109,22 @@ public class MyFollowsGUI extends JFrame {
 		lblNewLabel_1.setBounds(270, 28, 23, 19);
 		contentPane.add(lblNewLabel_1);
 		
-		JButton Unfollow = new JButton("Unfollow");
-		Unfollow.addActionListener(new ActionListener() {
+		unfollow = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Unfollow"));
+		unfollow.setEnabled(false);
+		unfollow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int i = table.getSelectedRow();
+				int i = followsTable.getSelectedRow();
 				System.out.println(i);
 				facade.unfollowUser(user, i);
 				refreshTable(myfollows(user, facade));
 			}
 		});
 		
-		Unfollow.setBounds(321, 153, 103, 41);
-		contentPane.add(Unfollow);
+		unfollow.setBounds(280, 58, 144, 41);
+		contentPane.add(unfollow);
 		
-		JButton followUser = new JButton("Follow User");
+		JButton followUser = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Follow"));
+		followUser.setFont(followUser.getFont().deriveFont(followUser.getFont().getStyle() | Font.BOLD));
 		followUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String follow = textField.getText();
@@ -126,23 +133,8 @@ public class MyFollowsGUI extends JFrame {
 				
 			}
 		});
-		followUser.setBounds(278, 11, 89, 36);
+		followUser.setBounds(278, 11, 146, 36);
 		contentPane.add(followUser);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(63, 178, 172, 72);
-		contentPane.add(textPane);
-		
-		JButton btnGoBack = new JButton("back");
-		btnGoBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				UserGUI userGUI= new UserGUI(user);
-				userGUI.setVisible(true);
-				btnGoBack_actionPerformed(e);
-			}
-		});
-		btnGoBack.setBounds(321, 225, 103, 25);
-		contentPane.add(btnGoBack);
 	}
 	private void btnGoBack_actionPerformed(ActionEvent e) {
 		this.setVisible(false);
