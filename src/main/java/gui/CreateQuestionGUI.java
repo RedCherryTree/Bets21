@@ -124,7 +124,7 @@ public class CreateQuestionGUI extends JFrame {
 			}
 		});
 		DuplicateButton.setBounds(225, 275, 130, 30);
-		getContentPane().add(DuplicateButton);
+		//getContentPane().add(DuplicateButton);
 
 		
 		// Code for JCalendar
