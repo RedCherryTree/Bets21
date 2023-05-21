@@ -166,7 +166,7 @@ public class RegisteredUser extends User implements Serializable{
 	
 	public Transaction refundMoney(Bet bet, String reasonToRefund) {
 		this.money+= bet.getMoney();
-		RefundMoney refund= new RefundMoney(bet.getMoney(), this, reasonToRefund, bet.getBetQuote().getQuestion().getEvent().getDescription(),
+		Transaction refund= new RefundMoneyBet(bet.getMoney(), this, reasonToRefund, bet.getBetQuote().getQuestion().getEvent().getDescription(),
 				bet.getBetQuote().getQuestion().getQuestion(), bet.getBetQuote().getQuoteName());
 		this.myTransactions.add(refund);
 		return refund;		
@@ -185,8 +185,9 @@ public class RegisteredUser extends User implements Serializable{
 		this.myTransactions.add(winner);
 		return winner;	
 	}
+	
 	public boolean followUser(RegisteredUser user) {
-		if (!this.myFollows.contains(user) ) {
+		if (!this.myFollows.contains(user)&& !this.equals(user) ) {
 			return this.myFollows.add(user);
 		}
 		else {
@@ -194,8 +195,17 @@ public class RegisteredUser extends User implements Serializable{
 		}
 	}
 	
-	public boolean unfollowUser(int i) {
-		return myFollows.remove(i) != null;
+	public boolean addFollower(RegisteredUser user) {
+		
+		return this.myFollowers.add(user);	
+	}
+	
+	public RegisteredUser unfollowUser(int i) {
+		return myFollows.remove(i);
+	}
+	
+	public boolean unfollow(RegisteredUser user) {
+		return myFollowers.remove(user);
 	}
 	
 	public Ticket openTicket(String description) {
@@ -218,8 +228,7 @@ public class RegisteredUser extends User implements Serializable{
 	
 	public Transaction refundMultiple(Quote q, MultipleQuoteBet mulBet, String reasonToRefund) {
 		this.money+= mulBet.getMoney();
-		RefundMoney refund= new RefundMoney(mulBet.getMoney(), this, reasonToRefund, q.getQuestion().getEvent().getDescription(),
-				q.getQuestion().getQuestion(), q.getQuoteName());
+		MultipleQuoteRefund refund= new MultipleQuoteRefund(mulBet.getMoney(), this, reasonToRefund);
 		this.myTransactions.add(refund);
 		return refund;		
 	}

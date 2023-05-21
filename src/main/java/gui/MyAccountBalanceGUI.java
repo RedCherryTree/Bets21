@@ -140,8 +140,8 @@ public class MyAccountBalanceGUI extends JFrame {
 						
 					}
 					else {
-						if(t instanceof RefundMoney) {
-							RefundMoney rf=(RefundMoney)t;
+						if(t instanceof RefundMoneyBet) {
+							RefundMoneyBet rf=(RefundMoneyBet)t;
 							lblPaymentOption.setVisible(true);
 							lblPaymentOption.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+": "+rf.getBetDesc());
 							

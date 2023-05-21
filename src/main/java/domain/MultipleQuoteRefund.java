@@ -10,17 +10,20 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity 
-public class RefundMoney extends Transaction implements Serializable{
+public class MultipleQuoteRefund extends Transaction implements Serializable{
 
 	private String reasonToRefund;
+	private String betDesc;
+
 	
-	public RefundMoney() {
+	public MultipleQuoteRefund() {
 		super();
 	}
 	
-	public RefundMoney(double money, RegisteredUser user, String reasonToRefund) {
+	public MultipleQuoteRefund(double money, RegisteredUser user, String reasonToRefund) {
 		super(money, user);
 		this.reasonToRefund=reasonToRefund;
+		this.betDesc=betDesc;
 	}
 
 	public String getReasonToRefund() {
@@ -30,8 +33,16 @@ public class RefundMoney extends Transaction implements Serializable{
 	public void setReasonToRefund(String reasonToRefund) {
 		this.reasonToRefund = reasonToRefund;
 	}
+	
+	public String getBetDesc() {
+		return betDesc;
+	}
 
-	@Override
+	public void setBetDesc(String betDesc) {
+		this.betDesc = betDesc;
+	}
+
+
 	public String toString() {
 		return ResourceBundle.getBundle("Etiquetas").getString("RefundedMoney")+":"+String.format("%.2f", super.getMoney())
 		+"€"+" Your money has been refund. The reason is: "+reasonToRefund;

@@ -488,7 +488,7 @@ public class DataAccess  {
  		db.getTransaction().commit();
  	}
  	
-	public Event deleteEvent(Integer eventNumber, Date eventDate, String reasonToRefund)throws EventDontExist{
+ 	public Event deleteEvent(Integer eventNumber, Date eventDate, String reasonToRefund)throws EventDontExist{
 		db.getTransaction().begin();
 		Event ev = db.find(Event.class, eventNumber);
 		if(ev==null) {
@@ -506,14 +506,32 @@ public class DataAccess  {
 			   	us.getMyTransactions().remove(bet);
 			   	db.persist(transaction);
 			}
+			TypedQuery<MultipleQuoteBet> mulquery = db.createQuery("SELECT mqb FROM MultipleQuoteBet mqb WHERE mqb.betQuotes.question.event.eventNumber=="+eventNumber+"",MultipleQuoteBet.class);
+			List<MultipleQuoteBet> refund= mulquery.getResultList();
+			System.out.println("This bets will be refunded: ");
+			for(MultipleQuoteBet mulBet: refund) {
+				if(mulBet.isInEvent(ev)) {
+					System.out.println(mulBet.toString());
+					RegisteredUser us= mulBet.getUser();
+					int pos=mulBet.posInBet(ev);
+					List<Quote> betQuotes = mulBet.getBetQuotes();
+					if (betQuotes != null && pos >= 0 && pos < betQuotes.size()) {
+						Transaction transaction=us.refundMultiple(betQuotes.get(pos), mulBet, reasonToRefund);
+						us.getMyTransactions().remove(mulBet);
+						db.persist(transaction);
+					}else {
+						System.out.println("No funciona");
+					}
+				}
+				
+			}
 			Query query1 = db.createQuery("DELETE FROM Quote quote WHERE quote.question.event.eventNumber=="+eventNumber+""); 
 			Query query2 = db.createQuery("DELETE FROM Question question WHERE question.event.eventNumber=="+eventNumber+"");
 			Query query3 = db.createQuery("DELETE FROM Event event WHERE event.eventNumber=="+eventNumber+""); 
 			query1.executeUpdate();
 			query2.executeUpdate();
 			query3.executeUpdate();
-		}
-		
+		}	
 		db.getTransaction().commit();
 		return ev;
 	}
@@ -522,6 +540,7 @@ public class DataAccess  {
 		db.getTransaction().begin();
 		Question q = db.find(Question.class, questionNumber);
 		Quote qt = db.find(Quote.class, quoteNumber);
+		qt.setWinner(true);
 		
 		if( q.isHasFinished()==false) {
 			for (Quote kuota:q.getQuotes()) {
@@ -536,8 +555,9 @@ public class DataAccess  {
 			TypedQuery<MultipleQuoteBet> query1 = db.createQuery("SELECT mqb FROM MultipleQuoteBet mqb WHERE mqb.hasEnded=="+false+"",MultipleQuoteBet.class);		
 			List<MultipleQuoteBet> mqbWinners= query1.getResultList();
 			for(MultipleQuoteBet mqb: mqbWinners) {
+				System.out.println("Mqb amaitu da.");
 				if(mqb.hasBeenDecided() && mqb.hasWon()) {
-					RegisteredUser us= mqb.getUser();
+					RegisteredUser us= db.find(RegisteredUser.class, mqb.getUser().getUsername());
 					Transaction transaction=us.mqBetWinner(mqb);
 					db.persist(transaction);
 				}
@@ -561,6 +581,7 @@ public class DataAccess  {
 	
 		db.getTransaction().commit();
 	}
+	
 	public void deleteUsers() {
  		db.getTransaction().begin();
  		Query query1 = db.createQuery("DELETE FROM User u"); 
@@ -632,9 +653,12 @@ public class DataAccess  {
 			db.getTransaction().begin();
 		 	RegisteredUser user= db.find(RegisteredUser.class, username);
 		 	RegisteredUser follow= db.find(RegisteredUser.class, followus);
-		 	user.getMyFollows().add(follow);
-		 	follow.getMyFollowers().add(user);
-		 	System.out.println(user.getUsername());
+		 	if(user.followUser(follow)) {
+			 	follow.addFollower(user);
+			 	db.persist(user); 
+			 	db.persist(follow);
+		 	}
+		 	
 			db.getTransaction().commit();
 			return true;
 		}
@@ -645,11 +669,15 @@ public class DataAccess  {
 	
 	public boolean unfollowUser(String username, int follownum) {
 		
-			db.getTransaction().begin();
-		 	RegisteredUser user= db.find(RegisteredUser.class, username);	 	
-		 	user.unfollowUser(follownum);
-			db.getTransaction().commit();
-			return true;
+		db.getTransaction().begin();
+	 	RegisteredUser user= db.find(RegisteredUser.class, username);
+	 	
+	 	RegisteredUser follow = user.unfollowUser(follownum);
+	 	follow.unfollowUser(follownum); 
+	 	db.persist(user); 
+	 	db.persist(follow);
+		db.getTransaction().commit();
+		return true;
 		
 		
 	}
