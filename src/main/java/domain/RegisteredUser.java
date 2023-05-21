@@ -226,7 +226,7 @@ public class RegisteredUser extends User implements Serializable{
 		return ticket;
 	}
 	
-	public Transaction refundMultiple(Quote q, MultipleQuoteBet mulBet, String reasonToRefund) {
+	public Transaction refundMultiple(MultipleQuoteBet mulBet, String reasonToRefund) {
 		this.money+= mulBet.getMoney();
 		MultipleQuoteRefund refund= new MultipleQuoteRefund(mulBet.getMoney(), this, reasonToRefund);
 		this.myTransactions.add(refund);

@@ -142,7 +142,7 @@ public class MyMessagesGUI extends JFrame {
 				}
 			}
 		});
-		btnSentMessages.setBounds(30, 186, 130, 69);
+		btnSentMessages.setBounds(10, 186, 148, 69);
 		contentPane.add(btnSentMessages);
 		
 		lblReceivedMessages = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Received"));
@@ -159,7 +159,7 @@ public class MyMessagesGUI extends JFrame {
 		});
 		btnWriteMessage.setFont(btnWriteMessage.getFont().deriveFont(btnWriteMessage.getFont().getStyle() | Font.BOLD));
 
-		btnWriteMessage.setBounds(188, 186, 130, 69);
+		btnWriteMessage.setBounds(176, 186, 171, 69);
 		contentPane.add(btnWriteMessage);
 		
 		lblNotReadMessages = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("NotReadQuantity"));
@@ -185,7 +185,7 @@ public class MyMessagesGUI extends JFrame {
 			}
 		});
 		btnRefresh.setFont(btnRefresh.getFont().deriveFont(btnRefresh.getFont().getStyle() | Font.BOLD));
-		btnRefresh.setBounds(349, 186, 130, 69);
+		btnRefresh.setBounds(369, 186, 146, 69);
 		contentPane.add(btnRefresh);
 	}
 //	private static void printNotRead(JScrollPane receivedMessagesSPanel, JTable receivedMessagesTable, DefaultTableModel tableModelMessages,

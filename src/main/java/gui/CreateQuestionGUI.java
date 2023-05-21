@@ -61,10 +61,10 @@ public class CreateQuestionGUI extends JFrame {
 		jComboBoxEvents.setModel(modelEvents);
 		jComboBoxEvents.setBounds(new Rectangle(275, 47, 250, 20));
 		jLabelListOfEvents.setBounds(new Rectangle(290, 18, 277, 20));
-		jLabelQuery.setBounds(new Rectangle(25, 211, 75, 20));
-		jTextFieldQuery.setBounds(new Rectangle(100, 211, 429, 20));
-		jLabelMinBet.setBounds(new Rectangle(25, 243, 75, 20));
-		jTextFieldPrice.setBounds(new Rectangle(100, 243, 60, 20));
+		jLabelQuery.setBounds(new Rectangle(25, 211, 92, 20));
+		jTextFieldQuery.setBounds(new Rectangle(126, 213, 429, 20));
+		jLabelMinBet.setBounds(new Rectangle(25, 243, 92, 20));
+		jTextFieldPrice.setBounds(new Rectangle(127, 244, 60, 20));
 
 		jCalendar.setBounds(new Rectangle(40, 50, 225, 150));
 		scrollPaneEvents.setBounds(new Rectangle(25, 44, 346, 116));
@@ -88,7 +88,7 @@ public class CreateQuestionGUI extends JFrame {
 		jLabelMsg.setForeground(Color.red);
 		// jLabelMsg.setSize(new Dimension(305, 20));
 
-		jLabelError.setBounds(new Rectangle(179, 242, 305, 20));
+		jLabelError.setBounds(new Rectangle(165, 285, 238, 20));
 		jLabelError.setForeground(Color.red);
 
 		this.getContentPane().add(jLabelMsg, null);

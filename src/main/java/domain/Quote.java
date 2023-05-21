@@ -67,11 +67,11 @@ public class Quote implements Serializable {
 		this.quoteMultiplier=quoteMultiplier;
 	}
 	
-	public Quote(Question question,  String quoteName, Float quoteMultiplier) {
+	public Quote(Question question,  String quoteName, double d) {
 		super();
 		this.question=question;
 		this.quoteName=quoteName;
-		this.quoteMultiplier=quoteMultiplier;
+		this.quoteMultiplier=d;
 	}
 
 	public String getQuotes() {
