@@ -142,5 +142,9 @@ public class Event implements Serializable {
 		}
 		return devol;
 	}
+	
+	public void update() {
+		
+	}
 
 }

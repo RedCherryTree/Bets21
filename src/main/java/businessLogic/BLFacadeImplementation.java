@@ -1,5 +1,4 @@
 package businessLogic;
-//hola
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -143,7 +142,6 @@ public class BLFacadeImplementation  implements BLFacade {
 	
 	public void close() {
 		DataAccess dB4oManager=new DataAccess(false);
-
 		dB4oManager.close();
 
 	}
@@ -230,30 +228,67 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     	return quote;
     }
+    
+	/**
+	 * This method deposits money on an user account
+	 * 
+	 * @param user, user that the money will be added
+	 * @param money, quantity of money
+	 * @param paymentOpton, payment condition
+	 * @param paymentMethod, method of the payment
+	 */
     @WebMethod public void depositMoney(String user, double money, String paymentOpton, String paymentMethod) {
     	dbManager.open(false);
     	dbManager.depositMoney(user, money, paymentOpton, paymentMethod);
     	dbManager.close();
     }
     
+	/**
+	 * This method returns the quantity of money of an user account
+	 * 
+	 * @param user, username of the user we are searching for
+	 * @return float of the money the user have
+	 */
     @WebMethod public double getUserMoney(String user) {
     	dbManager.open(false);
     	double money=dbManager.getUserMoney(user);
     	dbManager.close();
     	return money;
     }
+    
+    /**
+  	 * This method retrieves the transactios that a user did
+  	 * 
+  	 * @param username of the user we are searching for
+  	 * @return Vector of "Transaction"-s that did the user
+  	 */
     @WebMethod public Vector<Transaction> getUserTransactions(String user){
     	dbManager.open(false);
     	Vector<Transaction> myTransactions=dbManager.getUserTransactions(user);
     	dbManager.close();
     	return myTransactions;
     }
+    
+    /**
+  	 * This method will bet in a quote for an user with a quantity of money
+  	 * 
+  	 * @param user, username of the user that will bet
+  	 * @param money, quantity of money that will be bet
+ 	 * @param quoteNumber, number of the quote
+  	 */
     @WebMethod public void bet(String user, double money,int quoteNumber){
     	dbManager.open(false);
     	dbManager.bet(user, money, quoteNumber);
     	dbManager.close();
     }
     
+    /**
+     * Places a bet on multiple quotes for a user.
+     * 
+     * @param user   the username of the user placing the bet
+     * @param money  the amount of money being bet
+     * @param quotes the vector of quotes to bet on
+     */
     @WebMethod 
     public void multipleQuoteBet(String user, double money, Vector<Quote> quotes) {
     	dbManager.open(false);
@@ -261,6 +296,15 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     }
     
+    /**
+     * Deletes an event with the given event number and event date.
+     * 
+     * @param eventnumber the number of the event to be deleted
+     * @param eventDate   the date of the event to be deleted
+     * @return the deleted event
+     * @throws DateExpired    if the event date has already passed
+     * @throws EventDontExist if the event does not exist
+     */
     @WebMethod
     public Event deleteEvent(Integer eventnumber, Date eventDate) throws DateExpired, EventDontExist{
    	   
@@ -278,6 +322,12 @@ public class BLFacadeImplementation  implements BLFacade {
    		return ev;
     };
     
+    /**
+     * Selects a winner for a given question number and quote number.
+     * 
+     * @param questionNumber the number of the question
+     * @param quoteNumber    the number of the quote
+     */
     @WebMethod
     public void selectWinner(Integer questionNumber, Integer quoteNumber) {
    	   
@@ -287,23 +337,19 @@ public class BLFacadeImplementation  implements BLFacade {
 	
    		dbManager.close();
     };
-    
-    @WebMethod public void deleteTransactions() {
-   		dbManager.open(false);
 
-   		dbManager.deleteTransactions();;		
-	
-   		dbManager.close();
-    }
     
-    @WebMethod public void deleteUsers() {
-   		dbManager.open(false);
-
-   		dbManager.deleteUsers();;		
-	
-   		dbManager.close();
-    }
-    @WebMethod public Message sendMessage(String sen, String rec, String subject, String text) {
+    /**
+     * Sends a message from the sender to the receiver with the specified subject and text.
+     * 
+     * @param sen     the username of the sender
+     * @param rec     the username of the receiver
+     * @param subject the subject of the message
+     * @param text    the content of the message
+     * @return the sent message
+     */
+    @WebMethod 
+    public Message sendMessage(String sen, String rec, String subject, String text) {
    		dbManager.open(false);
 
    		Message message=dbManager.sendMessage(sen, rec, subject, text);	
@@ -311,6 +357,13 @@ public class BLFacadeImplementation  implements BLFacade {
    		dbManager.close();
    		return message;
     }
+    
+    /**
+     * Retrieves a user with the given username.
+     * 
+     * @param username the username of the user to retrieve
+     * @return the retrieved user
+     */
     @WebMethod
 	public User getUser(String username) {
     	dbManager.open(false);
@@ -319,28 +372,44 @@ public class BLFacadeImplementation  implements BLFacade {
     	return user;
     }
     
-    @WebMethod public Vector<Message> getUserSentMessages(String username){
+    /**
+     * Retrieves the sent messages for a user with the given username.
+     * 
+     * @param username the username of the user
+     * @return the vector of sent messages
+     */
+    @WebMethod 
+    public Vector<Message> getUserSentMessages(String username){
     	dbManager.open(false);
     	Vector<Message> messages = dbManager.getUserSentMessages(username);
     	dbManager.close();
     	return messages;
     }
     
-    @WebMethod public Vector<Message> getUserReceivedMessages(String username){
+    /**
+     * Retrieves the received messages for a user with the given username.
+     * 
+     * @param username the username of the user
+     * @return the vector of received messages
+     */
+    @WebMethod 
+    public Vector<Message> getUserReceivedMessages(String username){
     	dbManager.open(false);
     	Vector<Message> messages = dbManager.getUserReceivedMessages(username);
     	dbManager.close();
     	return messages;
     }
     
-    @WebMethod public Vector<Message> getConversation(String receiver, String sender){
-    	dbManager.open(false);
-    	Vector<Message> messages = dbManager.getConversation(receiver, sender);
-    	dbManager.close();
-    	return messages;
-    }
 
+    /**
+     * Follows a user with the given username.
+     * 
+     * @param username the username of the user following
+     * @param followus the username of the user being followed
+     * @return true if the follow operation is successful, false otherwise
+     */
 	@Override
+	@WebMethod
 	public boolean followUser(String username, String followus) {
 		dbManager.open(false);
 		boolean emaitza =dbManager.followUser(username,followus);
@@ -348,6 +417,13 @@ public class BLFacadeImplementation  implements BLFacade {
 		return emaitza;
 	}
 	
+	/**
+	 * Unfollows a user with the given username.
+	 * 
+	 * @param username  the username of the user unfollowing
+	 * @param followus  the username of the user being unfollowed
+	 * @return true if the unfollow operation is successful, false otherwise
+	 */
 	@Override
 	public boolean unfollowUser(String username, int followus) {
 		dbManager.open(false);
@@ -356,6 +432,12 @@ public class BLFacadeImplementation  implements BLFacade {
 		return emaitza;
 	}
 
+	/**
+	 * Retrieves the users followed by a user with the given username.
+	 * 
+	 * @param username the username of the user
+	 * @return the vector of followed users
+	 */
 	@Override
 	public Vector<RegisteredUser> getFollows(String username) {
 		dbManager.open(false);
@@ -363,18 +445,42 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.close();
 		return user;
 	}
+	
+	/**
+	 * Opens a ticket with the given description and username.
+	 * 
+	 * @param description the description of the ticket
+	 * @param username    the username of the user opening the ticket
+	 */
 	@WebMethod
 	public void openTicket(String description, String username) {
 		dbManager.open(false);
 		dbManager.openTicket(description, username);
 		dbManager.close();
 	}
+	
+	/**
+	 * Opens a ticket with the given description, username, event description, and event date.
+	 * 
+	 * @param description      the description of the ticket
+	 * @param username         the username of the user opening the ticket
+	 * @param eventDescription the description of the associated event
+	 * @param eventDate        the date of the associated event
+	 */
 	@WebMethod
 	public void openTicket(String description, String username, String eventDescription, Date eventDate) {
 		dbManager.open(false);
 		dbManager.openTicket(description, username, eventDescription, eventDate);
 		dbManager.close();
 	}
+	
+	/**
+	 * Opens a ticket with the given description, username, and event.
+	 * 
+	 * @param description the description of the ticket
+	 * @param username    the username of the user opening the ticket
+	 * @param event       the associated event
+	 */
 	@WebMethod
 	public void openTicket(String description, String username, Event event) {
 		dbManager.open(false);
@@ -382,6 +488,11 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.close();
 	}
 	
+	/**
+	 * Retrieves new tickets.
+	 * 
+	 * @return the vector of new tickets
+	 */
 	@WebMethod
 	public Vector<Ticket> getNewTickets() {
 		dbManager.open(false);
@@ -390,6 +501,12 @@ public class BLFacadeImplementation  implements BLFacade {
 		return tickets;
 	}
 	
+	/**
+	 * Manages a ticket from the new tickets with the given ticket number and admin name.
+	 * 
+	 * @param ticketNumber the number of the ticket to manage
+	 * @param adminName    the name of the admin managing the ticket
+	 */
 	@WebMethod
 	public void manageTicket(int ticketNumber,String adminName) {
 		dbManager.open(false);
@@ -397,6 +514,12 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.close();
 	}
 	
+	/**
+	 * Retrieves the tickets being managed by an admin with the given name.
+	 * 
+	 * @param adminName the name of the admin
+	 * @return the vector of managed tickets
+	 */
 	@WebMethod
 	public Vector<Ticket> getManagingTickets(String adminName){
 		dbManager.open(false);
@@ -405,6 +528,12 @@ public class BLFacadeImplementation  implements BLFacade {
 		return tickets;
 	}
 	
+	/**
+	 * Sets a ticket with the given ticket number as concluded by an admin with the given name.
+	 * 
+	 * @param ticketNumber the number of the ticket to set as concluded
+	 * @param adminName    the name of the admin setting the ticket as concluded
+	 */
 	@WebMethod public void setTicketConcluded(int ticketNumber, String adminName) {
 		dbManager.open(false);
 		dbManager.setTicketConcluded(ticketNumber, adminName);

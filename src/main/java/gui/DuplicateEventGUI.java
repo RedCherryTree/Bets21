@@ -29,70 +29,50 @@ import com.toedter.calendar.JCalendar;
 import businessLogic.BLFacade;
 import configuration.UtilDate;
 import domain.Event;
+import domain.Question;
 import exceptions.*;
 
-public class CreateEventGUI extends JFrame {
+public class DuplicateEventGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
-
-	//COPIA DE CREATEQUESTION
-	//HAY QUE CAMBIAR COSAS
-	
 	
 	private JComboBox<Event> jComboBoxEvents = new JComboBox<Event>();
 	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<Event>();
 
 	private JLabel jLabelListOfEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));
-	private JLabel jLabelEvent = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Event"));
 	private JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
-
-	private JTextField jTextFieldCreateEvent = new JTextField();
 	private JCalendar jCalendar = new JCalendar();
+	private JLabel jLabelMsg = new JLabel();
 	private Calendar calendarAct = null;
 	private Calendar calendarAnt = null;
  
 	private JScrollPane scrollPaneEvents = new JScrollPane();
-
-	private JButton jButtonCreateEvent = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
-	private JLabel jLabelMsg = new JLabel();
 	private JLabel jLabelError = new JLabel();
-	private Event eventToDuplicate = null;
 	
 	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
 
 
 
-	public CreateEventGUI(Vector<domain.Event> v) {
+	public DuplicateEventGUI(Event e) {
 		try {
-			jbInit(v);
-		} catch (Exception e) {
-			e.printStackTrace();
+			main(e);
+		} catch (Exception er) {
+			er.printStackTrace();
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v) throws Exception {
+	private void main(Event eventToDuplicate) throws Exception {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
+		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("DuplicateEvent"));
 
 		jComboBoxEvents.setModel(modelEvents);
-		jComboBoxEvents.setBounds(new Rectangle(275, 47, 250, 20));
+		jComboBoxEvents.setBounds(new Rectangle(275, 47, 254, 20));
 		jLabelListOfEvents.setBounds(new Rectangle(290, 18, 277, 20));
-		jLabelEvent.setBounds(new Rectangle(25, 211, 75, 20));
-		jTextFieldCreateEvent.setBounds(new Rectangle(100, 211, 429, 20));
 
 		jCalendar.setBounds(new Rectangle(40, 50, 225, 150));
 		scrollPaneEvents.setBounds(new Rectangle(25, 44, 346, 116));
-
-		jButtonCreateEvent.setBounds(new Rectangle(58, 275, 130, 30));
-		jButtonCreateEvent.setEnabled(true);
-
-		jButtonCreateEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jButtonCreate_actionPerformed(e);
-			}
-		});
 		jButtonClose.setBounds(new Rectangle(399, 275, 130, 30));
 		jButtonClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,15 +80,7 @@ public class CreateEventGUI extends JFrame {
 			}
 		});
 
-		jLabelMsg.setBounds(new Rectangle(275, 182, 305, 20));
-		jLabelMsg.setForeground(Color.red);
-
-		this.getContentPane().add(jLabelMsg, null);
-
 		this.getContentPane().add(jButtonClose, null);
-		this.getContentPane().add(jButtonCreateEvent, null);
-		this.getContentPane().add(jTextFieldCreateEvent, null);
-		this.getContentPane().add(jLabelEvent, null);
 		this.getContentPane().add(jLabelListOfEvents, null);
 		this.getContentPane().add(jComboBoxEvents, null);
 
@@ -119,7 +91,8 @@ public class CreateEventGUI extends JFrame {
 		datesWithEventsCurrentMonth=facade.getEventsMonth(jCalendar.getDate());
 		paintDaysWithEvents(jCalendar,datesWithEventsCurrentMonth);
 		
-		
+		jLabelMsg.setBounds(new Rectangle(275, 182, 305, 20));
+		jLabelMsg.setForeground(Color.red);
 
 		jLabelEventDate.setBounds(new Rectangle(40, 15, 140, 25));
 		jLabelEventDate.setBounds(40, 16, 140, 25);
@@ -128,28 +101,32 @@ public class CreateEventGUI extends JFrame {
 		JButton duplicateEventButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DuplicateEvent")); //$NON-NLS-1$ //$NON-NLS-2$
 		duplicateEventButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DuplicateEventGUI duplicateGUI = new DuplicateEventGUI(eventToDuplicate);
-				duplicateGUI.setVisible(true);
+				jLabelMsg.setText("");
+				Date selectedDate = jCalendar.getDate();
+				BLFacade facade = MainGUI.getBusinessLogic();
+				try {
+					Event ev = facade.createEvent(eventToDuplicate.getDescription(), selectedDate);
+					Vector<Question> vec = eventToDuplicate.getQuestions();
+					for(Question quest: vec) {
+						facade.createQuestion(ev, quest.getQuestion(), quest.getBetMinimum());
+					}
+					jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("EventCreated"));
+
+				} catch (DateExpired e1) {
+					jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("DateExpired"));
+				} catch (EventAlreadyExist e1) {
+					jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
+				} catch (EventFinished e1) {
+					jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("DateExpired"));
+				} catch (QuestionAlreadyExist e1) {
+					jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEvent"));
+				}
+
 			}
 		});
-		duplicateEventButton.setEnabled(false);
-		duplicateEventButton.setBounds(226, 275, 130, 30);
+		duplicateEventButton.setBounds(63, 275, 130, 30);
 		getContentPane().add(duplicateEventButton);
 
-		
-		//Code of JComboBoxEvents for DuplicateEvent
-		jComboBoxEvents.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Event selectedEvent = (Event) jComboBoxEvents.getSelectedItem();
-				if (selectedEvent != null) {
-					eventToDuplicate = selectedEvent;
-					duplicateEventButton.setEnabled(true);
-				} else {
-					eventToDuplicate = null;
-					duplicateEventButton.setEnabled(false);
-				}
-			}
-		});
 		
 		// Code for JCalendar
 		this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
@@ -168,9 +145,7 @@ public class CreateEventGUI extends JFrame {
 					int monthAnt = calendarAnt.get(Calendar.MONTH);
 					int monthAct = calendarAct.get(Calendar.MONTH);
 					if (monthAct!=monthAnt) {
-						if (monthAct==monthAnt+2) { 
-							// Si en JCalendar está 30 de enero y se avanza al mes siguiente, devolverá 2 de marzo (se toma como equivalente a 30 de febrero)
-							// Con este código se dejará como 1 de febrero en el JCalendar
+						if (monthAct==monthAnt+2) {
 							calendarAct.set(Calendar.MONTH, monthAnt+1);
 							calendarAct.set(Calendar.DAY_OF_MONTH, 1);
 						}
@@ -207,8 +182,6 @@ public class CreateEventGUI extends JFrame {
 							modelEvents.addElement(ev);
 						jComboBoxEvents.repaint();
 
-						jButtonCreateEvent.setEnabled(true);
-
 					} catch (Exception e1) {
 
 						jLabelError.setText(e1.getMessage());
@@ -243,17 +216,6 @@ public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWit
 
 	 		calendar.setTime(d);
 	 		System.out.println(d);
-	 		
-
-			
-			// Obtain the component of the day in the panel of the DayChooser of the
-			// JCalendar.
-			// The component is located after the decorator buttons of "Sun", "Mon",... or
-			// "Lun", "Mar"...,
-			// the empty days before day 1 of month, and all the days previous to each day.
-			// That number of components is calculated with "offset" and is different in
-			// English and Spanish
-//			    		  Component o=(Component) jCalendar.getDayChooser().getDayPanel().getComponent(i+offset);; 
 			Component o = (Component) jCalendar.getDayChooser().getDayPanel()
 					.getComponent(calendar.get(Calendar.DAY_OF_MONTH) + offset);
 			o.setBackground(Color.CYAN);
@@ -264,31 +226,6 @@ public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWit
 	 		calendar.set(Calendar.YEAR, year);
 
 	 	
-	}
-
-	private void jButtonCreate_actionPerformed(ActionEvent e) {
-		try {
-			jLabelError.setText("");
-			jLabelMsg.setText("");
-			// Displays an exception if the query field is empty
-			String description = jTextFieldCreateEvent.getText();
-
-			if (description.length() > 0) {
-				// Obtain the business logic from a StartWindow class (local or remote)
-				BLFacade facade = MainGUI.getBusinessLogic();
-				
-				facade.createEvent(description, UtilDate.trim(jCalendar.getDate()));
-
-				jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("EventCreated"));
-			
-			} else
-				jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEvent"));
-		} catch (DateExpired e1) {
-			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("DateExpired"));
- 		} catch (EventAlreadyExist e1) {
-			jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
-		}
-		jTextFieldCreateEvent.setText("");
 	}
 
 	private void jButtonClose_actionPerformed(ActionEvent e) {
