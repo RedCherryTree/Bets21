@@ -135,10 +135,6 @@ public interface BLFacade  {
     
     @WebMethod public void selectWinner(Integer questionNumber, Integer quoteNumber);
     
-    @WebMethod public void deleteTransactions();
-    
-    @WebMethod public void deleteUsers();
-    
     @WebMethod public Message sendMessage(String sen, String rec, String subject, String text);
 
     @WebMethod User getUser(String username);
@@ -146,9 +142,7 @@ public interface BLFacade  {
     @WebMethod public Vector<Message> getUserSentMessages(String user);
     
     @WebMethod public Vector<Message> getUserReceivedMessages(String user);
-    
-    @WebMethod public Vector<Message> getConversation(String receiver, String sender);
-    
+        
     @WebMethod public boolean followUser(String username, String followus);
     
     @WebMethod public Vector<domain.RegisteredUser> getFollows(String username);
