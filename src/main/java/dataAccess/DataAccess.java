@@ -391,6 +391,7 @@ public class DataAccess  {
 		return ev;
 	}
 	
+	
 	/**
 	 * Method that returns whether the introduced description event already exists in the database
 	 * 
