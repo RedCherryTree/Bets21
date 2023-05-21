@@ -151,8 +151,8 @@ public class Question implements Serializable {
 		return questionNumber+";"+question+";"+Float.toString(betMinimum);
 	}
 
-	public Quote addQuote(String quoteName, Float multiplier) {
-		Quote q =new Quote(this, quoteName, multiplier);
+	public Quote addQuote(String quoteName, double d) {
+		Quote q =new Quote(this, quoteName, d);
 		quotes.add(q);
 		return q;
 	}

@@ -271,9 +271,9 @@ public class CreateQuoteGUI extends JFrame {
 		tableQueries.getColumnModel().removeColumn(tableQueries.getColumnModel().getColumn(2));
 		
 
-		textFieldMultiplier.setBounds(123, 387, 86, 20);
+		textFieldMultiplier.setBounds(133, 387, 86, 20);
 		textFieldMultiplier.setColumns(10);
-		textFieldQuote.setBounds(123, 354, 86, 20);
+		textFieldQuote.setBounds(133, 350, 86, 20);
 		textFieldQuote.setColumns(10);
 		
 		this.getContentPane().add(scrollPaneEvents, null);
@@ -287,7 +287,7 @@ public class CreateQuoteGUI extends JFrame {
 				
 				if (textFieldQuote.getText()!= null && textFieldMultiplier.getText() != null) {
 					try {
-						lblEmptyFields.setVisible(true);
+						lblEmptyFields.setVisible(false);
 						String quoteName= textFieldQuote.getText();
 						textFieldQuote.setText("");
 						Float multiplier=Float.parseFloat(textFieldMultiplier.getText());
@@ -306,6 +306,7 @@ public class CreateQuoteGUI extends JFrame {
 					}
 					catch(Exception ex){
 //						lblErrorLabel.setVisible(true);
+						lblEmptyFields.setVisible(true);
 					}
 				}
 				else {
@@ -313,20 +314,20 @@ public class CreateQuoteGUI extends JFrame {
 				}
 			}
 		});
-		btnChangeQuoteButton.setBounds(506, 370, 113, 54);
+		btnChangeQuoteButton.setBounds(561, 370, 113, 54);
 		getContentPane().add(btnChangeQuoteButton);
 		
 		JLabel jLabelQuote = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote"));
-		jLabelQuote.setBounds(40, 357, 73, 14);
+		jLabelQuote.setBounds(40, 357, 83, 14);
 		getContentPane().add(jLabelQuote);
 		
 		getContentPane().add(textFieldQuote);
-		jLabelMultiplier.setBounds(40, 390, 73, 14);
+		jLabelMultiplier.setBounds(40, 390, 83, 14);
 		
 		getContentPane().add(jLabelMultiplier);
 		
 		getContentPane().add(textFieldMultiplier);
-		scrollPaneQuotes.setBounds(237, 350, 259, 79);
+		scrollPaneQuotes.setBounds(249, 350, 288, 79);
 		
 		getContentPane().add(scrollPaneQuotes);
 		
